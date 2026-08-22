@@ -301,3 +301,144 @@ main {
 
     font-weight: bold;
 }
+
+
+/* =========================
+   劇本詳細頁
+   ========================= */
+
+.script-detail {
+    display: flex;
+    gap: 40px;
+
+    background-color: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    margin-bottom: 30px;
+}
+
+
+/* 詳細頁圖片 */
+
+.detail-image {
+    width: 350px;
+    height: 450px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+
+    background-color: #ddd;
+}
+
+
+.detail-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* 詳細頁文字 */
+
+.detail-info {
+    padding: 10px 0;
+}
+
+
+.detail-info h2 {
+    font-size: 32px;
+
+    margin-top: 0;
+
+    margin-bottom: 20px;
+}
+
+
+.detail-info p {
+    font-size: 18px;
+
+    margin: 15px 0;
+}
+
+
+/* 詳細頁收藏按鈕 */
+
+.detail-info .favorite-btn {
+    margin-top: 20px;
+
+    padding: 10px 20px;
+
+    border: 1px solid #ccc;
+
+    background-color: white;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+
+/* 劇本介紹 */
+
+.script-description {
+    background-color: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.script-description h2 {
+    margin-top: 0;
+}
+
+
+.script-description p {
+    line-height: 1.8;
+
+    font-size: 16px;
+}
+
+
+/* 劇本名稱連結 */
+.script-card a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* 回到劇本列表 */
+.back-button {
+    display: inline-block;
+
+    margin-top: 20px;
+
+    padding: 10px 20px;
+
+    background-color: #222;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+}
+
+
+.back-button:hover {
+    background-color: #444;
+}

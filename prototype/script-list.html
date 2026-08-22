@@ -55,6 +55,7 @@
 
             <input
                 type="text"
+                id="searchInput"
                 placeholder="🔍 搜尋劇本"
             >
 
@@ -66,18 +67,21 @@
 
             <label>
                 分類：
-                <select>
+                <select id="categoryFilter">
                     <option>全部</option>
                     <option>推理</option>
                     <option>情感</option>
                     <option>恐怖</option>
+                    <option>歡樂</option>
+                    <option>陣營</option>
+                    <option>機制</option>
                 </select>
             </label>
 
 
             <label>
                 難度：
-                <select>
+                <select id="difficultyFilter">
                     <option>全部</option>
                     <option>簡單</option>
                     <option>普通</option>
@@ -89,58 +93,174 @@
 
 
         <!-- 劇本列表 -->
-        <section class="script-list">
+<section class="script-list">
+
+    <!-- 第一個劇本 -->
+    <article class="script-card" data-category="推理" data-difficulty="困難">
+
+        <div class="script-image">
+            <img src="images/0.jpg" alt="霧鎖山莊">
+        </div>
+
+        <a href="script-detail.html">
+            <h2>霧鎖山莊</h2>
+        </a>
+
+        <p class="rating">⭐ 4.8</p>
+
+        <p>🕵️ 分類：推理</p>
+
+        <p>👥 人數：6-8人</p>
+
+        <p>⏱ 遊玩時間：約120分鐘</p>
+
+        <button class="favorite-btn">♡ 收藏</button>
+
+    </article>
 
 
-            <!-- 第一個劇本 -->
-            <article class="script-card">
+    <!-- 第二個劇本 -->
+    <article class="script-card" data-category="推理" data-difficulty="普通">
 
-                <div class="script-image">
-                     <img src="images/0.jpg" alt="霧鎖山莊">
-                </div>
+        <div class="script-image">
+            <img src="images/0.jpg" alt="午夜列車">
+        </div>
 
-                <h2>霧鎖山莊</h2>
+        <a href="script-detail 2.html">
+            <h2>午夜列車</h2>
+        </a>
 
-                <p class="rating">⭐ 4.8</p>
+        <p class="rating">⭐ 4.5</p>
 
-                 <p>🕵️ 分類：推理</p>
+        <p>🔍 分類：推理</p>
 
-                 <p>👥 人數：6-8人</p>
+        <p>👥 人數：5-7人</p>
 
-                 <p>⏱ 遊玩時間：約120分鐘</p>
+        <p>⏱ 遊玩時間：約150分鐘</p>
 
-                <button class="favorite-btn">♡ 收藏</button>
+        <button class="favorite-btn">♡ 收藏</button>
 
-            </article>
-
-
-            <!-- 第二個劇本 -->
-            <article class="script-card">
-
-                <div class="script-image">
-                     <img src="images/0.jpg" alt="霧鎖山莊">
-                </div>
-
-                <h2>午夜列車</h2>
-
-                <p class="rating">⭐ 4.5</p>
-
-                <p>🔍 分類：推理</p>
-
-                <p>👥 人數：5-7人</p>
-
-                <p>⏱ 遊玩時間：約150分鐘</p>
-
-                <button class="favorite-btn">♡ 收藏</button>
-
-            </article>
+    </article>
 
 
-        </section>
+    <!-- 第三個劇本 -->
+    <article class="script-card" data-category="情感" data-difficulty="困難">
+
+        <div class="script-image">
+            <img src="images/0.jpg" alt="宮牆柳">
+        </div>
+
+        <h2>宮牆柳</h2>
+
+        <p class="rating">⭐ 4.9</p>
+
+        <p>🕵️ 分類：情感</p>
+
+        <p>👥 人數：6-8人</p>
+
+        <p>⏱ 遊玩時間：約120分鐘</p>
+
+        <button class="favorite-btn">♡ 收藏</button>
+
+    </article>
+
+
+    <!-- 第四個劇本 -->
+    <article class="script-card" data-category="機制" data-difficulty="普通">
+
+        <div class="script-image">
+            <img src="images/0.jpg" alt="皇上駕到！">
+        </div>
+
+        <h2>皇上駕到！</h2>
+
+        <p class="rating">⭐ 4.5</p>
+
+        <p>🕵️ 分類：機制</p>
+
+        <p>👥 人數：6-10人</p>
+
+        <p>⏱ 遊玩時間：約120分鐘</p>
+
+        <button class="favorite-btn">♡ 收藏</button>
+
+    </article>
+
+
+    <!-- 第五個劇本 -->
+    <article class="script-card" data-category="陣營" data-difficulty="困難">
+
+        <div class="script-image">
+            <img src="images/0.jpg" alt="來去匆匆">
+        </div>
+
+        <h2>來去匆匆</h2>
+
+        <p class="rating">⭐ 4.3</p>
+
+        <p>🕵️ 分類：陣營</p>
+
+        <p>👥 人數：5-7人</p>
+
+        <p>⏱ 遊玩時間：約180分鐘</p>
+
+        <button class="favorite-btn">♡ 收藏</button>
+
+    </article>
+
+
+    <!-- 第六個劇本 -->
+    <article class="script-card" data-category="歡樂" data-difficulty="困難">
+
+        <div class="script-image">
+            <img src="images/0.jpg" alt="七隻貓八隻狗">
+        </div>
+
+        <h2>七隻貓八隻狗</h2>
+
+        <p class="rating">⭐ 4.5</p>
+
+        <p>🕵️ 分類：機制</p>
+
+        <p>👥 人數：15人</p>
+
+        <p>⏱ 遊玩時間：約400分鐘</p>
+
+        <button class="favorite-btn">♡ 收藏</button>
+
+    </article>
+
+
+    <!-- 第七個劇本 -->
+    <article class="script-card" data-category="恐怖" data-difficulty="困難">
+
+        <div class="script-image">
+            <img src="images/0.jpg" alt="瘋心索愛">
+        </div>
+
+        <h2>瘋心索愛</h2>
+
+        <p class="rating">⭐ 4.9</p>
+
+        <p>🕵️ 分類：恐怖</p>
+
+        <p>👥 人數：3-6人</p>
+
+        <p>⏱ 遊玩時間：約240分鐘</p>
+
+        <button class="favorite-btn">♡ 收藏</button>
+
+    </article>
+
+</section>
 
     </main>
 
 <script>
+
+    // =========================
+    // 收藏功能
+    // =========================
 
     const favoriteButtons = document.querySelectorAll(".favorite-btn");
 
@@ -163,6 +283,103 @@
             }
 
         });
+
+    });
+
+
+    // =========================
+    // 搜尋、分類、難度
+    // =========================
+
+    const searchInput = document.querySelector("#searchInput");
+
+    const categoryFilter = document.querySelector("#categoryFilter");
+
+    const difficultyFilter = document.querySelector("#difficultyFilter");
+
+    const scriptCards = document.querySelectorAll(".script-card");
+
+
+    // 統一篩選函式
+    function filterScripts() {
+
+        // 取得搜尋文字
+        const keyword = searchInput.value;
+
+        // 取得分類
+        const category = categoryFilter.value;
+
+        // 取得難度
+        const difficulty = difficultyFilter.value;
+
+
+        // 一張一張檢查劇本
+        scriptCards.forEach(function(card) {
+
+            // 劇本名稱
+            const title = card.querySelector("h2").textContent;
+
+            // 劇本分類
+            const cardCategory = card.dataset.category;
+
+            // 劇本難度
+            const cardDifficulty = card.dataset.difficulty;
+
+
+            // 判斷搜尋
+            const matchKeyword = title.includes(keyword);
+
+
+            // 判斷分類
+            const matchCategory =
+                category === "全部" || category === cardCategory;
+
+
+            // 判斷難度
+            const matchDifficulty =
+                difficulty === "全部" || difficulty === cardDifficulty;
+
+
+            // 三個條件都符合才顯示
+            if (
+                matchKeyword &&
+                matchCategory &&
+                matchDifficulty
+            ) {
+
+                card.style.display = "";
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    // 搜尋文字改變
+    searchInput.addEventListener("input", function() {
+
+        filterScripts();
+
+    });
+
+
+    // 分類改變
+    categoryFilter.addEventListener("change", function() {
+
+        filterScripts();
+
+    });
+
+
+    // 難度改變
+    difficultyFilter.addEventListener("change", function() {
+
+        filterScripts();
 
     });
 
