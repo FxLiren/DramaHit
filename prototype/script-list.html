@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 讓手機和平板能正確顯示 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>探劇實錄｜劇本列表</title>
+
+    <!-- 連接 CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+    <!-- 左側選單 -->
+    <aside class="sidebar">
+
+        <h2>探劇實錄</h2>
+
+        <nav>
+
+            <a href="#">🏠 首頁</a>
+
+            <a href="#" class="active">📚 劇本列表</a>
+
+            <a href="#">🏆 榜單與推薦</a>
+
+            <a href="#">❤️ 我的收藏</a>
+
+            <a href="#">👤 會員登入</a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- 右側主要內容 -->
+    <div class="page-content">
+
+        <!-- 網站標題 -->
+        <header>
+            <h1>劇本列表</h1>
+        </header>
+
+
+        <!-- 主要內容 -->
+        <main>
+
+        <!-- 搜尋區 -->
+        <section class="search-area">
+
+            <input
+                type="text"
+                placeholder="🔍 搜尋劇本"
+            >
+
+        </section>
+
+
+        <!-- 篩選區 -->
+        <section class="filter-area">
+
+            <label>
+                分類：
+                <select>
+                    <option>全部</option>
+                    <option>推理</option>
+                    <option>情感</option>
+                    <option>恐怖</option>
+                </select>
+            </label>
+
+
+            <label>
+                難度：
+                <select>
+                    <option>全部</option>
+                    <option>簡單</option>
+                    <option>普通</option>
+                    <option>困難</option>
+                </select>
+            </label>
+
+        </section>
+
+
+        <!-- 劇本列表 -->
+        <section class="script-list">
+
+
+            <!-- 第一個劇本 -->
+            <article class="script-card">
+
+                <div class="script-image">
+                     <img src="images/0.jpg" alt="霧鎖山莊">
+                </div>
+
+                <h2>霧鎖山莊</h2>
+
+                <p class="rating">⭐ 4.8</p>
+
+                 <p>🕵️ 分類：推理</p>
+
+                 <p>👥 人數：6-8人</p>
+
+                 <p>⏱ 遊玩時間：約120分鐘</p>
+
+                <button class="favorite-btn">♡ 收藏</button>
+
+            </article>
+
+
+            <!-- 第二個劇本 -->
+            <article class="script-card">
+
+                <div class="script-image">
+                     <img src="images/0.jpg" alt="霧鎖山莊">
+                </div>
+
+                <h2>午夜列車</h2>
+
+                <p class="rating">⭐ 4.5</p>
+
+                <p>🔍 分類：推理</p>
+
+                <p>👥 人數：5-7人</p>
+
+                <p>⏱ 遊玩時間：約150分鐘</p>
+
+                <button class="favorite-btn">♡ 收藏</button>
+
+            </article>
+
+
+        </section>
+
+    </main>
+
+<script>
+
+    const favoriteButtons = document.querySelectorAll(".favorite-btn");
+
+    favoriteButtons.forEach(function(button) {
+
+        button.addEventListener("click", function() {
+
+            if (button.classList.contains("active")) {
+
+                button.classList.remove("active");
+
+                button.textContent = "♡ 收藏";
+
+            } else {
+
+                button.classList.add("active");
+
+                button.textContent = "♥ 已收藏";
+
+            }
+
+        });
+
+    });
+
+</script>
+
+</body>
+
+</html>
