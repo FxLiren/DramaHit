@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 
@@ -10,7 +12,7 @@
     <title>探劇實錄｜劇本列表</title>
 
     <!-- 連接 CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'scripts/style.css' %}">
 </head>
 
 
@@ -99,10 +101,10 @@
     <article class="script-card" data-category="推理" data-difficulty="困難">
 
         <div class="script-image">
-            <img src="images/0.jpg" alt="霧鎖山莊">
+            <img src="{% static 'scripts/images/0.jpg' %}" alt="霧鎖山莊">
         </div>
 
-        <a href="script-detail.html">
+        <a href="{% url 'script-detail' %}">
             <h2>霧鎖山莊</h2>
         </a>
 
@@ -123,10 +125,10 @@
     <article class="script-card" data-category="推理" data-difficulty="普通">
 
         <div class="script-image">
-            <img src="images/0.jpg" alt="午夜列車">
+            <img src="{% static 'scripts/images/0.jpg' %}" alt="午夜列車">
         </div>
 
-        <a href="script-detail 2.html">
+        <a href="{% url 'script-detail-2' %}">
             <h2>午夜列車</h2>
         </a>
 
@@ -147,7 +149,7 @@
     <article class="script-card" data-category="情感" data-difficulty="困難">
 
         <div class="script-image">
-            <img src="images/0.jpg" alt="宮牆柳">
+            <img src="{% static 'scripts/images/0.jpg' %}" alt="宮牆柳">
         </div>
 
         <h2>宮牆柳</h2>
@@ -169,7 +171,7 @@
     <article class="script-card" data-category="機制" data-difficulty="普通">
 
         <div class="script-image">
-            <img src="images/0.jpg" alt="皇上駕到！">
+            <img src="{% static 'scripts/images/0.jpg' %}" alt="皇上駕到！">
         </div>
 
         <h2>皇上駕到！</h2>
@@ -191,7 +193,7 @@
     <article class="script-card" data-category="陣營" data-difficulty="困難">
 
         <div class="script-image">
-            <img src="images/0.jpg" alt="來去匆匆">
+            <img src="{% static 'scripts/images/0.jpg' %}" alt="來去匆匆">
         </div>
 
         <h2>來去匆匆</h2>
@@ -213,7 +215,7 @@
     <article class="script-card" data-category="歡樂" data-difficulty="困難">
 
         <div class="script-image">
-            <img src="images/0.jpg" alt="七隻貓八隻狗">
+            <img src="{% static 'scripts/images/0.jpg' %}" alt="七隻貓八隻狗">
         </div>
 
         <h2>七隻貓八隻狗</h2>
@@ -235,7 +237,7 @@
     <article class="script-card" data-category="恐怖" data-difficulty="困難">
 
         <div class="script-image">
-            <img src="images/0.jpg" alt="瘋心索愛">
+            <img src="{% static 'scripts/images/0.jpg' %}" alt="瘋心索愛">
         </div>
 
         <h2>瘋心索愛</h2>
