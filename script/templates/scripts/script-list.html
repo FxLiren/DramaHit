@@ -81,180 +81,70 @@
             </label>
 
 
-            <label>
-                難度：
-                <select id="difficultyFilter">
-                    <option>全部</option>
-                    <option>簡單</option>
-                    <option>普通</option>
-                    <option>困難</option>
-                </select>
-            </label>
+<!--
+<label>
+    難度：
+    <select id="difficultyFilter">
+        <option>全部</option>
+        <option>簡單</option>
+        <option>普通</option>
+        <option>困難</option>
+    </select>
+</label>
+-->
 
         </section>
 
 
         <!-- 劇本列表 -->
+<!-- 劇本列表 -->
 <section class="script-list">
 
-    <!-- 第一個劇本 -->
-    <article class="script-card" data-category="推理" data-difficulty="困難">
+    {% for script in page_obj %}
+
+    <article class="script-card" data-category="{{ script.script_type }}">
 
         <div class="script-image">
-            <img src="{% static 'scripts/images/0.jpg' %}" alt="霧鎖山莊">
+
+            <img src="{{ script.image_url }}" alt="{{ script.script_name }}">
+
         </div>
 
-        <a href="{% url 'script-detail' %}">
-            <h2>霧鎖山莊</h2>
-        </a>
+        <h2>{{ script.script_name }}</h2>
 
-        <p class="rating">⭐ 4.8</p>
+        <p class="rating">⭐ {{ script.rating }}</p>
 
-        <p>🕵️ 分類：推理</p>
+        <p>🕵️ 分類：{{ script.script_type }}</p>
 
-        <p>👥 人數：6-8人</p>
+        <p>👥 人數：{{ script.players_count }}</p>
 
-        <p>⏱ 遊玩時間：約120分鐘</p>
+        <p>⏱ 遊玩時間：{{ script.play_time }}</p>
 
         <button class="favorite-btn">♡ 收藏</button>
 
     </article>
 
-
-    <!-- 第二個劇本 -->
-    <article class="script-card" data-category="推理" data-difficulty="普通">
-
-        <div class="script-image">
-            <img src="{% static 'scripts/images/0.jpg' %}" alt="午夜列車">
-        </div>
-
-        <a href="{% url 'script-detail-2' %}">
-            <h2>午夜列車</h2>
-        </a>
-
-        <p class="rating">⭐ 4.5</p>
-
-        <p>🔍 分類：推理</p>
-
-        <p>👥 人數：5-7人</p>
-
-        <p>⏱ 遊玩時間：約150分鐘</p>
-
-        <button class="favorite-btn">♡ 收藏</button>
-
-    </article>
-
-
-    <!-- 第三個劇本 -->
-    <article class="script-card" data-category="情感" data-difficulty="困難">
-
-        <div class="script-image">
-            <img src="{% static 'scripts/images/0.jpg' %}" alt="宮牆柳">
-        </div>
-
-        <h2>宮牆柳</h2>
-
-        <p class="rating">⭐ 4.9</p>
-
-        <p>🕵️ 分類：情感</p>
-
-        <p>👥 人數：6-8人</p>
-
-        <p>⏱ 遊玩時間：約120分鐘</p>
-
-        <button class="favorite-btn">♡ 收藏</button>
-
-    </article>
-
-
-    <!-- 第四個劇本 -->
-    <article class="script-card" data-category="機制" data-difficulty="普通">
-
-        <div class="script-image">
-            <img src="{% static 'scripts/images/0.jpg' %}" alt="皇上駕到！">
-        </div>
-
-        <h2>皇上駕到！</h2>
-
-        <p class="rating">⭐ 4.5</p>
-
-        <p>🕵️ 分類：機制</p>
-
-        <p>👥 人數：6-10人</p>
-
-        <p>⏱ 遊玩時間：約120分鐘</p>
-
-        <button class="favorite-btn">♡ 收藏</button>
-
-    </article>
-
-
-    <!-- 第五個劇本 -->
-    <article class="script-card" data-category="陣營" data-difficulty="困難">
-
-        <div class="script-image">
-            <img src="{% static 'scripts/images/0.jpg' %}" alt="來去匆匆">
-        </div>
-
-        <h2>來去匆匆</h2>
-
-        <p class="rating">⭐ 4.3</p>
-
-        <p>🕵️ 分類：陣營</p>
-
-        <p>👥 人數：5-7人</p>
-
-        <p>⏱ 遊玩時間：約180分鐘</p>
-
-        <button class="favorite-btn">♡ 收藏</button>
-
-    </article>
-
-
-    <!-- 第六個劇本 -->
-    <article class="script-card" data-category="歡樂" data-difficulty="困難">
-
-        <div class="script-image">
-            <img src="{% static 'scripts/images/0.jpg' %}" alt="七隻貓八隻狗">
-        </div>
-
-        <h2>七隻貓八隻狗</h2>
-
-        <p class="rating">⭐ 4.5</p>
-
-        <p>🕵️ 分類：機制</p>
-
-        <p>👥 人數：15人</p>
-
-        <p>⏱ 遊玩時間：約400分鐘</p>
-
-        <button class="favorite-btn">♡ 收藏</button>
-
-    </article>
-
-
-    <!-- 第七個劇本 -->
-    <article class="script-card" data-category="恐怖" data-difficulty="困難">
-
-        <div class="script-image">
-            <img src="{% static 'scripts/images/0.jpg' %}" alt="瘋心索愛">
-        </div>
-
-        <h2>瘋心索愛</h2>
-
-        <p class="rating">⭐ 4.9</p>
-
-        <p>🕵️ 分類：恐怖</p>
-
-        <p>👥 人數：3-6人</p>
-
-        <p>⏱ 遊玩時間：約240分鐘</p>
-
-        <button class="favorite-btn">♡ 收藏</button>
-
-    </article>
+    {% endfor %}
 
 </section>
+
+<!-- 分頁 -->
+<div class="pagination">
+
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">上一頁</a>
+    {% endif %}
+
+    <span>
+        第 {{ page_obj.number }} 頁 /
+        共 {{ page_obj.paginator.num_pages }} 頁
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">下一頁</a>
+    {% endif %}
+
+</div>
 
     </main>
 
@@ -297,7 +187,7 @@
 
     const categoryFilter = document.querySelector("#categoryFilter");
 
-    const difficultyFilter = document.querySelector("#difficultyFilter");
+//    const difficultyFilter = document.querySelector("#difficultyFilter");
 
     const scriptCards = document.querySelectorAll(".script-card");
 
@@ -312,7 +202,7 @@
         const category = categoryFilter.value;
 
         // 取得難度
-        const difficulty = difficultyFilter.value;
+    //    const difficulty = difficultyFilter.value;
 
 
         // 一張一張檢查劇本
@@ -325,7 +215,7 @@
             const cardCategory = card.dataset.category;
 
             // 劇本難度
-            const cardDifficulty = card.dataset.difficulty;
+        //    const cardDifficulty = card.dataset.difficulty;
 
 
             // 判斷搜尋
@@ -338,15 +228,15 @@
 
 
             // 判斷難度
-            const matchDifficulty =
-                difficulty === "全部" || difficulty === cardDifficulty;
+        //    const matchDifficulty =
+        //        difficulty === "全部" || difficulty === cardDifficulty;
 
 
-            // 三個條件都符合才顯示
+            // 條件都符合才顯示
             if (
                 matchKeyword &&
-                matchCategory &&
-                matchDifficulty
+                matchCategory 
+        //        matchDifficulty
             ) {
 
                 card.style.display = "";
@@ -378,13 +268,13 @@
     });
 
 
-    // 難度改變
+/*    // 難度改變
     difficultyFilter.addEventListener("change", function() {
 
         filterScripts();
 
     });
-
+*/
 </script>
 
 </body>
