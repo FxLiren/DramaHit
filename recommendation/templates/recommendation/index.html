@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>探劇實錄｜推薦</title>
+</head>
+
+<body>
+
+    <h1>🔎 探劇實錄</h1>
+
+    <h2>今日推薦</h2>
+
+    {% for script in recommendations %}
+
+        <div>
+            <h3>{{ script.title }}</h3>
+            <p>🎭 {{ script.type }}</p>
+            <p>⭐ {{ script.rating }}</p>
+        </div>
+
+    {% endfor %}
+
+
+    <h2>🏆 熱門榜單</h2>
+
+    {% for script in rankings %}
+
+        <div>
+            <span>{{ forloop.counter }}</span>
+            <span>{{ script.title }}</span>
+            <span>⭐ {{ script.rating }}</span>
+        </div>
+
+    {% endfor %}
+
+</body>
+
+</html>
