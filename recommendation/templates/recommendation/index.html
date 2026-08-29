@@ -2,38 +2,542 @@
 <html lang="zh-Hant">
 
 <head>
+
     <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>探劇實錄｜推薦</title>
+
+    {% load static %}
+
+    <link rel="stylesheet"
+          href="{% static 'recommendation/style.css' %}">
+
 </head>
+
 
 <body>
 
-    <h1>🔎 探劇實錄</h1>
 
-    <h2>今日推薦</h2>
+<!-- =====================================
+     左側選單
+===================================== -->
 
-    {% for script in recommendations %}
+<aside class="sidebar">
 
-        <div>
-            <h3>{{ script.title }}</h3>
-            <p>🎭 {{ script.type }}</p>
-            <p>⭐ {{ script.rating }}</p>
+    <div class="logo">
+        🎭 探劇實錄
+    </div>
+
+
+    <div class="menu-title">
+        📌 主選單
+    </div>
+
+
+    <a href="/" class="menu-item">
+        🏠 首頁
+    </a>
+
+
+    <a href="#" class="menu-item">
+        📜 劇本列表
+    </a>
+
+
+    <a href="/recommendation/" class="menu-item active">
+        🏆 榜單與推薦
+    </a>
+
+
+    <a href="#" class="menu-item">
+        👤 會員登入 / 我的收藏
+    </a>
+
+
+    <div class="menu-title">
+        🎭 依風格快速找
+    </div>
+
+
+    <a href="/recommendation/?type=情感"
+       class="menu-item">
+        ❤️ 情感
+    </a>
+
+
+    <a href="/recommendation/?type=推理"
+       class="menu-item">
+        🔎 推理
+    </a>
+
+
+    <a href="/recommendation/?type=恐怖"
+       class="menu-item">
+        👻 恐怖
+    </a>
+
+
+    <a href="/recommendation/?type=歡樂"
+       class="menu-item">
+        🥳 歡樂
+    </a>
+
+</aside>
+
+
+
+<!-- =====================================
+     主內容
+===================================== -->
+
+<main class="main-content">
+
+
+    <!-- 標題 -->
+
+    <header class="page-header">
+
+        <h1>
+            🔎 探劇實錄
+        </h1>
+
+        <p>
+            找到適合你的下一場劇本殺
+        </p>
+
+    </header>
+
+
+
+    <!-- =================================
+         今日推薦
+    ================================= -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <h2>
+                ✨ 今日推薦
+            </h2>
+
+            <span>
+                為你精選 3 本劇本
+            </span>
+
         </div>
 
-    {% endfor %}
+
+        <div class="recommend-grid">
+
+            {% for script in recommendations %}
+
+            <div class="script-card">
+
+                <div class="script-icon">
+                    🎭
+                </div>
 
 
-    <h2>🏆 熱門榜單</h2>
+                <div class="script-info">
 
-    {% for script in rankings %}
+                    <span class="type-tag">
+                        {{ script.type }}
+                    </span>
 
-        <div>
-            <span>{{ forloop.counter }}</span>
-            <span>{{ script.title }}</span>
-            <span>⭐ {{ script.rating }}</span>
+
+                    <h3>
+                        {{ script.title }}
+                    </h3>
+
+
+                    <div class="rating">
+                        ⭐ {{ script.rating }}
+                    </div>
+
+
+                    <p>
+                        {{ script.summary }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
         </div>
 
-    {% endfor %}
+    </section>
+
+
+
+    <!-- =================================
+         隨機推薦
+    ================================= -->
+
+    <section class="section random-section">
+
+        <div class="section-title">
+
+            <h2>
+                🎲 隨機推薦
+            </h2>
+
+            <span>
+                先選擇類型，再交給命運
+            </span>
+
+        </div>
+
+
+        <form method="GET"
+              class="random-form">
+
+
+            <select name="type">
+
+                <option value="">
+                    請選擇劇本類型
+                </option>
+
+
+                {% for type in types %}
+
+                <option value="{{ type }}"
+                    {% if selected_type == type %}
+                        selected
+                    {% endif %}
+                >
+                    {{ type }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <button type="submit">
+                🎲 幫我推薦
+            </button>
+
+        </form>
+
+
+        {% if random_script %}
+
+        <div class="random-result">
+
+            <div class="random-icon">
+                🎭
+            </div>
+
+
+            <div>
+
+                <span class="type-tag">
+                    {{ random_script.type }}
+                </span>
+
+
+                <h3>
+                    {{ random_script.title }}
+                </h3>
+
+
+                <p>
+                    {{ random_script.summary }}
+                </p>
+
+
+                <div class="rating">
+                    ⭐ {{ random_script.rating }}
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+
+    <!-- =================================
+         搜尋
+    ================================= -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <h2>
+                🔎 搜尋劇本
+            </h2>
+
+        </div>
+
+
+        <form method="GET"
+              class="search-form">
+
+            <input
+                type="text"
+                name="q"
+                value="{{ query }}"
+                placeholder="輸入劇本名稱、類型或關鍵字..."
+            >
+
+
+            <button type="submit">
+                搜尋
+            </button>
+
+        </form>
+
+
+        {% if query %}
+
+        <div class="search-message">
+
+            搜尋「{{ query }}」的結果
+
+        </div>
+
+
+        <div class="search-results">
+
+            {% for script in scripts %}
+
+            <div class="search-result">
+
+                <div>
+
+                    <h3>
+                        {{ script.title }}
+                    </h3>
+
+                    <span>
+                        🎭 {{ script.type }}
+                    </span>
+
+                </div>
+
+
+                <span class="rating">
+                    ⭐ {{ script.rating }}
+                </span>
+
+            </div>
+
+
+            {% empty %}
+
+            <div class="empty-result">
+                😢 找不到符合的劇本
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+
+    <!-- =================================
+         熱門榜單
+    ================================= -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <h2>
+                🏆 熱門榜單
+            </h2>
+
+            <span>
+                依照劇本評分排序
+            </span>
+
+        </div>
+
+
+        <div class="ranking-list">
+
+            {% for script in rankings %}
+
+            <div class="ranking-item">
+
+
+                <div class="rank">
+
+                    {% if forloop.counter == 1 %}
+
+                        🥇
+
+                    {% elif forloop.counter == 2 %}
+
+                        🥈
+
+                    {% elif forloop.counter == 3 %}
+
+                        🥉
+
+                    {% else %}
+
+                        {{ forloop.counter }}
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="ranking-info">
+
+                    <h3>
+                        {{ script.title }}
+                    </h3>
+
+                    <span>
+                        🎭 {{ script.type }}
+                    </span>
+
+                </div>
+
+
+                <div class="ranking-rating">
+
+                    ⭐ {{ script.rating }}
+
+                </div>
+
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================
+         評論
+    ================================= -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <h2>
+                💬 玩家評論
+            </h2>
+
+
+            <form method="GET"
+                  class="review-sort-form">
+
+                {% if query %}
+                    <input type="hidden"
+                           name="q"
+                           value="{{ query }}">
+                {% endif %}
+
+
+                {% if selected_type %}
+                    <input type="hidden"
+                           name="type"
+                           value="{{ selected_type }}">
+                {% endif %}
+
+
+                <select name="review_sort"
+                        onchange="this.form.submit()">
+
+                    <option value="high"
+                        {% if review_sort == "high" %}
+                            selected
+                        {% endif %}
+                    >
+                        ⭐ 評分：高 → 低
+                    </option>
+
+
+                    <option value="low"
+                        {% if review_sort == "low" %}
+                            selected
+                        {% endif %}
+                    >
+                        ⭐ 評分：低 → 高
+                    </option>
+
+                </select>
+
+            </form>
+
+        </div>
+
+
+        <div class="reviews-container">
+
+
+            {% for script in recommendations %}
+
+            <div class="review-box">
+
+                <h3>
+                    {{ script.title }}
+                </h3>
+
+
+                {% for review in script.reviews %}
+
+                <div class="review">
+
+
+                    <div class="review-header">
+
+                        <strong>
+                            {{ review.user }}
+                        </strong>
+
+
+                        <span class="review-rating">
+                            ⭐ {{ review.rating }}
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        {{ review.content }}
+                    </p>
+
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+</main>
+
 
 </body>
 
