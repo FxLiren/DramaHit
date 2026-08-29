@@ -374,11 +374,24 @@
             <h2>會員登入</h2>
 
         </div>
+        
+        {% if error %}
+    <p style="color: #FF2A2A; margin-bottom: 20px;">
+        {{ error }}
+    </p>
+{% endif %}
+
+{% if success %}
+    <p style="color: #4CAF50; margin-bottom: 20px;">
+        {{ success }}
+    </p>
+{% endif %}
 
 
         <!-- 登入表單 -->
 
-        <form>
+        <form method="POST">
+    {% csrf_token %}
 
             <div class="form-group">
 
@@ -428,7 +441,7 @@
 
             還沒有帳號？
 
-            <a href="#">
+            <a href="{% url 'register' %}">
                 立即註冊
             </a>
 
