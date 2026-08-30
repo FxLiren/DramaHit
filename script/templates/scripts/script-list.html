@@ -55,11 +55,18 @@
         <!-- 搜尋區 -->
         <section class="search-area">
 
+            <form method="GET">
+
             <input
                 type="text"
-                id="searchInput"
+                name="keyword"
+                value="{{ keyword }}"
                 placeholder="🔍 搜尋劇本"
             >
+
+            <button type="submit">搜尋</button>
+
+        </form>
 
         </section>
 
@@ -67,36 +74,63 @@
         <!-- 篩選區 -->
         <section class="filter-area">
 
-            <label>
-                分類：
-                <select id="categoryFilter">
-                    <option>全部</option>
-                    <option>推理</option>
-                    <option>情感</option>
-                    <option>恐怖</option>
-                    <option>歡樂</option>
-                    <option>陣營</option>
-                    <option>機制</option>
-                </select>
-            </label>
+    <form method="GET">
+
+        <!-- 保留搜尋關鍵字 -->
+        <input
+            type="hidden"
+            name="keyword"
+            value="{{ keyword }}"
+        >
+
+        <label>
+            分類：
+
+            <select name="category" onchange="this.form.submit()">
+
+                <option value="">全部</option>
+
+                <option value="推理"
+                    {% if category == "推理" %}selected{% endif %}>
+                    推理
+                </option>
+
+                <option value="情感"
+                    {% if category == "情感" %}selected{% endif %}>
+                    情感
+                </option>
+
+                <option value="恐怖"
+                    {% if category == "恐怖" %}selected{% endif %}>
+                    恐怖
+                </option>
+
+                <option value="歡樂"
+                    {% if category == "歡樂" %}selected{% endif %}>
+                    歡樂
+                </option>
+
+                <option value="陣營"
+                    {% if category == "陣營" %}selected{% endif %}>
+                    陣營
+                </option>
+
+                <option value="機制"
+                    {% if category == "機制" %}selected{% endif %}>
+                    機制
+                </option>
+
+            </select>
+
+        </label>
+
+    </form>
+
+</section>
 
 
-<!--
-<label>
-    難度：
-    <select id="difficultyFilter">
-        <option>全部</option>
-        <option>簡單</option>
-        <option>普通</option>
-        <option>困難</option>
-    </select>
-</label>
--->
-
-        </section>
 
 
-        <!-- 劇本列表 -->
 <!-- 劇本列表 -->
 <section class="script-list">
 
@@ -132,7 +166,9 @@
 <div class="pagination">
 
     {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}">上一頁</a>
+    <a href="?page={{ page_obj.previous_page_number }}&keyword={{ keyword }}&category={{ category }}">
+        上一頁
+    </a>
     {% endif %}
 
     <span>
@@ -141,8 +177,12 @@
     </span>
 
     {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">下一頁</a>
+    <a href="?page={{ page_obj.next_page_number }}&keyword={{ keyword }}&category={{ category }}">
+        下一頁
+    </a>
     {% endif %}
+
+</div>
 
 </div>
 
@@ -179,102 +219,6 @@
     });
 
 
-    // =========================
-    // 搜尋、分類、難度
-    // =========================
-
-    const searchInput = document.querySelector("#searchInput");
-
-    const categoryFilter = document.querySelector("#categoryFilter");
-
-//    const difficultyFilter = document.querySelector("#difficultyFilter");
-
-    const scriptCards = document.querySelectorAll(".script-card");
-
-
-    // 統一篩選函式
-    function filterScripts() {
-
-        // 取得搜尋文字
-        const keyword = searchInput.value;
-
-        // 取得分類
-        const category = categoryFilter.value;
-
-        // 取得難度
-    //    const difficulty = difficultyFilter.value;
-
-
-        // 一張一張檢查劇本
-        scriptCards.forEach(function(card) {
-
-            // 劇本名稱
-            const title = card.querySelector("h2").textContent;
-
-            // 劇本分類
-            const cardCategory = card.dataset.category;
-
-            // 劇本難度
-        //    const cardDifficulty = card.dataset.difficulty;
-
-
-            // 判斷搜尋
-            const matchKeyword = title.includes(keyword);
-
-
-            // 判斷分類
-            const matchCategory =
-                category === "全部" || category === cardCategory;
-
-
-            // 判斷難度
-        //    const matchDifficulty =
-        //        difficulty === "全部" || difficulty === cardDifficulty;
-
-
-            // 條件都符合才顯示
-            if (
-                matchKeyword &&
-                matchCategory 
-        //        matchDifficulty
-            ) {
-
-                card.style.display = "";
-
-            } else {
-
-                card.style.display = "none";
-
-            }
-
-        });
-
-    }
-
-
-    // 搜尋文字改變
-    searchInput.addEventListener("input", function() {
-
-        filterScripts();
-
-    });
-
-
-    // 分類改變
-    categoryFilter.addEventListener("change", function() {
-
-        filterScripts();
-
-    });
-
-
-/*    // 難度改變
-    difficultyFilter.addEventListener("change", function() {
-
-        filterScripts();
-
-    });
-*/
 </script>
 
 </body>

@@ -4,8 +4,25 @@ from .models import ScriptMeta
 
 
 def script_list(request):
+
+    # 搜尋關鍵字
+    keyword = request.GET.get('keyword', '')
+
+    # 分類
+    category = request.GET.get('category', '')
+
+    # 取得資料庫資料
     scripts = ScriptMeta.objects.using('script_db').all()
 
+    # 搜尋
+    if keyword:
+        scripts = scripts.filter(script_name__icontains=keyword)
+
+    # 分類
+    if category and category != '全部':
+        scripts = scripts.filter(script_type=category)
+
+    # 分頁
     paginator = Paginator(scripts, 20)
 
     page_number = request.GET.get('page')
@@ -13,7 +30,9 @@ def script_list(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'scripts/script-list.html', {
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'keyword': keyword,
+        'category': category,
     })
 
 
