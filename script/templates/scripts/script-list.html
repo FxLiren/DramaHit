@@ -136,7 +136,7 @@
 
     {% for script in page_obj %}
 
-    <article class="script-card" data-category="{{ script.script_type }}">
+    <a href="{% url 'script-detail' script.id %}" class="script-card">
 
         <div class="script-image">
 
@@ -156,7 +156,9 @@
 
         <button class="favorite-btn">♡ 收藏</button>
 
-    </article>
+    </a>
+
+    
 
     {% endfor %}
 
@@ -196,27 +198,23 @@
 
     const favoriteButtons = document.querySelectorAll(".favorite-btn");
 
-    favoriteButtons.forEach(function(button) {
+        favoriteButtons.forEach(function(button) {
+            button.addEventListener("click", function(event) {
 
-        button.addEventListener("click", function() {
+                // 阻止點收藏時進入詳細頁
+                event.preventDefault();
+                event.stopPropagation();
 
-            if (button.classList.contains("active")) {
-
-                button.classList.remove("active");
-
-                button.textContent = "♡ 收藏";
-
-            } else {
-
-                button.classList.add("active");
-
-                button.textContent = "♥ 已收藏";
-
-            }
-
-        });
+                if (button.classList.contains("active")) {
+                    button.classList.remove("active");
+                    button.textContent = "♡ 收藏";
+                } else {
+                    button.classList.add("active");
+                    button.textContent = "♥ 已收藏";
+                }
 
     });
+});
 
 
 </script>

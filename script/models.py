@@ -10,7 +10,8 @@ class ScriptMeta(models.Model):
     players_count = models.TextField()
     play_time = models.TextField()
     rating = models.TextField()
+    description = models.TextField()
 
     class Meta:
         managed = False
-        db_table = 'script_meta'
+        db_table = 'combined_data'

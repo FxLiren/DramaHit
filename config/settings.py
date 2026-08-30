@@ -90,7 +90,7 @@ DATABASES = {
 
     'script_db': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'static' / 'DB' / 'data.db',
+        'NAME': BASE_DIR / 'static' / 'db' / 'dataupd.db',
     },
 }
 

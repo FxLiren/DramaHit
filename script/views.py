@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
+from django.db.models import Min
 from .models import ScriptMeta
 
 
@@ -11,29 +12,34 @@ def script_list(request):
     # 分類
     category = request.GET.get('category', '')
 
-    # 取得資料庫資料
-    # 去除完全相同的重複劇本
+    # 找出每個劇本名稱最小的 id
+    first_ids = (
+        ScriptMeta.objects
+        .using('script_db')
+        .values('script_name')
+        .annotate(first_id=Min('id'))
+        .values('first_id')
+    )
+
+    # 每個劇本只保留一筆
     scripts = (
         ScriptMeta.objects
         .using('script_db')
-        .values(
-            'script_name',
-            'image_url',
-            'script_type',
-            'players_count',
-            'play_time',
-            'rating'
-        )
-        .distinct()
+        .filter(id__in=first_ids)
+        .order_by('id')
     )
 
     # 搜尋
     if keyword:
-        scripts = scripts.filter(script_name__icontains=keyword)
+        scripts = scripts.filter(
+            script_name__icontains=keyword
+        )
 
     # 分類
     if category and category != '全部':
-        scripts = scripts.filter(script_type=category)
+        scripts = scripts.filter(
+            script_type__icontains=category
+        )
 
     # 分頁
     paginator = Paginator(scripts, 20)
@@ -49,8 +55,17 @@ def script_list(request):
     })
 
 
-def script_detail(request):
-    return render(request, 'scripts/script-detail.html')
+def script_detail(request, script_id):
+
+    script = (
+        ScriptMeta.objects
+        .using('script_db')
+        .get(id=script_id)
+    )
+
+    return render(request, 'scripts/script-detail.html', {
+        'script': script
+    })
 
 
 def script_detail_2(request):

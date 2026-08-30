@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 
@@ -56,7 +57,7 @@
                 <!-- 劇本圖片 -->
                 <div class="detail-image">
 
-                    <img src="{% static 'scripts/images/0.jpg' %}" alt="霧鎖山莊">
+                    <img src="{{ script.image_url }}" alt="{{ script.script_name }}">
 
                 </div>
 
@@ -64,17 +65,15 @@
                 <!-- 劇本資訊 -->
                 <div class="detail-info">
 
-                    <h2>霧鎖山莊</h2>
+                    <h2>{{ script.script_name }}</h2>
 
-                    <p class="rating">⭐ 4.8</p>
+                    <p class="rating">⭐ {{ script.rating }}</p>
 
-                    <p>🕵️ 分類：推理</p>
+                    <p>🕵️ 分類：{{ script.script_type }}</p>
 
-                    <p>🎯 難度：困難</p>
+                    <p>👥 人數：{{ script.players_count }}</p>
 
-                    <p>👥 人數：6-8人</p>
-
-                    <p>⏱ 遊玩時間：約120分鐘</p>
+                    <p>⏱ 遊玩時間：{{ script.play_time }}</p>
 
                     <button class="favorite-btn">♡ 收藏</button>
 
@@ -89,13 +88,11 @@
                 <h2>劇本介紹</h2>
 
                 <p>
-                    一場突如其來的大霧籠罩了山莊，
-                    原本平靜的聚會卻發生了一起離奇事件。
-                    玩家必須從現場留下的線索中，
-                    找出事件背後的真相。
+                    {{ script.description }}
                 </p>
 
             </section>
+
 
             <a href="{% url 'script-list' %}" class="back-button">
                 ← 回到劇本列表
@@ -105,6 +102,31 @@
 
     </div>
 
+
+<script>
+
+const favoriteButtons = document.querySelectorAll(".favorite-btn");
+
+favoriteButtons.forEach(function(button) {
+    button.addEventListener("click", function(event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (button.classList.contains("active")) {
+            button.classList.remove("active");
+            button.textContent = "♡ 收藏";
+        } else {
+            button.classList.add("active");
+            button.textContent = "♥ 已收藏";
+        }
+
+    });
+});
+
+</script>
+
 </body>
 
 </html>
+
