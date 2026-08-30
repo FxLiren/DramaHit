@@ -12,7 +12,20 @@ def script_list(request):
     category = request.GET.get('category', '')
 
     # 取得資料庫資料
-    scripts = ScriptMeta.objects.using('script_db').all()
+    # 去除完全相同的重複劇本
+    scripts = (
+        ScriptMeta.objects
+        .using('script_db')
+        .values(
+            'script_name',
+            'image_url',
+            'script_type',
+            'players_count',
+            'play_time',
+            'rating'
+        )
+        .distinct()
+    )
 
     # 搜尋
     if keyword:
