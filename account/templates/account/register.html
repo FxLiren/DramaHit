@@ -139,7 +139,12 @@
 
             box-shadow: 0 0 8px rgba(255, 42, 42, 0.25);
         }
+        .form-hint {
+            margin: 6px 0 0;
 
+            font-size: 12px;
+            color: #666677;
+        }
 
         /* =========================
            註冊按鈕
@@ -344,7 +349,16 @@
                     id="username"
                     name="username"
                     placeholder="請輸入帳號"
+                    minlength="3"
+                    maxlength="20"
+                    pattern="[A-Za-z0-9_]+"
+                    value="{{ username|default:'' }}"
+                    required
                 >
+
+                <p class="form-hint">
+                    帳號限 3～20 個字元，僅能使用英文字母、數字及底線
+                </p>
 
             </div>
 
@@ -356,11 +370,13 @@
                     Email
                 </label>
 
-                <input
+               <input
                     type="email"
                     id="email"
                     name="email"
                     placeholder="請輸入 Email"
+                    value="{{ email|default:'' }}"
+                    required
                 >
 
             </div>
@@ -378,7 +394,13 @@
                     id="password"
                     name="password"
                     placeholder="請輸入密碼"
+                    minlength="8"
+                    required
                 >
+
+                <p class="form-hint">
+                    密碼至少 8 個字元
+                </p>
 
             </div>
 
@@ -390,12 +412,14 @@
                     確認密碼
                 </label>
 
-                <input
-                    type="password"
-                    id="confirm-password"
-                    name="confirm_password"
-                    placeholder="請再次輸入密碼"
-                >
+               <input
+    type="password"
+    id="confirm-password"
+    name="confirm_password"
+    placeholder="請再次輸入密碼"
+    minlength="8"
+    required
+>
 
             </div>
 

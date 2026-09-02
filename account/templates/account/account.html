@@ -8,7 +8,6 @@
     <title>會員登入｜探劇實錄</title>
 
     <style>
-
         /* =========================
            全站基本設定
            ========================= */
@@ -31,9 +30,9 @@
             color: #e4e2de;
 
             font-family: "Segoe UI",
-                         Arial,
-                         "Microsoft JhengHei",
-                         sans-serif;
+                Arial,
+                "Microsoft JhengHei",
+                sans-serif;
         }
 
 
@@ -237,6 +236,27 @@
             text-decoration: none;
         }
 
+        /* =========================
+        忘記密碼
+        ========================= */
+
+        .forgot-password {
+            margin-top: -10px;
+            margin-bottom: 20px;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .forgot-password a {
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            color: #CCCCCC;
+            text-decoration: underline;
+        }
+
 
         .bottom-links a:hover {
 
@@ -248,103 +268,102 @@
            手機版 RWD
            ========================= */
 
-       /* =========================
+        /* =========================
    平板與手機 RWD
    ========================= */
 
-@media (max-width: 768px) {
+        @media (max-width: 768px) {
 
-    body {
-        padding: 20px;
-    }
+            body {
+                padding: 20px;
+            }
 
-    .login-container {
-        width: 100%;
-        max-width: 420px;
-    }
+            .login-container {
+                width: 100%;
+                max-width: 420px;
+            }
 
-}
+        }
 
 
-/* =========================
+        /* =========================
    手機版
    ========================= */
 
-@media (max-width: 480px) {
+        @media (max-width: 480px) {
 
-    body {
-        padding: 15px;
-        align-items: center;
-    }
+            body {
+                padding: 15px;
+                align-items: center;
+            }
 
-    .login-container {
-        width: 100%;
-        padding: 35px 25px;
-        border-radius: 8px;
-    }
+            .login-container {
+                width: 100%;
+                padding: 35px 25px;
+                border-radius: 8px;
+            }
 
-    .logo {
-        margin-bottom: 30px;
-    }
+            .logo {
+                margin-bottom: 30px;
+            }
 
-    .logo h1 {
-        font-size: 28px;
-        letter-spacing: 3px;
-    }
+            .logo h1 {
+                font-size: 28px;
+                letter-spacing: 3px;
+            }
 
-    .logo p {
-        font-size: 13px;
-    }
+            .logo p {
+                font-size: 13px;
+            }
 
-    .login-title {
-        margin-bottom: 20px;
-    }
+            .login-title {
+                margin-bottom: 20px;
+            }
 
-    .login-title h2 {
-        font-size: 20px;
-    }
+            .login-title h2 {
+                font-size: 20px;
+            }
 
-    .form-group {
-        margin-bottom: 18px;
-    }
+            .form-group {
+                margin-bottom: 18px;
+            }
 
-    .form-group input {
-        padding: 12px;
-        font-size: 15px;
-    }
+            .form-group input {
+                padding: 12px;
+                font-size: 15px;
+            }
 
-    .login-button {
-        padding: 12px;
-    }
+            .login-button {
+                padding: 12px;
+            }
 
-}
+        }
 
 
-/* =========================
+        /* =========================
    超小型手機
    ========================= */
 
-@media (max-width: 360px) {
+        @media (max-width: 360px) {
 
-    body {
-        padding: 10px;
-    }
+            body {
+                padding: 10px;
+            }
 
-    .login-container {
-        padding: 30px 20px;
-    }
+            .login-container {
+                padding: 30px 20px;
+            }
 
-    .logo h1 {
-        font-size: 25px;
-        letter-spacing: 2px;
-    }
+            .logo h1 {
+                font-size: 25px;
+                letter-spacing: 2px;
+            }
 
-    .logo p {
-        font-size: 12px;
-    }
+            .logo p {
+                font-size: 12px;
+            }
 
-}
-
+        }
     </style>
 
 </head>
@@ -374,24 +393,24 @@
             <h2>會員登入</h2>
 
         </div>
-        
-        {% if error %}
-    <p style="color: #FF2A2A; margin-bottom: 20px;">
-        {{ error }}
-    </p>
-{% endif %}
 
-{% if success %}
-    <p style="color: #4CAF50; margin-bottom: 20px;">
-        {{ success }}
-    </p>
-{% endif %}
+        {% if error %}
+        <p style="color: #FF2A2A; margin-bottom: 20px;">
+            {{ error }}
+        </p>
+        {% endif %}
+
+        {% if success %}
+        <p style="color: #4CAF50; margin-bottom: 20px;">
+            {{ success }}
+        </p>
+        {% endif %}
 
 
         <!-- 登入表單 -->
 
         <form method="POST">
-    {% csrf_token %}
+            {% csrf_token %}
 
             <div class="form-group">
 
@@ -399,12 +418,7 @@
                     帳號
                 </label>
 
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="請輸入帳號"
-                >
+                <input type="text" id="username" name="username" placeholder="請輸入帳號">
 
             </div>
 
@@ -415,20 +429,17 @@
                     密碼
                 </label>
 
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="請輸入密碼"
-                >
+                <input type="password" id="password" name="password" placeholder="請輸入密碼">
 
             </div>
 
+            <div class="forgot-password">
+                <a href="{% url 'password-reset' %}">
+                    忘記密碼？
+                </a>
+            </div>
 
-            <button
-                type="submit"
-                class="login-button"
-            >
+            <button type="submit" class="login-button">
                 登入
             </button>
 
