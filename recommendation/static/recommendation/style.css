@@ -1,0 +1,633 @@
+/* =====================================
+   基本設定
+===================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+    font-family:
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        sans-serif;
+
+    background: #505075;
+    color: #eeeeF5;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================
+   左側選單
+===================================== */
+
+.sidebar {
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    width: 240px;
+    height: 100vh;
+
+    background: #18172f;
+
+    padding: 28px 20px;
+
+    overflow-y: auto;
+}
+
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+
+    margin-bottom: 35px;
+}
+
+
+.menu-title {
+    color: #aaa8c8;
+
+    font-size: 14px;
+
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+
+.menu-item {
+    display: block;
+
+    color: #eeeeF5;
+
+    text-decoration: none;
+
+    padding: 11px 14px;
+
+    margin: 5px 0;
+
+    border-radius: 10px;
+
+    transition: 0.2s;
+}
+
+
+.menu-item:hover {
+    background: #302e51;
+}
+
+
+.menu-item.active {
+    background: #b86b72;
+}
+
+
+/* =====================================
+   主要內容
+===================================== */
+
+.main-content {
+    margin-left: 240px;
+
+    max-width: 1200px;
+
+    padding: 55px 65px;
+
+    margin-right: auto;
+}
+
+
+/* =====================================
+   標題
+===================================== */
+
+.page-header {
+    margin-bottom: 45px;
+}
+
+
+.page-header h1 {
+    margin: 0;
+
+    font-size: 42px;
+}
+
+
+.page-header p {
+    margin-top: 8px;
+
+    color: #c9c7dc;
+
+    font-size: 17px;
+}
+
+
+/* =====================================
+   Section
+===================================== */
+
+.section {
+    margin-bottom: 55px;
+}
+
+
+.section-title {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+
+.section-title h2 {
+    margin: 0;
+
+    font-size: 25px;
+}
+
+
+.section-title span {
+    color: #c4c2d7;
+
+    font-size: 14px;
+}
+
+
+/* =====================================
+   今日推薦
+===================================== */
+
+.recommend-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+
+.script-card {
+    background: #24233b;
+
+    border: 1px solid #3c3a59;
+
+    border-radius: 15px;
+
+    padding: 24px;
+
+    transition: 0.2s;
+}
+
+
+.script-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #b86b72;
+}
+
+
+.script-icon {
+    font-size: 38px;
+
+    margin-bottom: 15px;
+}
+
+
+.script-card h3 {
+    margin: 8px 0;
+
+    font-size: 21px;
+}
+
+
+.script-card p {
+    color: #c4c2d4;
+
+    font-size: 14px;
+}
+
+
+.type-tag {
+    display: inline-block;
+
+    background: #3b3959;
+
+    color: #d8a0a5;
+
+    border-radius: 20px;
+
+    padding: 3px 10px;
+
+    font-size: 13px;
+}
+
+
+.rating {
+    color: #f0d58a;
+
+    font-weight: bold;
+}
+
+
+/* =====================================
+   隨機推薦
+===================================== */
+
+.random-section {
+    background: #24233b;
+
+    border: 1px solid #3c3a59;
+
+    border-radius: 18px;
+
+    padding: 30px;
+}
+
+
+.random-form {
+    display: flex;
+
+    gap: 12px;
+}
+
+
+select,
+input {
+    background: #18172f;
+
+    color: #eeeeF5;
+
+    border: 1px solid #4a4868;
+
+    border-radius: 9px;
+
+    padding: 12px 15px;
+
+    font-size: 15px;
+}
+
+
+select {
+    min-width: 210px;
+}
+
+
+button {
+    background: #b86b72;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 12px 20px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+button:hover {
+    opacity: 0.85;
+}
+
+
+.random-result {
+    display: flex;
+
+    gap: 20px;
+
+    align-items: center;
+
+    margin-top: 25px;
+
+    padding: 22px;
+
+    background: #302e51;
+
+    border-radius: 13px;
+}
+
+
+.random-icon {
+    font-size: 50px;
+}
+
+
+.random-result h3 {
+    margin: 8px 0;
+}
+
+
+/* =====================================
+   搜尋
+===================================== */
+
+.search-form {
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.search-form input {
+    flex: 1;
+}
+
+
+.search-message {
+    margin-top: 20px;
+
+    color: #d8d6e6;
+}
+
+
+.search-results {
+    margin-top: 15px;
+}
+
+
+.search-result {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #24233b;
+
+    border: 1px solid #3c3a59;
+
+    padding: 18px 22px;
+
+    border-radius: 12px;
+
+    margin-bottom: 10px;
+}
+
+
+.search-result h3 {
+    margin: 0 0 5px 0;
+}
+
+
+.search-result span {
+    color: #c5c3d6;
+}
+
+
+.empty-result {
+    background: #24233b;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+
+/* =====================================
+   排行榜
+===================================== */
+
+.ranking-list {
+    background: #24233b;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    border: 1px solid #3c3a59;
+}
+
+
+.ranking-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 18px 22px;
+
+    border-bottom: 1px solid #3c3a59;
+}
+
+
+.ranking-item:last-child {
+    border-bottom: none;
+}
+
+
+.rank {
+    width: 40px;
+
+    text-align: center;
+
+    font-size: 22px;
+
+    font-weight: bold;
+}
+
+
+.ranking-info {
+    flex: 1;
+}
+
+
+.ranking-info h3 {
+    margin: 0;
+
+    font-size: 17px;
+}
+
+
+.ranking-info span {
+    color: #aaa8c3;
+
+    font-size: 13px;
+}
+
+
+.ranking-rating {
+    color: #f0d58a;
+
+    font-weight: bold;
+}
+
+
+/* =====================================
+   評論
+===================================== */
+
+.review-sort-form {
+    margin: 0;
+}
+
+
+.review-sort-form select {
+    min-width: 180px;
+}
+
+
+.review-box {
+    background: #24233b;
+
+    border: 1px solid #3c3a59;
+
+    border-radius: 15px;
+
+    padding: 22px;
+
+    margin-bottom: 20px;
+}
+
+
+.review-box > h3 {
+    margin-top: 0;
+
+    margin-bottom: 15px;
+}
+
+
+.review {
+    padding: 15px 0;
+
+    border-top: 1px solid #3c3a59;
+}
+
+
+.review-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+.review-rating {
+    color: #f0d58a;
+}
+
+
+.review p {
+    color: #c7c5d7;
+
+    margin-bottom: 0;
+}
+
+
+/* =====================================
+   RWD
+===================================== */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        position: relative;
+
+        width: 100%;
+
+        height: auto;
+
+        padding: 20px;
+    }
+
+
+    .main-content {
+        margin-left: 0;
+
+        padding: 35px 25px;
+    }
+
+
+    .recommend-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .sidebar .menu-item {
+        display: inline-block;
+
+        margin-right: 5px;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .main-content {
+        padding: 25px 16px;
+    }
+
+
+    .page-header h1 {
+        font-size: 30px;
+    }
+
+
+    .section-title {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+
+    .random-form {
+        flex-direction: column;
+    }
+
+
+    select {
+        width: 100%;
+    }
+
+
+    button {
+        width: 100%;
+    }
+
+
+    .search-form {
+        flex-direction: column;
+    }
+
+
+    .random-result {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .ranking-item {
+        gap: 10px;
+
+        padding: 15px;
+    }
+
+
+    .ranking-rating {
+        font-size: 14px;
+    }
+
+}
