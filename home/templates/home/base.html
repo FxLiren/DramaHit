@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ⭕ 1. 讓子頁面可以自訂標題 -->
+    <title>{% block title %}探劇實錄{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+	{% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- 行動裝置頂部 Header (<992px 時顯示) -->
+    <div class="mobile-header">
+        <h1><span>🔍</span> 探劇實錄</h1>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+
+    <!-- 側邊欄 -->
+    <aside class="sidebar" id="sidebar">
+        <h2>📌 主選單</h2>
+        <nav>
+            <a href="{% url 'home' %}">🏠 首頁</a>
+			<a href="{% url 'script-list' %}">📜 劇本列表</a>
+			<a href="{#}">🏆 榜單與推薦</a>
+			<a href="{% url 'account' %}">👤 會員登入 / 我的收藏</a>
+        </nav>
+
+        <h2>🎭 依風格快速找</h2>
+        <nav>
+            <a href="?q=推理">🔍 推理</a>
+            <a href="?q=情感">🎭 情感</a>
+            <a href="?q=恐怖">👻 恐怖</a>
+            <a href="?q=歡樂">🥳 歡樂</a>
+            <a href="?q=陣營">⚔️ 陣營</a>
+            <a href="?q=機制">⚙️ 機制</a>
+        </nav>
+
+        <div class="sidebar-music" style="margin-top: 15px;">
+            <h2>🎵 背景氛圍</h2>
+            <audio id="bgm" src="{% static 'music/Broken Music Box.mp3' %}" controls autoplay loop style="width: 100%; height: 35px;"></audio>
+        </div>
+    </aside>
+
+    <!-- 主內容區 -->
+    <div class="main-wrapper">
+        <header class="site-header">
+            <h1><span class="logo-icon">🔍</span> 探劇實錄</h1>
+        </header>
+
+        <main class="page-content">
+            <!-- ⭕ 2. 核心！home.html 的內容會自動塞在這裡 -->
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-top">
+                <span>© 2026 探劇實錄</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.getElementById("menuToggle");
+            const sidebar = document.getElementById("sidebar");
+
+            if (menuToggle && sidebar) {
+                menuToggle.addEventListener("click", function () {
+                    sidebar.classList.toggle("show");
+                });
+            }
+
+            const audio = document.getElementById("bgm");
+            if (audio) {
+                audio.play().catch(function () {
+                    const startAudio = function () {
+                        audio.play();
+                        document.removeEventListener("click", startAudio);
+                    };
+                    document.addEventListener("click", startAudio);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
