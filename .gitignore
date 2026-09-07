@@ -5,3 +5,9 @@ __pycache__/
 *.sqlite3
 static/db/dataupd.db
 db.sqlite3
+# Windows system files
+desktop.ini
+*.ini
+
+# Cloud storage sync folders
+.tmp.driveupload/
