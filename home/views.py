@@ -38,7 +38,7 @@ def home(request):
     # --------------------------------------------------
     # 3. 渲染首頁輪播圖（使用 script_db）
     # --------------------------------------------------
-    banners = ScriptMeta.objects.using('script_db').all()[:5]
+    banners = ScriptMeta.objects.using('script_db').order_by('?')[:5]
 
     return render(request, 'home/home.html', {
         'banners': banners,

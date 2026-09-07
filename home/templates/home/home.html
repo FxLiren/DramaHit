@@ -3,7 +3,7 @@
 
 {% block extra_css %}
 <!-- 💡 加入版本號 ?v=2 強制避開瀏覽器快取 -->
-<link rel="stylesheet" href="{% static 'css/home.css' %}?v=2">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block title %}首頁 - 探劇實錄{% endblock %}
@@ -35,7 +35,7 @@
     <form class="search-box" method="GET" action="{% url 'home' %}">
         <div class="search-input-group">
             <!-- 💡 將 value 修正為 query 以正確帶出搜尋關鍵字 -->
-            <input type="text" name="q" value="{{ query|default:'' }}" placeholder="🔍 輸入劇本名稱、角色或關鍵字...">
+            <input type="text" name="q" value="{{ query|default:'' }}" placeholder="🔍 輸入劇本名稱、角色或關鍵字..." autocomplete="off">
         </div>
         <div class="btn-group">
             <button type="submit" class="search-btn">🔍 開始搜尋</button>

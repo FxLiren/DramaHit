@@ -12,7 +12,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 850px;           /* ⭕ 輪播與搜尋欄的最大寬度上限 */
+    max-width: 850px;           /* 輪播與搜尋欄的最大寬度上限 */
     margin: 0 auto;
     padding: 20px 0;
 }
@@ -59,7 +59,7 @@
 }
 
 .banner-info {
-    flex: 1;                    /* 自動滿滿右側剩餘區域 */
+    flex: 1;                    /* 自動填滿右側剩餘區域 */
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -90,22 +90,38 @@
 
 /* 4. 搜尋區塊：100% 貼合 home-container */
 .search-box {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
 }
 
-.search-input-group input {
-    background-color: #12161f; /* 護眼暗藍灰底色 */
-    color: #e0e6ed;            /* 輸入文字變淺灰 */
-    border: 1px solid rgba(59, 2, 10, 0.6); /* 濃血色微光邊框 */
+.search-input-group {
+    width: 100% !important;
+    display: block !important;
 }
 
-/* 第 110 行：點擊輸入時 */
-.search-input-group input:focus {
-    border-color: #8c1c2b;     /* 亮起暗紅光圈 */
-    background-color: #12161f; /* 保持暗底不變白 */
+/* ⭕ 強制輸入框撐滿全寬與長膠囊造型 */
+.search-input-group input[type="text"] {
+    width: 100% !important;
+    height: 48px !important;
+    padding: 0 20px !important;
+    font-size: 0.95rem !important;
+    border-radius: 30px !important;
+    background-color: #12161f !important;
+    color: #e0e6ed !important;
+    border: 1px solid rgba(59, 2, 10, 0.6) !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    transition: all 0.3s ease !important;
+}
+
+/* 點擊輸入時（Focus 狀態） */
+.search-input-group input[type="text"]:focus {
+    border-color: #8c1c2b !important;
+    background-color: #12161f !important;
+    box-shadow: 0 0 10px rgba(140, 28, 43, 0.4) !important;
 }
 
 .btn-group { 
@@ -133,4 +149,13 @@
     border-color: #FF2A2A;
     color: #FF2A2A;
     box-shadow: 0 0 10px rgba(255, 42, 42, 0.3);
+}
+
+/* 5. 覆蓋瀏覽器歷史紀錄/自動填充之白底 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #e0e6ed !important;
+    -webkit-box-shadow: 0 0 0px 1000px #12161f inset !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
