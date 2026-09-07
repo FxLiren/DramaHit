@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 1. 巨大化去背暗紅血滴 (輪廓主體 #a81c27) -->
+  <!-- 調整貝茲曲線，讓血滴肚子更膨脹、底部更圓潤 -->
+  <path d="M 50 3 C 50 3, 94 45, 94 70 C 94 95, 75 100, 50 100 C 25 100, 6 95, 6 70 C 6 45, 50 3, 50 3 Z" fill="#721c24" />
+
+  <!-- 2. 血滴內部的金色高對比放大鏡 (線條大幅加粗、位置微調) -->
+  <circle cx="45" cy="65" r="20" fill="none" stroke="#d4af37" stroke-width="11" />
+  <line x1="58" y1="78" x2="72" y2="92" stroke="#d4af37" stroke-width="12" stroke-linecap="round" />
+</svg>
