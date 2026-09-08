@@ -1,3 +1,18 @@
+:root {
+    --detective-bg: #0d1018;
+    --detective-panel: #171b25;
+    --detective-panel-light: #202532;
+    --detective-sidebar: #0a0d14;
+    --detective-text: #eee9df;
+    --detective-text-muted: #a8a9b2;
+    --detective-text-dark: #707482;
+    --detective-accent: #a65d67;
+    --detective-accent-hover: #c1747d;
+    --detective-line: #343947;
+    --detective-paper: #d8cbb5;
+    --detective-shadow: rgba(0, 0, 0, 0.38);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -7,8 +22,8 @@
 body {
     display: flex;
     min-height: 100vh;
-    background-color: #514e70;
-    color: #ffffff;
+    background-color: var(--detective-bg);
+    color: var(--detective-text);
     font-family: system-ui, -apple-system, sans-serif;
     overflow-x: hidden; /* 防止滿版計算誤差出現水平滾動條 */
 }
@@ -16,22 +31,23 @@ body {
 /* 行動裝置頂部 Header */
 .mobile-header {
     display: none;
-    background-color: #120f38;
+    background-color: var(--detective-sidebar);
     padding: 15px 20px;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    border-bottom: 1px solid var(--detective-line);
 }
 
 .mobile-header h1 {
-    color: #e50000;
+    color: var(--detective-accent);
     font-size: 1.5rem;
 }
 
 .menu-toggle {
     background: none;
     border: none;
-    color: #ffffff;
+    color: var(--detective-text);
     font-size: 1.8rem;
     cursor: pointer;
 }
@@ -39,16 +55,17 @@ body {
 /* 左側選單 (Sidebar) */
 .sidebar {
     width: 260px;
-    background-color: #120f38;
+    background-color: var(--detective-sidebar);
     padding: 25px 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
     flex-shrink: 0;
+    border-right: 1px solid var(--detective-line);
 }
 
 .sidebar h2 {
-    color: #ff2a2a;
+    color: var(--detective-accent);
     font-size: 1.1rem;
     margin-bottom: 5px;
 }
@@ -61,7 +78,7 @@ body {
 
 /* 清除超連結預設藍字與底線 */
 .sidebar nav a {
-    color: #b1b5c8 !important;
+    color: var(--detective-text-muted) !important;
     text-decoration: none !important;
     padding: 10px 14px;
     border-radius: 8px;
@@ -72,10 +89,10 @@ body {
     transition: all 0.2s ease;
 }
 
-.sidebar nav a:hover, 
+.sidebar nav a:hover,
 .sidebar nav a.active {
-    background-color: #26273b;
-    color: #ff3333 !important;
+    background-color: var(--detective-panel-light);
+    color: var(--detective-accent-hover) !important;
     font-weight: bold;
 }
 
@@ -88,10 +105,11 @@ body {
     padding: 40px 30px 0 30px; /* 💡 底部 padding 設為 0，讓 footer 貼底 */
     width: 100%;
     min-height: 100vh;
+    background-color: var(--detective-bg);
 }
 
 .site-header h1 {
-    color: #e50000;
+    color: var(--detective-accent);
     font-size: 2.2rem;
     margin-bottom: 30px;
 }
@@ -103,24 +121,24 @@ body {
     flex: 1; /* 自動撐開剩餘高度 */
 }
 
-/* 💡 滿版 Google 風格頁尾 Footer 修正 */
+/* 💡 滿版頁尾 Footer 修正 */
 .site-footer {
     width: calc(100% + 60px); /* 精確伸展：原本寬度 + 左右各 30px 的 padding */
     margin-left: -30px;        /* 往左突破邊界 */
     margin-right: -30px;       /* 往右突破邊界 */
     margin-top: 40px;          /* 與上方內容保持距離 */
-    background-color: #c0bcbc; /* Google 經典極深灰背景 */
-    border-top: 1px solid #3c4043;
-    color: #07090aa5;
+    background-color: var(--detective-panel);
+    border-top: 1px solid var(--detective-line);
+    color: var(--detective-text-muted);
     font-size: 1rem;
     text-align: center;
 }
 
-/* Google 雙層文字樣式 */
+/* 雙層文字樣式 */
 .footer-top {
     padding: 12px 30px;
-    border-bottom: 1px solid #212327;
-    color: #e8eaed;
+    border-bottom: 1px solid var(--detective-line);
+    color: var(--detective-text);
 }
 
 .footer-bottom {
@@ -139,13 +157,13 @@ body {
 }
 
 .footer-bottom a {
-    color: #9aa0a6;
+    color: var(--detective-text-dark);
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 .footer-bottom a:hover {
-    color: #e8eaed;
+    color: var(--detective-text);
 }
 
 /* RWD 媒體查詢：平板與手機 (<992px) */
