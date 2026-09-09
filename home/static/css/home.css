@@ -5,30 +5,22 @@
     padding: 0;
 }
 
-/* 2. 主容器：讓整個首頁內容精準置中 */
+/* 2. 主容器：統一控制全頁最大寬度與置中 */
 .home-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 850px;          /* ⭕ 放大整體寬度上限 */
+    max-width: 850px;           /* 輪播與搜尋欄的最大寬度上限 */
     margin: 0 auto;
-    padding: 30px 20px;
+    padding: 20px 0;
 }
 
-.brand-sub {
-    color: #C0C0D0;
-    font-size: 1rem;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* 3. 輪播框修正 */
+/* 3. 輪播框：100% 貼合 home-container */
 .mini-banner-container {
-   width: 100%;
-    max-width: 900px;           /* 控制輪播整體寬度 */
-    height: 260px;              /* 增加高度，讓圖片與簡介更有空間 */
+    width: 100%;
+    height: 260px;
     background-color: #16161D;
     border: 1px solid #2A2A35;
     border-radius: 12px;
@@ -42,7 +34,7 @@
     display: flex;
     width: 100%;
     height: 100%;
-	transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
 }
 
 .banner-item {
@@ -50,35 +42,36 @@
     height: 100%;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     box-sizing: border-box;
-    padding: 0;
 }
 
 .banner-img,
 .banner-img-placeholder {
-   width: 100%;
+    width: 220px;               /* 固定海報寬度 */
     height: 100%;
-    object-fit: contain;     /* ⭕ 完整顯示海報不變形、不重複 */
-    object-position: center; /* 海報居中 */
-    background-color: #121218; /* 設定一個質感深色背景，取代重複留白 */
-    padding: 10px;           /* 上下留下一點精緻邊距 */
+    object-fit: contain;
+    object-position: center;
+    background-color: #121218;
+    padding: 12px;
     box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .banner-info {
-  width: 60%;                 /* 右側佔 60% 寬度 */
+    flex: 1;                    /* 自動填滿右側剩餘區域 */
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;    /* 上下居中 */
+    justify-content: center;
     padding: 25px 30px;
     box-sizing: border-box;
     text-align: left;
 }
 
 .banner-info h4 { 
-    color: #FF2A2A;             /* 主題紅，可自行調整 */
-    font-size: 1.5rem;
+    color: #FF2A2A;
+    font-size: 1.4rem;
     font-weight: 700;
     margin-bottom: 12px;
     line-height: 1.3;
@@ -86,38 +79,49 @@
 
 .banner-info p { 
     color: #CCCCCC;
-    font-size: 1rem;
+    font-size: 0.95rem;
     line-height: 1.6;
     margin: 0;
-    /* 限制字數超過自動省略號 ... */
     display: -webkit-box;
-    -webkit-line-clamp: 4;      /* 最多顯示 4 行簡介 */
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* 4. 搜尋區塊 */
+/* 4. 搜尋區塊：100% 貼合 home-container */
 .search-box {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
 }
 
-.search-input-group input {
-    width: 100%;
-    padding: 14px 20px;
-    background-color: #16161D;
-    border: 1px solid #333344;
-    border-radius: 8px;
-    color: #FFF;
-    font-size: 1rem;
-    outline: none;
+.search-input-group {
+    width: 100% !important;
+    display: block !important;
 }
 
-.search-input-group input:focus {
-    border-color: #FF2A2A;
-    box-shadow: 0 0 8px rgba(255, 42, 42, 0.4);
+/* ⭕ 強制輸入框撐滿全寬與長膠囊造型 */
+.search-input-group input[type="text"] {
+    width: 100% !important;
+    height: 48px !important;
+    padding: 0 20px !important;
+    font-size: 0.95rem !important;
+    border-radius: 30px !important;
+    background-color: #12161f !important;
+    color: #e0e6ed !important;
+    border: 1px solid rgba(59, 2, 10, 0.6) !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    transition: all 0.3s ease !important;
+}
+
+/* 點擊輸入時（Focus 狀態） */
+.search-input-group input[type="text"]:focus {
+    border-color: #8c1c2b !important;
+    background-color: #12161f !important;
+    box-shadow: 0 0 10px rgba(140, 28, 43, 0.4) !important;
 }
 
 .btn-group { 
@@ -147,39 +151,11 @@
     box-shadow: 0 0 10px rgba(255, 42, 42, 0.3);
 }
 
-/* 5. 快捷標籤（單獨設定樣式，防止被拉到超寬） */
-.quick-tags { 
-    margin-top: 30px; 
-    text-align: center; 
-    width: 100%;
-}
-
-.quick-tags p { 
-    color: #888899; 
-    font-size: 0.85rem; 
-    margin-bottom: 12px; 
-}
-
-.tag-buttons { 
-    display: flex; 
-    gap: 10px; 
-    justify-content: center; 
-    flex-wrap: wrap; 
-}
-
-.tag-btn {
-    padding: 8px 16px;
-    background-color: #16161D;
-    color: #DDD;
-    border: 1px solid #333344;
-    border-radius: 20px;
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: all 0.3s;
-}
-
-.tag-btn:hover {
-    border-color: #FF2A2A;
-    color: #FF2A2A;
-    background-color: #1A1A24;
+/* 5. 覆蓋瀏覽器歷史紀錄/自動填充之白底 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #e0e6ed !important;
+    -webkit-box-shadow: 0 0 0px 1000px #12161f inset !important;
+    transition: background-color 5000s ease-in-out 0s;
 }

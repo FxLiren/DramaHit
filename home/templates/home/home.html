@@ -2,19 +2,21 @@
 {% load static %}
 
 {% block extra_css %}
-<!-- 引入 home/static/css/home.css -->
+<!-- 💡 加入版本號 ?v=2 強制避開瀏覽器快取 -->
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block title %}首頁 - 探劇實錄{% endblock %}
 
 {% block content %}
+<!-- 💡 必須用 home-container 包裹所有元件，寬度才能統一置中控制 -->
 <div class="home-container">
+
     <!-- 🎬 精緻小輪播框 -->
     <div class="mini-banner-container">
         <div class="banner-slider" id="bannerSlider">
             {% for script in banners %}
-            <div class="banner-item">
+            <a href="{% url 'script-detail' script.id %}" class="banner-item" style="text-decoration: none; color: inherit;">
                 {% if script.image_url %}
                     <img class="banner-img" src="{{ script.image_url }}" alt="{{ script.script_name }}">
                 {% else %}
@@ -22,18 +24,9 @@
                 {% endif %}
                 <div class="banner-info">
                     <h4>🎬《{{ script.script_name }}》</h4>
-                    <p>{{ script.description|truncatechars:80 }}</p>
+                    <p>{{ script.description|default:"暫無介紹"|truncatechars:80 }}</p>
                 </div>
-            </div>
-            {% empty %}
-            <!-- 預設靜態 Banner -->
-            <div class="banner-item">
-                <div class="banner-img-placeholder">🎬</div>
-                <div class="banner-info">
-                    <h4>🎬《年輪》</h4>
-                    <p>循環時空的終極真相，硬核推理神作</p>
-                </div>
-            </div>
+            </a>
             {% endfor %}
         </div>
     </div>
@@ -41,38 +34,30 @@
     <!-- 🔍 核心搜尋區 -->
     <form class="search-box" method="GET" action="{% url 'home' %}">
         <div class="search-input-group">
-            <input type="text" name="q" value="{{ query|default:'' }}" placeholder="🔍 輸入劇本名稱、角色或關鍵字...">
+            <!-- 💡 將 value 修正為 query 以正確帶出搜尋關鍵字 -->
+            <input type="text" name="q" value="{{ query|default:'' }}" placeholder="🔍 輸入劇本名稱、角色或關鍵字..." autocomplete="off">
         </div>
         <div class="btn-group">
             <button type="submit" class="search-btn">🔍 開始搜尋</button>
-            <a href="?random=1" class="search-btn">🎲 隨機抽劇本</a>
+            <a href="{% url 'home' %}?random=1" class="search-btn">🎲 隨機抽劇本</a>
         </div>
     </form>
 
-    <!-- 💡 快捷標籤 -->
-    <div class="quick-tags">
-        <p>💡 大家都這樣找：</p>
-        <div class="tag-buttons">
-            <a href="?q=熱門" class="tag-btn">🔥 熱門 Top10</a>
-            <a href="?q=情感" class="tag-btn">🎭 情感</a>
-            <a href="?q=推理" class="tag-btn">🔍 推理</a>
-        </div>
-    </div>
 </div>
 
-<!-- ⭕ 自動播放控制 JS -->
+<!-- 🎬 自動輪播控制 JS -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const slider = document.getElementById('bannerSlider');
-        const items = slider.querySelectorAll('.banner-item');
-        let currentIndex = 0;
+document.addEventListener('DOMContentLoaded', function () {
+    const slider = document.getElementById('bannerSlider');
+    const items = slider ? slider.querySelectorAll('.banner-item') : [];
+    let currentIndex = 0;
 
-        if (items.length > 1) {
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % items.length;
-                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-            }, 3000); // 每 3 秒自動滑動一次
-        }
-    });
+    if (items.length > 1) {
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % items.length;
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }, 3000);
+    }
+});
 </script>
 {% endblock %}

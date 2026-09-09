@@ -4,54 +4,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ⭕ 1. 讓子頁面可以自訂標題 -->
     <title>{% block title %}探劇實錄{% endblock %}</title>
-    
+    <link rel="icon" href="{% static 'images/favicon.svg' %}" type="image/svg+xml">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-	{% block extra_css %}{% endblock %}
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
 
-    <!-- 行動裝置頂部 Header (<992px 時顯示) -->
+    <canvas id="blood-canvas"></canvas>
+
+    <!-- 📱 手機版頂部 Header -->
     <div class="mobile-header">
-        <h1><span>🔍</span> 探劇實錄</h1>
+        <h1>
+            <img src="{% static 'images/favicon.svg' %}" alt="探劇實錄 Icon" class="title-icon">
+            <span>探劇實錄</span>
+        </h1>
         <button class="menu-toggle" id="menuToggle">☰</button>
     </div>
 
-    <!-- 側邊欄 -->
+    <!-- 📌 左側選單 -->
     <aside class="sidebar" id="sidebar">
         <h2>📌 主選單</h2>
         <nav>
             <a href="{% url 'home' %}">🏠 首頁</a>
-			<a href="{% url 'script-list' %}">📜 劇本列表</a>
-			<a href="{% url 'recommendation"}">🏆 榜單與推薦</a>
-			<a href="{% url 'account' %}">👤 會員登入 / 我的收藏</a>
+            <a href="{% url 'script-list' %}">📜 劇本列表</a>
+            <a href="{% url 'recommendation' %}">🏆 榜單與推薦</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'account' %}">👤 我的收藏 ({{ user.username }})</a>
+                <form action="{% url 'logout' %}" method="post" style="display: block; margin: 0; padding: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn-link" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer; padding: 10px 15px; width: 100%; text-align: left;">
+                        🚪 會員登出
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'account' %}">👤 會員登入</a>
+            {% endif %}
         </nav>
 
         <h2>🎭 依風格快速找</h2>
         <nav>
-            <a href="?q=推理">🔍 推理</a>
-            <a href="?q=情感">🎭 情感</a>
-            <a href="?q=恐怖">👻 恐怖</a>
-            <a href="?q=歡樂">🥳 歡樂</a>
-            <a href="?q=陣營">⚔️ 陣營</a>
-            <a href="?q=機制">⚙️ 機制</a>
+            <a href="{% url 'script-list' %}?keyword=&category=推理">🔍 推理</a>
+            <a href="{% url 'script-list' %}?keyword=&category=情感">🎭 情感</a>
+            <a href="{% url 'script-list' %}?keyword=&category=恐怖">👻 恐怖</a>
+            <a href="{% url 'script-list' %}?keyword=&category=歡樂">🥳 歡樂</a>
+            <a href="{% url 'script-list' %}?keyword=&category=陣營">⚔️ 陣營</a>
+            <a href="{% url 'script-list' %}?keyword=&category=機制">⚙️ 機制</a>
         </nav>
 
-        <div class="sidebar-music" style="margin-top: 15px;">
-            <h2>🎵 背景氛圍</h2>
-            <audio id="bgm" src="{% static 'music/Broken Music Box.mp3' %}" controls autoplay loop style="width: 100%; height: 35px;"></audio>
-        </div>
+        <audio id="bgm" src="{% static 'music/Broken Music Box.mp3' %}" autoplay loop style="display: none;"></audio>
     </aside>
 
-    <!-- 主內容區 -->
+    <!-- 💻 右側主區域 -->
     <div class="main-wrapper">
         <header class="site-header">
-            <h1><span class="logo-icon">🔍</span> 探劇實錄</h1>
+            <h1>
+                <img src="{% static 'images/favicon.svg' %}?v=2" alt="探劇實錄 Icon" class="title-icon">
+                <span>探劇實錄</span>
+            </h1>
         </header>
 
         <main class="page-content">
-            <!-- ⭕ 2. 核心！home.html 的內容會自動塞在這裡 -->
             {% block content %}
             {% endblock %}
         </main>
@@ -59,12 +72,15 @@
         <footer class="site-footer">
             <div class="footer-top">
                 <span>© 2026 探劇實錄</span>
+                <span class="divider">|</span>
+                <span>📧 聯絡我們：<a href="mailto:dramahit825@gmail.com">dramahit825@gmail.com</a></span>
             </div>
         </footer>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // 1. 選單切換邏輯
             const menuToggle = document.getElementById("menuToggle");
             const sidebar = document.getElementById("sidebar");
 
@@ -74,6 +90,7 @@
                 });
             }
 
+            // 2. 背景音樂自動播放邏輯（已修正語法）
             const audio = document.getElementById("bgm");
             if (audio) {
                 audio.play().catch(function () {
@@ -84,6 +101,112 @@
                     document.addEventListener("click", startAudio);
                 });
             }
+
+            // 3. 跨裝置 #5c1d24 血滴特效
+            const canvas = document.getElementById("blood-canvas");
+            if (!canvas) return;
+
+            const ctx = canvas.getContext("2d");
+            let points = [];
+            let droplets = [];
+            const EXACT_COLOR = "#3b020a";
+            let lastDrawTime = 0;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener("resize", resizeCanvas);
+
+            function addBloodPoint(x, y) {
+                const now = Date.now();
+                if (now - lastDrawTime < 20) return;
+                lastDrawTime = now;
+
+                points.push({
+                    x: x,
+                    y: y,
+                    size: 5,
+                    life: 1.0
+                });
+
+                if (Math.random() < 0.2) {
+                    droplets.push({
+                        x: x + (Math.random() - 0.5) * 6,
+                        y: y,
+                        size: Math.random() * 2 + 1,
+                        vy: Math.random() * 1.5 + 1,
+                        life: 1.0
+                    });
+                }
+            }
+
+            window.addEventListener("mousemove", function (e) {
+                addBloodPoint(e.clientX, e.clientY);
+            });
+
+            function handleTouch(e) {
+                if (e.touches && e.touches.length > 0) {
+                    for (let i = 0; i < e.touches.length; i++) {
+                        addBloodPoint(e.touches[i].clientX, e.touches[i].clientY);
+                    }
+                }
+            }
+
+            window.addEventListener("touchstart", handleTouch, { passive: true });
+            window.addEventListener("touchmove", handleTouch, { passive: true });
+			
+			function animate() {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				// 1. 繪製單純的血滴點（不畫任何連接線）
+				if (points.length > 0) {
+					ctx.save();
+					ctx.fillStyle = EXACT_COLOR;
+
+					for (let i = 0; i < points.length; i++) {
+						let p = points[i];
+						
+						// 消散與縮小
+						p.life -= 0.08; 
+						p.size *= 0.90; 
+
+						if (p.life > 0 && p.size > 0.3) {
+							ctx.beginPath();
+							ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+							ctx.fill(); // 僅填充單個圓點
+						}
+					}
+					ctx.restore();
+				}
+
+				// 過濾失效點
+				points = points.filter(p => p.life > 0 && p.size > 0.3);
+
+				// 2. 繪製掉落血滴
+				for (let i = 0; i < droplets.length; i++) {
+					let d = droplets[i];
+					d.y += d.vy;
+					d.vy += 0.1;
+					d.life -= 0.08;
+
+					if (d.life > 0) {
+						ctx.save();
+						ctx.fillStyle = EXACT_COLOR;
+						ctx.beginPath();
+						ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+						ctx.fill();
+						ctx.restore();
+					} else {
+						droplets.splice(i, 1);
+						i--;
+					}
+				}
+
+				requestAnimationFrame(animate);
+			}
+			animate();
         });
     </script>
 </body>
