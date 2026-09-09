@@ -1,79 +1,32 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="zh-Hant">
+{% block title %}
+探劇實錄｜劇本列表
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'scripts/style.css' %}?v=2">
+{% endblock %}
 
-    <!-- 讓手機和平板能正確顯示 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block content %}
 
-    <title>探劇實錄｜劇本列表</title>
-
-    <!-- 連接 CSS -->
-    <link rel="stylesheet" href="{% static 'scripts/style.css' %}">
-</head>
-
-
-<body>
-
-    <!-- 左側選單 -->
-    <aside class="sidebar">
-
-        <h2>探劇實錄</h2>
-
-        <nav>
-
-            <a href="#">🏠 首頁</a>
-
-            <a href="#" class="active">📚 劇本列表</a>
-
-            <a href="#">🏆 榜單與推薦</a>
-
-            <a href="#">❤️ 我的收藏</a>
-
-            <a href="#">👤 會員登入</a>
-
-        </nav>
-
-    </aside>
+<!-- 搜尋區 -->
+<section class="search-area">
+    <form method="GET">
+        <input
+            type="text"
+            name="keyword"
+            value="{{ keyword }}"
+            placeholder="🔍 搜尋劇本"
+        >
+        <button type="submit">搜尋</button>
+    </form>
+</section>
 
 
-    <!-- 右側主要內容 -->
-    <div class="page-content">
-
-        <!-- 網站標題 -->
-        <header>
-            <h1>劇本列表</h1>
-        </header>
-
-
-        <!-- 主要內容 -->
-        <main>
-
-        <!-- 搜尋區 -->
-        <section class="search-area">
-
-            <form method="GET">
-
-            <input
-                type="text"
-                name="keyword"
-                value="{{ keyword }}"
-                placeholder="🔍 搜尋劇本"
-            >
-
-            <button type="submit">搜尋</button>
-
-        </form>
-
-        </section>
-
-
-        <!-- 篩選區 -->
-        <section class="filter-area">
-
+<!-- 篩選區 -->
+<section class="filter-area">
     <form method="GET">
 
         <!-- 保留搜尋關鍵字 -->
@@ -121,14 +74,10 @@
                 </option>
 
             </select>
-
         </label>
 
     </form>
-
 </section>
-
-
 
 
 <!-- 劇本列表 -->
@@ -139,86 +88,95 @@
     <a href="{% url 'script-detail' script.id %}" class="script-card">
 
         <div class="script-image">
-
-            <img src="{{ script.image_url }}" alt="{{ script.script_name }}">
-
+            <img
+                src="{{ script.image_url }}"
+                alt="{{ script.script_name }}"
+            >
         </div>
 
         <h2>{{ script.script_name }}</h2>
 
-        <p class="rating">⭐ {{ script.rating }}</p>
+        <p class="rating">
+            ⭐ {{ script.rating }}
+        </p>
 
-        <p>🕵️ 分類：{{ script.script_type }}</p>
+        <p>
+            🕵️ 分類：{{ script.script_type }}
+        </p>
 
-        <p>👥 人數：{{ script.players_count }}</p>
+        <p>
+            👥 人數：{{ script.players_count }}
+        </p>
 
-        <p>⏱ 遊玩時間：{{ script.play_time }}</p>
+        <p>
+            ⏱ 遊玩時間：{{ script.play_time }}
+        </p>
 
-        <button class="favorite-btn">♡ 收藏</button>
+        <button class="favorite-btn">
+            ♡ 收藏
+        </button>
 
     </a>
-
-    
 
     {% endfor %}
 
 </section>
 
+
 <!-- 分頁 -->
 <div class="pagination">
 
     {% if page_obj.has_previous %}
+
     <a href="?page={{ page_obj.previous_page_number }}&keyword={{ keyword }}&category={{ category }}">
         上一頁
     </a>
+
     {% endif %}
+
 
     <span>
         第 {{ page_obj.number }} 頁 /
         共 {{ page_obj.paginator.num_pages }} 頁
     </span>
 
+
     {% if page_obj.has_next %}
+
     <a href="?page={{ page_obj.next_page_number }}&keyword={{ keyword }}&category={{ category }}">
         下一頁
     </a>
+
     {% endif %}
 
 </div>
 
-</div>
-
-    </main>
 
 <script>
+const favoriteButtons = document.querySelectorAll(".favorite-btn");
 
-    // =========================
-    // 收藏功能
-    // =========================
+favoriteButtons.forEach(function(button) {
 
-    const favoriteButtons = document.querySelectorAll(".favorite-btn");
+    button.addEventListener("click", function(event) {
 
-        favoriteButtons.forEach(function(button) {
-            button.addEventListener("click", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
-                // 阻止點收藏時進入詳細頁
-                event.preventDefault();
-                event.stopPropagation();
+        if (button.classList.contains("active")) {
 
-                if (button.classList.contains("active")) {
-                    button.classList.remove("active");
-                    button.textContent = "♡ 收藏";
-                } else {
-                    button.classList.add("active");
-                    button.textContent = "♥ 已收藏";
-                }
+            button.classList.remove("active");
+            button.textContent = "♡ 收藏";
+
+        } else {
+
+            button.classList.add("active");
+            button.textContent = "♥ 已收藏";
+
+        }
 
     });
+
 });
-
-
 </script>
 
-</body>
-
-</html>
+{% endblock %}

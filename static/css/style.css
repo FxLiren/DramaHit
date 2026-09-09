@@ -1,26 +1,59 @@
+/* =========================
+   全網站共用 CSS
+   探劇實錄
+   ========================= */
+
+/* ---------- 基本設定 ---------- */
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-body {
-    display: flex;
-    min-height: 100vh;
-    background-color: #514e70;
-    color: #ffffff;
-    font-family: system-ui, -apple-system, sans-serif;
-    overflow-x: hidden; /* 防止滿版計算誤差出現水平滾動條 */
+html {
+    min-height: 100%;
 }
 
-/* 行動裝置頂部 Header */
+body {
+    min-height: 100vh;
+    display: flex;
+    margin: 0;
+    padding: 0;
+
+    background-color: #050505;
+    color: #d1d1d1;
+
+    font-family: "Courier New", Courier, monospace;
+
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 全網站窺視陰影效果 */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.95);
+
+    pointer-events: none;
+    z-index: 999;
+}
+
+
+/* =========================
+   手機版頂部
+   ========================= */
+
 .mobile-header {
     display: none;
+    width: 100%;
     background-color: #120f38;
     padding: 15px 20px;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
 }
 
 .mobile-header h1 {
@@ -36,21 +69,30 @@ body {
     cursor: pointer;
 }
 
-/* 左側選單 (Sidebar) */
+
+/* =========================
+   左側選單
+   ========================= */
+
 .sidebar {
     width: 260px;
-    background-color: #120f38;
+    min-height: 100vh;
+    background-color: #080808;
+    border-right: 1px solid #2a2a2a;
     padding: 25px 20px;
+
     display: flex;
     flex-direction: column;
     gap: 20px;
+
     flex-shrink: 0;
 }
 
 .sidebar h2 {
-    color: #ff2a2a;
+    color: #8b0000;
     font-size: 1.1rem;
     margin-bottom: 5px;
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.5);
 }
 
 .sidebar nav {
@@ -59,64 +101,93 @@ body {
     gap: 8px;
 }
 
-/* 清除超連結預設藍字與底線 */
 .sidebar nav a {
-    color: #b1b5c8 !important;
-    text-decoration: none !important;
+    color: #888888;
+    text-decoration: none;
+
     padding: 10px 14px;
     border-radius: 8px;
+
     font-size: 0.95rem;
+
     display: flex;
     align-items: center;
     gap: 10px;
+
     transition: all 0.2s ease;
 }
 
-.sidebar nav a:hover, 
+.sidebar nav a:hover,
 .sidebar nav a.active {
-    background-color: #26273b;
-    color: #ff3333 !important;
+    background-color: #151515;
+    color: #8b0000;
     font-weight: bold;
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.6);
 }
 
-/* 右側主區域 */
+
+/* =========================
+   主要內容區
+   ========================= */
+
 .main-wrapper {
     flex: 1;
+    min-height: 100vh;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 30px 0 30px; /* 💡 底部 padding 設為 0，讓 footer 貼底 */
+
     width: 100%;
-    min-height: 100vh;
+
+    padding: 40px 30px 0;
+}
+
+.site-header {
+    width: 100%;
+    max-width: 1100px;
 }
 
 .site-header h1 {
-    color: #e50000;
+    color: #8b0000;
     font-size: 2.2rem;
     margin-bottom: 30px;
+
+    letter-spacing: 4px;
+
+    text-shadow:
+        0 0 10px rgba(139, 0, 0, 0.7),
+        0 0 20px rgba(139, 0, 0, 0.4);
+
+    animation: flicker 4s infinite alternate;
 }
 
-/* 中間主要內容容器 */
 .page-content {
     width: 100%;
     max-width: 1100px;
-    flex: 1; /* 自動撐開剩餘高度 */
+    flex: 1;
 }
 
-/* 💡 滿版 Google 風格頁尾 Footer 修正 */
+
+/* =========================
+   Footer
+   ========================= */
+
 .site-footer {
-    width: calc(100% + 60px); /* 精確伸展：原本寬度 + 左右各 30px 的 padding */
-    margin-left: -30px;        /* 往左突破邊界 */
-    margin-right: -30px;       /* 往右突破邊界 */
-    margin-top: 40px;          /* 與上方內容保持距離 */
-    background-color: #c0bcbc; /* Google 經典極深灰背景 */
+    width: calc(100% + 60px);
+
+    margin-left: -30px;
+    margin-right: -30px;
+    margin-top: 40px;
+
+    background-color: #080808;
     border-top: 1px solid #3c4043;
-    color: #07090aa5;
+
+    color: #07090a;
     font-size: 1rem;
     text-align: center;
 }
 
-/* Google 雙層文字樣式 */
 .footer-top {
     padding: 12px 30px;
     border-bottom: 1px solid #212327;
@@ -127,7 +198,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     padding: 12px 30px;
+
     flex-wrap: wrap;
     gap: 15px;
 }
@@ -139,17 +212,36 @@ body {
 }
 
 .footer-bottom a {
-    color: #9aa0a6;
+    color: #888888;
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .footer-bottom a:hover {
-    color: #e8eaed;
+    color: #8b0000;
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.6);
 }
 
-/* RWD 媒體查詢：平板與手機 (<992px) */
+
+/* =========================
+   音樂播放器
+   ========================= */
+
+.sidebar-music {
+    width: 100%;
+}
+
+.sidebar-music audio {
+    width: 100%;
+}
+
+
+/* =========================
+   平板 / 手機 RWD
+   ========================= */
+
 @media (max-width: 992px) {
+
     body {
         flex-direction: column;
     }
@@ -159,7 +251,7 @@ body {
     }
 
     .main-wrapper {
-        padding: 25px 20px 0 20px; /* 手機版內邊距改為 20px */
+        padding: 25px 20px 0;
     }
 
     .main-wrapper .site-header {
@@ -168,6 +260,7 @@ body {
 
     .sidebar {
         width: 100%;
+        min-height: auto;
         display: none;
     }
 
@@ -176,7 +269,7 @@ body {
     }
 
     .site-footer {
-        width: calc(100% + 40px); /* 同步手機版左右 padding (20px + 20px) */
+        width: calc(100% + 40px);
         margin-left: -20px;
         margin-right: -20px;
     }
@@ -186,4 +279,107 @@ body {
         align-items: flex-start;
         gap: 12px;
     }
+}
+
+/* =========================
+   恐怖標題閃爍效果
+   ========================= */
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        opacity: 1;
+    }
+
+    20%, 24%, 55% {
+        opacity: 0.2;
+    }
+}
+
+
+/* =========================
+   🩸 滑鼠血流效果
+   ========================= */
+
+.mouse-blood {
+    position: fixed;
+
+    pointer-events: none;
+
+    z-index: 998;
+
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(139, 0, 0, 0.8) 0%,
+        rgba(100, 0, 0, 0.55) 40%,
+        rgba(50, 0, 0, 0) 75%
+    );
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+
+    animation: bloodFlow 0.9s ease-out forwards;
+}
+
+
+/* 血液慢慢擴散、消失 */
+
+@keyframes bloodFlow {
+
+    0% {
+        opacity: 0.8;
+
+        transform:
+            translate(-50%, -50%)
+            scale(0.5);
+    }
+
+    30% {
+        opacity: 0.65;
+
+        transform:
+            translate(
+                calc(-50% + var(--blood-x)),
+                calc(-50% + var(--blood-y))
+            )
+            scale(1);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(
+                calc(-50% + var(--blood-x)),
+                calc(-50% + var(--blood-y) + 15px)
+            )
+            scale(1.8);
+    }
+}
+
+
+/* =========================
+   📺 CRT 掃描線效果
+   ========================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 997;
+
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.025) 0px,
+        rgba(255, 255, 255, 0.025) 1px,
+        rgba(0, 0, 0, 0.04) 1px,
+        rgba(0, 0, 0, 0.04) 3px
+    );
+
+    opacity: 0.8;
 }

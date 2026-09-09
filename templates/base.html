@@ -24,7 +24,7 @@
         <nav>
             <a href="{% url 'home' %}">🏠 首頁</a>
 			<a href="{% url 'script-list' %}">📜 劇本列表</a>
-			<a href="{% url 'recommendation"}">🏆 榜單與推薦</a>
+			<a href="{% url 'recommendation' %}">🏆 榜單與推薦</a>
 			<a href="{% url 'account' %}">👤 會員登入 / 我的收藏</a>
         </nav>
 
@@ -65,6 +65,11 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+
+            /* =========================
+            手機選單
+            ========================= */
+
             const menuToggle = document.getElementById("menuToggle");
             const sidebar = document.getElementById("sidebar");
 
@@ -74,16 +79,99 @@
                 });
             }
 
+
+            /* =========================
+            背景音樂
+            ========================= */
+
             const audio = document.getElementById("bgm");
+
             if (audio) {
                 audio.play().catch(function () {
+
                     const startAudio = function () {
                         audio.play();
-                        document.removeEventListener("click", startAudio);
+
+                        document.removeEventListener(
+                            "click",
+                            startAudio
+                        );
                     };
-                    document.addEventListener("click", startAudio);
+
+                    document.addEventListener(
+                        "click",
+                        startAudio
+                    );
                 });
             }
+
+
+            /* =========================
+            🩸 滑鼠血流效果
+            ========================= */
+
+            let lastX = 0;
+            let lastY = 0;
+
+            document.addEventListener("mousemove", function (event) {
+
+                const x = event.clientX;
+                const y = event.clientY;
+
+                const distance = Math.sqrt(
+                    Math.pow(x - lastX, 2) +
+                    Math.pow(y - lastY, 2)
+                );
+
+                if (distance < 8) {
+                    return;
+                }
+
+                lastX = x;
+                lastY = y;
+
+
+                /* 建立血滴 */
+                const blood = document.createElement("div");
+
+                blood.className = "mouse-blood";
+
+                blood.style.left = x + "px";
+                blood.style.top = y + "px";
+
+
+                /* 隨機大小 */
+                const size = Math.random() * 10 + 6;
+
+                blood.style.width = size + "px";
+                blood.style.height = size + "px";
+
+
+                /* 隨機流動方向 */
+                const offsetX = (Math.random() - 0.5) * 20;
+                const offsetY = (Math.random() - 0.5) * 20;
+
+                blood.style.setProperty(
+                    "--blood-x",
+                    offsetX + "px"
+                );
+
+                blood.style.setProperty(
+                    "--blood-y",
+                    offsetY + "px"
+                );
+
+
+                document.body.appendChild(blood);
+
+
+                /* 0.9 秒後刪除 */
+                setTimeout(function () {
+                    blood.remove();
+                }, 900);
+
+            });
+
         });
     </script>
 </body>

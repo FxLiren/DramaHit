@@ -64,7 +64,11 @@
     <!-- 💡 合併整理後的單一 JavaScript 區塊 -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // 1. 手機版選單切換邏輯
+
+            /* =========================
+            手機選單
+            ========================= */
+
             const menuToggle = document.getElementById("menuToggle");
             const sidebar = document.getElementById("sidebar");
 
@@ -74,20 +78,105 @@
                 });
             }
 
-            // 2. 解鎖瀏覽器背景音樂自動播放限制
+
+            /* =========================
+            背景音樂
+            ========================= */
+
             const audio = document.getElementById("bgm");
-            
+
             if (audio) {
-                // 嘗試自動播放
                 audio.play().catch(function () {
-                    // 若被 Chrome/Edge 阻擋，等使用者第一次點擊網頁時立即觸發播放
+
                     const startAudio = function () {
                         audio.play();
-                        document.removeEventListener("click", startAudio); // 成功播放後解除監聽
+
+                        document.removeEventListener(
+                            "click",
+                            startAudio
+                        );
                     };
-                    document.addEventListener("click", startAudio);
+
+                    document.addEventListener(
+                        "click",
+                        startAudio
+                    );
                 });
             }
+
+
+            /* =========================
+            🩸 滑鼠血流效果
+            ========================= */
+
+            let lastX = 0;
+            let lastY = 0;
+
+            document.addEventListener("mousemove", function (event) {
+
+                const x = event.clientX;
+                const y = event.clientY;
+
+                /* 計算滑鼠移動距離 */
+                const distance = Math.sqrt(
+                    Math.pow(x - lastX, 2) +
+                    Math.pow(y - lastY, 2)
+                );
+
+                /* 移動太小就不產生血滴 */
+                if (distance < 8) {
+                    return;
+                }
+
+                lastX = x;
+                lastY = y;
+
+
+                /* 建立血滴 */
+                const blood = document.createElement("div");
+
+                blood.className = "mouse-blood";
+
+                /* 血滴位置 */
+                blood.style.left = x + "px";
+                blood.style.top = y + "px";
+
+
+                /* 隨機大小 */
+                const size = Math.random() * 10 + 6;
+
+                blood.style.width = size + "px";
+                blood.style.height = size + "px";
+
+
+                /* 隨機偏移 */
+                const offsetX = (Math.random() - 0.5) * 20;
+                const offsetY = (Math.random() - 0.5) * 20;
+
+                blood.style.setProperty(
+                    "--blood-x",
+                    offsetX + "px"
+                );
+
+                blood.style.setProperty(
+                    "--blood-y",
+                    offsetY + "px"
+                );
+
+
+                /* 加到網頁 */
+                document.body.appendChild(blood);
+
+
+                /* 動畫結束後刪除 */
+                setTimeout(function () {
+
+                    blood.remove();
+
+                }, 900);
+
+            });
+
         });
     </script>
 </body>

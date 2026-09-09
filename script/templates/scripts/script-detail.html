@@ -1,110 +1,79 @@
-
-<!DOCTYPE html>
-<html lang="zh-Hant">
+{% extends 'base.html' %}
 
 {% load static %}
 
-<head>
+{% block title %}
+探劇實錄｜劇本詳細
+{% endblock %}
 
-    <meta charset="UTF-8">
+{% block extra_css %}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static 'scripts/style.css' %}?v=2">
+{% endblock %}
 
-    <title>探劇實錄｜劇本詳細</title>
+{% block content %}
 
-    <link rel="stylesheet" href="{% static 'scripts/style.css' %}">
+<!-- 劇本詳細資訊 -->
 
-</head>
+<section class="script-detail">
 
+```
+<!-- 劇本圖片 -->
+<div class="detail-image">
+    <img src="{{ script.image_url }}" alt="{{ script.script_name }}">
+</div>
 
-<body>
+<!-- 劇本資訊 -->
+<div class="detail-info">
 
-    <!-- 左側選單 -->
-    <aside class="sidebar">
+    <h2>{{ script.script_name }}</h2>
 
-        <h2>探劇實錄</h2>
+    <p class="rating">
+        ⭐ {{ script.rating }}
+    </p>
 
-        <nav>
+    <p>
+        🕵️ 分類：{{ script.script_type }}
+    </p>
 
-            <a href="{% url 'script-list' %}">📚 劇本列表</a>
+    <p>
+        👥 人數：{{ script.players_count }}
+    </p>
 
-            <a href="#">🏆 榜單與推薦</a>
+    <p>
+        ⏱ 遊玩時間：{{ script.play_time }}
+    </p>
 
-            <a href="#">❤️ 我的收藏</a>
+    <button class="favorite-btn">
+        ♡ 收藏
+    </button>
 
-            <a href="#">👤 會員登入</a>
+</div>
+```
 
-        </nav>
+</section>
 
-    </aside>
+<!-- 劇本介紹 -->
 
+<section class="script-description">
 
-    <!-- 右側主要內容 -->
-    <div class="page-content">
+```
+<h2>劇本介紹</h2>
 
-        <header>
+<p>
+    {{ script.description }}
+</p>
+```
 
-            <h1>劇本詳細</h1>
+</section>
 
-        </header>
+<!-- 回到劇本列表 -->
 
-
-        <main>
-
-            <!-- 劇本詳細資訊 -->
-            <section class="script-detail">
-
-                <!-- 劇本圖片 -->
-                <div class="detail-image">
-
-                    <img src="{{ script.image_url }}" alt="{{ script.script_name }}">
-
-                </div>
-
-
-                <!-- 劇本資訊 -->
-                <div class="detail-info">
-
-                    <h2>{{ script.script_name }}</h2>
-
-                    <p class="rating">⭐ {{ script.rating }}</p>
-
-                    <p>🕵️ 分類：{{ script.script_type }}</p>
-
-                    <p>👥 人數：{{ script.players_count }}</p>
-
-                    <p>⏱ 遊玩時間：{{ script.play_time }}</p>
-
-                    <button class="favorite-btn">♡ 收藏</button>
-
-                </div>
-
-            </section>
-
-
-            <!-- 劇本介紹 -->
-            <section class="script-description">
-
-                <h2>劇本介紹</h2>
-
-                <p>
-                    {{ script.description }}
-                </p>
-
-            </section>
-
-
-            <a href="{% url 'script-list' %}" class="back-button">
-                ← 回到劇本列表
-            </a>
-
-        </main>
-
-    </div>
-
+<a href="{% url 'script-list' %}" class="back-button">
+    ← 回到劇本列表
+</a>
 
 <script>
-
 const favoriteButtons = document.querySelectorAll(".favorite-btn");
 
 favoriteButtons.forEach(function(button) {
@@ -123,10 +92,6 @@ favoriteButtons.forEach(function(button) {
 
     });
 });
-
 </script>
 
-</body>
-
-</html>
-
+{% endblock %}
