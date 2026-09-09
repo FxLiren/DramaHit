@@ -1,0 +1,1281 @@
+/* =========================
+   會員登入頁面
+   ========================= */
+
+.account-login-page {
+    width: 100%;
+    min-height: 520px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =========================
+   登入卡片
+   ========================= */
+
+.login-container {
+    width: 100%;
+    max-width: 420px;
+
+    padding: 40px;
+
+    background-color: #0d0d0d;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================
+   登入標題
+   ========================= */
+
+.login-title {
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.login-title h2 {
+    color: #8b0000;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.5);
+}
+
+.login-title p {
+    margin-top: 8px;
+
+    color: #888888;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   表單
+   ========================= */
+
+.login-form-group {
+    margin-bottom: 20px;
+}
+
+.login-form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #a9a9a9;
+
+    font-size: 14px;
+}
+
+.login-form-group input {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    background-color: #151515;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+
+    color: #d1d1d1;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.login-form-group input::placeholder {
+    color: #666666;
+}
+
+.login-form-group input:focus {
+    border-color: #8b0000;
+
+    box-shadow: 0 0 8px rgba(139, 0, 0, 0.4);
+}
+
+
+/* =========================
+   忘記密碼
+   ========================= */
+
+.forgot-password {
+    margin-top: -8px;
+    margin-bottom: 20px;
+
+    text-align: right;
+
+    font-size: 14px;
+}
+
+.forgot-password a {
+    color: #888888;
+
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    color: #8b0000;
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   登入按鈕
+   ========================= */
+
+.login-button {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #8b0000;
+    border-radius: 6px;
+
+    background-color: #8b0000;
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.login-button:hover {
+    background-color: #a00000;
+
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.6);
+}
+
+
+/* =========================
+   系統訊息
+   ========================= */
+
+.login-message {
+    margin-bottom: 20px;
+
+    padding: 10px 12px;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+}
+
+.login-error {
+    background-color: rgba(139, 0, 0, 0.15);
+
+    border: 1px solid rgba(139, 0, 0, 0.5);
+
+    color: #d86a6a;
+}
+
+.login-success {
+    background-color: rgba(76, 175, 80, 0.12);
+
+    border: 1px solid rgba(76, 175, 80, 0.4);
+
+    color: #8bd58e;
+}
+
+
+/* =========================
+   註冊連結
+   ========================= */
+
+.bottom-links {
+    margin-top: 25px;
+
+    text-align: center;
+
+    color: #888888;
+
+    font-size: 14px;
+}
+
+.bottom-links a {
+    color: #8b0000;
+
+    text-decoration: none;
+}
+
+.bottom-links a:hover {
+    color: #b00000;
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   手機版
+   ========================= */
+
+@media (max-width: 480px) {
+
+    .account-login-page {
+        min-height: auto;
+        padding: 10px 0;
+    }
+
+    .login-container {
+        padding: 30px 22px;
+    }
+
+    .login-title h2 {
+        font-size: 22px;
+    }
+}
+
+/* =========================
+   會員註冊頁面
+   ========================= */
+
+.account-register-page {
+    width: 100%;
+    min-height: 620px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =========================
+   註冊卡片
+   ========================= */
+
+.register-container {
+    width: 100%;
+    max-width: 420px;
+
+    padding: 40px;
+
+    background-color: #0d0d0d;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================
+   註冊標題
+   ========================= */
+
+.register-title {
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.register-title h2 {
+    color: #8b0000;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.5);
+}
+
+.register-title p {
+    margin-top: 8px;
+
+    color: #888888;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   註冊表單
+   ========================= */
+
+.register-form-group {
+    margin-bottom: 20px;
+}
+
+.register-form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #a9a9a9;
+
+    font-size: 14px;
+}
+
+.register-form-group input {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    background-color: #151515;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+
+    color: #d1d1d1;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.register-form-group input::placeholder {
+    color: #666666;
+}
+
+.register-form-group input:focus {
+    border-color: #8b0000;
+
+    box-shadow: 0 0 8px rgba(139, 0, 0, 0.4);
+}
+
+.form-hint {
+    margin-top: 6px;
+
+    color: #666666;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   註冊按鈕
+   ========================= */
+
+.register-button {
+    width: 100%;
+
+    padding: 13px;
+
+    margin-top: 5px;
+
+    border: 1px solid #8b0000;
+    border-radius: 6px;
+
+    background-color: #8b0000;
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.register-button:hover {
+    background-color: #a00000;
+
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.6);
+}
+
+
+/* =========================
+   註冊系統訊息
+   ========================= */
+
+.register-message {
+    margin-bottom: 20px;
+
+    padding: 10px 12px;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+}
+
+.register-error {
+    background-color: rgba(139, 0, 0, 0.15);
+
+    border: 1px solid rgba(139, 0, 0, 0.5);
+
+    color: #d86a6a;
+}
+
+.register-success {
+    background-color: rgba(76, 175, 80, 0.12);
+
+    border: 1px solid rgba(76, 175, 80, 0.4);
+
+    color: #8bd58e;
+}
+
+
+/* =========================
+   註冊頁手機版
+   ========================= */
+
+@media (max-width: 480px) {
+
+    .account-register-page {
+        min-height: auto;
+        padding: 10px 0;
+    }
+
+    .register-container {
+        padding: 30px 22px;
+    }
+
+    .register-title h2 {
+        font-size: 22px;
+    }
+}
+
+/* =========================
+   忘記密碼頁面
+   ========================= */
+
+.account-reset-page {
+    width: 100%;
+    min-height: 520px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =========================
+   重設密碼卡片
+   ========================= */
+
+.reset-container {
+    width: 100%;
+    max-width: 420px;
+
+    padding: 40px;
+
+    background-color: #0d0d0d;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================
+   標題
+   ========================= */
+
+.reset-title {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.reset-title h2 {
+    color: #8b0000;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.5);
+}
+
+
+/* =========================
+   說明文字
+   ========================= */
+
+.reset-description {
+    margin-bottom: 22px;
+
+    color: #888888;
+
+    font-size: 14px;
+    line-height: 1.7;
+
+    text-align: center;
+}
+
+
+/* =========================
+   表單
+   ========================= */
+
+.reset-form-group {
+    margin-bottom: 20px;
+}
+
+.reset-form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #a9a9a9;
+
+    font-size: 14px;
+}
+
+.reset-form-group input {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    background-color: #151515;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+
+    color: #d1d1d1;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.reset-form-group input::placeholder {
+    color: #666666;
+}
+
+.reset-form-group input:focus {
+    border-color: #8b0000;
+
+    box-shadow: 0 0 8px rgba(139, 0, 0, 0.4);
+}
+
+
+/* =========================
+   重設按鈕
+   ========================= */
+
+.reset-button {
+    width: 100%;
+
+    padding: 13px;
+
+    margin-top: 5px;
+
+    border: 1px solid #8b0000;
+    border-radius: 6px;
+
+    background-color: #8b0000;
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.reset-button:hover {
+    background-color: #a00000;
+
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.6);
+}
+
+
+/* =========================
+   返回登入
+   ========================= */
+
+.reset-bottom-links {
+    margin-top: 25px;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+.reset-bottom-links a {
+    color: #8b0000;
+
+    text-decoration: none;
+}
+
+.reset-bottom-links a:hover {
+    color: #b00000;
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   忘記密碼頁手機版
+   ========================= */
+
+@media (max-width: 480px) {
+
+    .account-reset-page {
+        min-height: auto;
+        padding: 10px 0;
+    }
+
+    .reset-container {
+        padding: 30px 22px;
+    }
+
+    .reset-title h2 {
+        font-size: 22px;
+    }
+}
+
+/* =========================
+   密碼重設信已寄出頁面
+   ========================= */
+
+.account-reset-done-page {
+    width: 100%;
+    min-height: 520px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =========================
+   提示卡片
+   ========================= */
+
+.reset-done-container {
+    width: 100%;
+    max-width: 420px;
+
+    padding: 40px;
+
+    background-color: #0d0d0d;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+
+    text-align: center;
+}
+
+
+/* =========================
+   標題
+   ========================= */
+
+.reset-done-title {
+    margin-bottom: 20px;
+}
+
+.reset-done-title h2 {
+    color: #8b0000;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.5);
+}
+
+
+/* =========================
+   提示訊息
+   ========================= */
+
+.reset-done-message {
+    margin-bottom: 25px;
+
+    color: #888888;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =========================
+   返回登入
+   ========================= */
+
+.reset-done-links {
+    margin-top: 25px;
+
+    font-size: 14px;
+}
+
+.reset-done-links a {
+    color: #8b0000;
+
+    text-decoration: none;
+}
+
+.reset-done-links a:hover {
+    color: #b00000;
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   密碼重設信已寄出頁手機版
+   ========================= */
+
+@media (max-width: 480px) {
+
+    .account-reset-done-page {
+        min-height: auto;
+        padding: 10px 0;
+    }
+
+    .reset-done-container {
+        padding: 30px 22px;
+    }
+
+    .reset-done-title h2 {
+        font-size: 22px;
+    }
+}
+
+/* =========================
+   設定新密碼頁面
+   ========================= */
+
+.account-reset-confirm-page {
+    width: 100%;
+    min-height: 520px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =========================
+   卡片
+   ========================= */
+
+.reset-confirm-container {
+    width: 100%;
+    max-width: 420px;
+
+    padding: 40px;
+
+    background-color: #0d0d0d;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================
+   標題
+   ========================= */
+
+.reset-confirm-title {
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.reset-confirm-title h2 {
+    color: #8b0000;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.5);
+}
+
+
+/* =========================
+   表單
+   ========================= */
+
+.reset-confirm-form-group {
+    margin-bottom: 20px;
+}
+
+.reset-confirm-form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #a9a9a9;
+
+    font-size: 14px;
+}
+
+.reset-confirm-form-group input {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    background-color: #151515;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+
+    color: #d1d1d1;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.reset-confirm-form-group input:focus {
+    border-color: #8b0000;
+
+    box-shadow: 0 0 8px rgba(139, 0, 0, 0.4);
+}
+
+
+/* =========================
+   錯誤訊息
+   ========================= */
+
+.reset-confirm-error {
+    margin-bottom: 20px;
+
+    padding: 10px 12px;
+
+    background-color: rgba(139, 0, 0, 0.15);
+
+    border: 1px solid rgba(139, 0, 0, 0.5);
+    border-radius: 6px;
+
+    color: #d86a6a;
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.reset-confirm-error ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+
+/* =========================
+   設定按鈕
+   ========================= */
+
+.reset-confirm-button {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #8b0000;
+    border-radius: 6px;
+
+    background-color: #8b0000;
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.reset-confirm-button:hover {
+    background-color: #a00000;
+
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.6);
+}
+
+
+/* =========================
+   返回登入
+   ========================= */
+
+.reset-confirm-links {
+    margin-top: 25px;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+.reset-confirm-links a {
+    color: #8b0000;
+
+    text-decoration: none;
+}
+
+.reset-confirm-links a:hover {
+    color: #b00000;
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   設定新密碼頁手機版
+   ========================= */
+
+@media (max-width: 480px) {
+
+    .account-reset-confirm-page {
+        min-height: auto;
+        padding: 10px 0;
+    }
+
+    .reset-confirm-container {
+        padding: 30px 22px;
+    }
+
+    .reset-confirm-title h2 {
+        font-size: 22px;
+    }
+}
+
+/* =========================
+   密碼重設完成頁面
+   ========================= */
+
+.account-reset-complete-page {
+    width: 100%;
+    min-height: 520px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =========================
+   完成提示卡片
+   ========================= */
+
+.reset-complete-container {
+    width: 100%;
+    max-width: 420px;
+
+    padding: 40px;
+
+    background-color: #0d0d0d;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+
+    text-align: center;
+}
+
+
+/* =========================
+   標題
+   ========================= */
+
+.reset-complete-title {
+    margin-bottom: 20px;
+}
+
+.reset-complete-title h2 {
+    margin: 0;
+
+    color: #8b0000;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.5);
+}
+
+
+/* =========================
+   完成訊息
+   ========================= */
+
+.reset-complete-message {
+    margin: 0 0 25px;
+
+    color: #888888;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =========================
+   返回登入按鈕
+   ========================= */
+
+.reset-complete-login-button {
+    display: block;
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #8b0000;
+    border-radius: 6px;
+
+    background-color: #8b0000;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.reset-complete-login-button:hover {
+    background-color: #a00000;
+
+    color: #ffffff;
+
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.6);
+}
+
+
+/* =========================
+   密碼重設完成頁手機版
+   ========================= */
+
+@media (max-width: 480px) {
+
+    .account-reset-complete-page {
+        min-height: auto;
+        padding: 10px 0;
+    }
+
+    .reset-complete-container {
+        padding: 30px 22px;
+    }
+
+    .reset-complete-title h2 {
+        font-size: 22px;
+    }
+}
+
+/* =========================
+   會員中心頁面
+   ========================= */
+
+.member-center-page {
+    width: 100%;
+    min-height: 520px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =========================
+   會員資料卡
+   ========================= */
+
+.member-card {
+    width: 100%;
+    max-width: 620px;
+
+    padding: 40px;
+
+    background-color: #0d0d0d;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================
+   標題
+   ========================= */
+
+.member-title {
+    margin-bottom: 28px;
+
+    text-align: center;
+}
+
+.member-title h2 {
+    color: #8b0000;
+
+    font-size: 26px;
+    font-weight: 700;
+
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.5);
+}
+
+.member-title p {
+    margin-top: 8px;
+
+    color: #888888;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   會員資料
+   ========================= */
+
+.member-info {
+    margin-top: 20px;
+}
+
+.member-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px 0;
+
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.member-info-row:last-child {
+    border-bottom: none;
+}
+
+.member-label {
+    color: #888888;
+
+    font-size: 14px;
+}
+
+.member-value {
+    color: #d1d1d1;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    text-align: right;
+
+    word-break: break-word;
+}
+
+.member-status {
+    color: #8bd58e;
+}
+
+
+/* =========================
+   會員操作按鈕
+   ========================= */
+
+.member-actions {
+    margin-top: 30px;
+
+    display: flex;
+    gap: 12px;
+}
+
+.member-action-button {
+    display: block;
+
+    flex: 1;
+
+    padding: 13px;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+
+    background-color: #151515;
+
+    color: #d1d1d1;
+
+    text-align: center;
+    text-decoration: none;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.member-action-button:hover {
+    border-color: #8b0000;
+
+    color: #8b0000;
+
+    box-shadow: 0 0 8px rgba(139, 0, 0, 0.35);
+}
+
+
+/* =========================
+   登出按鈕
+   ========================= */
+
+.member-logout-button {
+    background-color: #8b0000;
+
+    border-color: #8b0000;
+
+    color: #ffffff;
+}
+
+.member-logout-button:hover {
+    background-color: #a00000;
+
+    border-color: #a00000;
+
+    color: #ffffff;
+
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.6);
+}
+
+
+/* =========================
+   會員中心手機版
+   ========================= */
+
+@media (max-width: 480px) {
+
+    .member-center-page {
+        min-height: auto;
+
+        padding: 10px 0;
+    }
+
+    .member-card {
+        padding: 30px 22px;
+    }
+
+    .member-info-row {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 6px;
+    }
+
+    .member-value {
+        text-align: left;
+    }
+
+    .member-actions {
+        flex-direction: column;
+    }
+}
