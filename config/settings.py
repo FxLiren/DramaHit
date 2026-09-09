@@ -30,6 +30,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://carley-degenerative-semicolloquially.ngrok-free.dev',
+    'https://rife-unreally-star.ngrok-free.dev',
+]
+
 
 # Application definition
 
