@@ -149,10 +149,13 @@ body::after {
 }
 
 .site-header h1 {
+    display: flex;             /* 開啟 Flex 佈局 */
+    align-items: center;       /* 垂直居中對齊 */
+    gap: 15px;                 /* 圖示與文字之間的間距 */
+
     color: #8b0000;
     font-size: 2.2rem;
     margin-bottom: 30px;
-
     letter-spacing: 4px;
 
     text-shadow:
@@ -160,6 +163,11 @@ body::after {
         0 0 20px rgba(139, 0, 0, 0.4);
 
     animation: flicker 4s infinite alternate;
+}
+.title-icon {
+    width: 32px;               /* 圖示寬度 */
+    height: 32px;              /* 圖示高度 */
+    object-fit: contain;       /* 保持圖示比例 */
 }
 
 .page-content {
@@ -245,10 +253,23 @@ body::after {
     body {
         flex-direction: column;
     }
-
-    .mobile-header {
+	.mobile-header {
         display: flex;
     }
+    .mobile-header h1 {
+    display: flex;             /* 開啟 Flex 佈局 */
+    align-items: center;       /* 垂直居中對齊 */
+    gap: 10px;                 /* 間距 */
+    color: #e50000;
+    font-size: 1.5rem;
+}
+/* ⬇️【新增這段】手機版的圖示縮小大小 ⬇️ */
+    .title-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+ 
 
     .main-wrapper {
         padding: 25px 20px 0;
