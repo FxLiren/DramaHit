@@ -62,10 +62,4 @@ urlpatterns = [
         views.logout_view,
         name='logout'
     ),
-
-    path(
-        'member-center/',
-        views.member_center,
-        name='member-center'
-    ),
 ]

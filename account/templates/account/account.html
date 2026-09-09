@@ -1,329 +1,443 @@
-{% extends "base.html" %}
-
-{% block title %}會員登入｜探劇實錄{% endblock %}
-
-
-{% block extra_css %}
-
-<style>
-
-    /* =========================
-       會員登入頁面
-       ========================= */
-
-    .account-login-page {
-        width: 100%;
-        min-height: 520px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-
-    /* =========================
-       登入卡片
-       ========================= */
-
-    .login-container {
-        width: 100%;
-        max-width: 420px;
-
-        padding: 40px;
-
-        background-color: #120f38;
-
-        border: 1px solid #2d3154;
-        border-radius: 10px;
-
-        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
-    }
-
-
-    /* =========================
-       登入標題
-       ========================= */
-
-    .login-title {
-        margin-bottom: 28px;
-        text-align: center;
-    }
-
-    .login-title h2 {
-        color: #ff2a2a;
-
-        font-size: 24px;
-        font-weight: 700;
-    }
-
-    .login-title p {
-        margin-top: 8px;
-
-        color: #b1b5c8;
-
-        font-size: 14px;
-    }
-
-
-    /* =========================
-       表單
-       ========================= */
-
-    .login-form-group {
-        margin-bottom: 20px;
-    }
-
-    .login-form-group label {
-        display: block;
-
-        margin-bottom: 8px;
-
-        color: #b1b5c8;
-
-        font-size: 14px;
-    }
-
-    .login-form-group input {
-        width: 100%;
-
-        padding: 13px 14px;
-
-        background-color: #26273b;
-
-        border: 1px solid #3b3f66;
-        border-radius: 6px;
-
-        color: #ffffff;
-
-        font-size: 15px;
-
-        outline: none;
-
-        transition: 0.2s;
-    }
-
-    .login-form-group input::placeholder {
-        color: #777b91;
-    }
-
-    .login-form-group input:focus {
-        border-color: #ff2a2a;
-
-        box-shadow: 0 0 8px rgba(255, 42, 42, 0.25);
-    }
-
-
-    /* =========================
-       忘記密碼
-       ========================= */
-
-    .forgot-password {
-        margin-top: -8px;
-        margin-bottom: 20px;
-
-        text-align: right;
-
-        font-size: 14px;
-    }
-
-    .forgot-password a {
-        color: #b1b5c8;
-
-        text-decoration: none;
-    }
-
-    .forgot-password a:hover {
-        color: #ffffff;
-
-        text-decoration: underline;
-    }
-
-
-    /* =========================
-       登入按鈕
-       ========================= */
-
-    .login-button {
-        width: 100%;
-
-        padding: 13px;
-
-        border: none;
-        border-radius: 6px;
-
-        background-color: #ff2a2a;
-
-        color: #ffffff;
-
-        font-size: 16px;
-        font-weight: 600;
-
-        cursor: pointer;
-
-        transition: 0.2s;
-    }
-
-    .login-button:hover {
-        background-color: #e50000;
-
-        box-shadow: 0 0 10px rgba(255, 42, 42, 0.35);
-    }
-
-
-    /* =========================
-       系統訊息
-       ========================= */
-
-    .login-message {
-        margin-bottom: 20px;
-
-        padding: 10px 12px;
-
-        border-radius: 6px;
-
-        font-size: 14px;
-    }
-
-    .login-error {
-        background-color: rgba(255, 42, 42, 0.12);
-
-        border: 1px solid rgba(255, 42, 42, 0.4);
-
-        color: #ff8c8c;
-    }
-
-    .login-success {
-        background-color: rgba(76, 175, 80, 0.12);
-
-        border: 1px solid rgba(76, 175, 80, 0.4);
-
-        color: #8bd58e;
-    }
-
-
-    /* =========================
-       註冊連結
-       ========================= */
-
-    .bottom-links {
-        margin-top: 25px;
-
-        text-align: center;
-
-        color: #b1b5c8;
-
-        font-size: 14px;
-    }
-
-    .bottom-links a {
-        color: #ff2a2a;
-
-        text-decoration: none;
-    }
-
-    .bottom-links a:hover {
-        color: #ffffff;
-
-        text-decoration: underline;
-    }
-
-
-    /* =========================
-       手機版
-       ========================= */
-
-    @media (max-width: 480px) {
-
-        .account-login-page {
-            min-height: auto;
-            padding: 10px 0;
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>會員登入｜探劇實錄</title>
+
+    <style>
+        /* =========================
+           全站基本設定
+           ========================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background-color: #030338;
+
+            color: #e4e2de;
+
+            font-family: "Segoe UI",
+                Arial,
+                "Microsoft JhengHei",
+                sans-serif;
+        }
+
+
+        /* =========================
+           登入區域
+           ========================= */
 
         .login-container {
-            padding: 30px 22px;
+
+            width: 420px;
+
+            padding: 45px 40px;
+
+            background-color: #16161D;
+
+            border: 1px solid #2A2A35;
+
+            border-radius: 10px;
+
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
+
+
+        /* =========================
+           網站標題
+           ========================= */
+
+        .logo {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .logo h1 {
+
+            margin: 0;
+
+            color: #FF2A2A;
+
+            font-size: 32px;
+
+            font-weight: 800;
+
+            letter-spacing: 4px;
+
+            text-shadow:
+                0 0 12px rgba(255, 42, 42, 0.4);
+        }
+
+
+        .logo p {
+
+            margin-top: 10px;
+
+            color: #888899;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           登入標題
+           ========================= */
+
+        .login-title {
+
+            margin-bottom: 25px;
+        }
+
 
         .login-title h2 {
+
+            color: #FFFFFF;
+
             font-size: 22px;
+
+            font-weight: 600;
         }
-    }
-
-</style>
-
-{% endblock %}
 
 
-{% block content %}
+        /* =========================
+           表單
+           ========================= */
 
-<div class="account-login-page">
+        .form-group {
+
+            margin-bottom: 20px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #AAAAAA;
+
+            font-size: 14px;
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 13px 14px;
+
+            background-color: #0F0F18;
+
+            border: 1px solid #333344;
+
+            border-radius: 6px;
+
+            color: #FFFFFF;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        .form-group input::placeholder {
+
+            color: #666677;
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #FF2A2A;
+
+            box-shadow:
+                0 0 8px rgba(255, 42, 42, 0.3);
+        }
+
+
+        /* =========================
+           登入按鈕
+           ========================= */
+
+        .login-button {
+
+            width: 100%;
+
+            padding: 13px;
+
+            margin-top: 5px;
+
+            border: 1px solid #FF2A2A;
+
+            border-radius: 6px;
+
+            background-color: #FF2A2A;
+
+            color: #FFFFFF;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .login-button:hover {
+
+            background-color: #d91f1f;
+
+            box-shadow:
+                0 0 10px rgba(255, 42, 42, 0.4);
+        }
+
+
+        /* =========================
+           註冊連結
+           ========================= */
+
+        .bottom-links {
+
+            margin-top: 25px;
+
+            text-align: center;
+
+            color: #777788;
+
+            font-size: 14px;
+        }
+
+
+        .bottom-links a {
+
+            color: #FF2A2A;
+
+            text-decoration: none;
+        }
+
+        /* =========================
+        忘記密碼
+        ========================= */
+
+        .forgot-password {
+            margin-top: -10px;
+            margin-bottom: 20px;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .forgot-password a {
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            color: #CCCCCC;
+            text-decoration: underline;
+        }
+
+
+        .bottom-links a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           手機版 RWD
+           ========================= */
+
+        /* =========================
+   平板與手機 RWD
+   ========================= */
+
+        @media (max-width: 768px) {
+
+            body {
+                padding: 20px;
+            }
+
+            .login-container {
+                width: 100%;
+                max-width: 420px;
+            }
+
+        }
+
+
+        /* =========================
+   手機版
+   ========================= */
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 15px;
+                align-items: center;
+            }
+
+            .login-container {
+                width: 100%;
+                padding: 35px 25px;
+                border-radius: 8px;
+            }
+
+            .logo {
+                margin-bottom: 30px;
+            }
+
+            .logo h1 {
+                font-size: 28px;
+                letter-spacing: 3px;
+            }
+
+            .logo p {
+                font-size: 13px;
+            }
+
+            .login-title {
+                margin-bottom: 20px;
+            }
+
+            .login-title h2 {
+                font-size: 20px;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            .form-group input {
+                padding: 12px;
+                font-size: 15px;
+            }
+
+            .login-button {
+                padding: 12px;
+            }
+
+        }
+
+
+        /* =========================
+   超小型手機
+   ========================= */
+
+        @media (max-width: 360px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .login-container {
+                padding: 30px 20px;
+            }
+
+            .logo h1 {
+                font-size: 25px;
+                letter-spacing: 2px;
+            }
+
+            .logo p {
+                font-size: 12px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
 
     <div class="login-container">
 
-        <div class="login-title">
-            <h2>會員登入</h2>
-            <p>登入後即可使用會員功能</p>
+
+        <!-- 網站標題 -->
+
+        <div class="logo">
+
+            <h1>探劇實錄</h1>
+
+            <p>劇本殺資訊與交流平台</p>
+
         </div>
 
+
+        <!-- 登入標題 -->
+
+        <div class="login-title">
+
+            <h2>會員登入</h2>
+
+        </div>
 
         {% if error %}
-        <div class="login-message login-error">
+        <p style="color: #FF2A2A; margin-bottom: 20px;">
             {{ error }}
-        </div>
+        </p>
         {% endif %}
-
 
         {% if success %}
-        <div class="login-message login-success">
+        <p style="color: #4CAF50; margin-bottom: 20px;">
             {{ success }}
-        </div>
+        </p>
         {% endif %}
 
 
-        <form method="POST">
+        <!-- 登入表單 -->
 
+        <form method="POST">
             {% csrf_token %}
 
-
-            <div class="login-form-group">
+            <div class="form-group">
 
                 <label for="username">
                     帳號
                 </label>
 
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="請輸入帳號"
-                >
+                <input type="text" id="username" name="username" placeholder="請輸入帳號">
 
             </div>
 
 
-            <div class="login-form-group">
+            <div class="form-group">
 
                 <label for="password">
                     密碼
                 </label>
 
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="請輸入密碼"
-                >
+                <input type="password" id="password" name="password" placeholder="請輸入密碼">
 
             </div>
 
-
             <div class="forgot-password">
-
                 <a href="{% url 'password-reset' %}">
                     忘記密碼？
                 </a>
-
             </div>
-
 
             <button type="submit" class="login-button">
                 登入
@@ -331,6 +445,8 @@
 
         </form>
 
+
+        <!-- 註冊 -->
 
         <div class="bottom-links">
 
@@ -342,8 +458,10 @@
 
         </div>
 
+
     </div>
 
-</div>
 
-{% endblock %}
+</body>
+
+</html>
