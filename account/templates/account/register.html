@@ -1,344 +1,55 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+{% load static %}
 
-    <title>會員註冊｜探劇實錄</title>
+{% block title %}會員註冊｜探劇實錄{% endblock %}
 
-    <style>
-        /* =========================
-           全站基本設定
-           ========================= */
 
-        * {
-            box-sizing: border-box;
-        }
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'account/account.css' %}">
+{% endblock %}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
 
-            font-family: "Noto Sans TC", "Microsoft JhengHei", "Segoe UI", Arial, sans-serif;
+{% block content %}
 
-            background-color: #030338;
-            color: #e4e2de;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            padding: 20px;
-        }
-
-
-        /* =========================
-           註冊容器
-           ========================= */
-
-        .register-container {
-            width: 100%;
-            max-width: 420px;
-
-            padding: 40px;
-
-            background-color: #070134;
-            border: 1px solid #2A2A35;
-            border-radius: 10px;
-
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-        }
-
-
-        /* =========================
-           網站標題
-           ========================= */
-
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo h1 {
-            margin: 0;
-
-            font-size: 32px;
-            letter-spacing: 4px;
-
-            color: #FF2A2A;
-
-            text-shadow: 0 0 12px rgba(255, 42, 42, 0.4);
-        }
-
-        .logo p {
-            margin: 10px 0 0;
-
-            color: #888899;
-            font-size: 14px;
-        }
-
-
-        /* =========================
-           註冊標題
-           ========================= */
-
-        .register-title {
-            margin-bottom: 25px;
-        }
-
-        .register-title h2 {
-            margin: 0;
-
-            font-size: 22px;
-            color: #e4e2de;
-        }
-
-
-        /* =========================
-           表單
-           ========================= */
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-
-            margin-bottom: 8px;
-
-            font-size: 14px;
-            color: #AAA;
-        }
-
-        .form-group input {
-            width: 100%;
-
-            padding: 13px 14px;
-
-            background-color: #16161D;
-
-            border: 1px solid #333344;
-            border-radius: 6px;
-
-            color: #FFF;
-
-            font-size: 15px;
-
-            outline: none;
-
-            transition: 0.2s;
-        }
-
-        .form-group input::placeholder {
-            color: #666677;
-        }
-
-        .form-group input:focus {
-            border-color: #FF2A2A;
-
-            box-shadow: 0 0 8px rgba(255, 42, 42, 0.25);
-        }
-        .form-hint {
-            margin: 6px 0 0;
-
-            font-size: 12px;
-            color: #666677;
-        }
-
-        /* =========================
-           註冊按鈕
-           ========================= */
-
-        .register-button {
-            width: 100%;
-
-            padding: 13px;
-
-            margin-top: 5px;
-
-            border: 1px solid #FF2A2A;
-            border-radius: 6px;
-
-            background-color: #FF2A2A;
-            color: #FFF;
-
-            font-size: 16px;
-            font-weight: 600;
-
-            cursor: pointer;
-
-            transition: 0.2s;
-        }
-
-        .register-button:hover {
-            background-color: #d91f1f;
-
-            box-shadow: 0 0 10px rgba(255, 42, 42, 0.35);
-        }
-
-
-        /* =========================
-           底部連結
-           ========================= */
-
-        .bottom-links {
-            margin-top: 25px;
-
-            text-align: center;
-
-            font-size: 14px;
-
-            color: #888899;
-        }
-
-        .bottom-links a {
-            color: #FF2A2A;
-
-            text-decoration: none;
-
-            margin-left: 4px;
-        }
-
-        .bottom-links a:hover {
-            text-decoration: underline;
-        }
-
-
-        /* =========================
-           RWD：平板
-           ========================= */
-
-        @media (max-width: 768px) {
-
-            body {
-                padding: 20px;
-            }
-
-            .register-container {
-                width: 100%;
-                max-width: 420px;
-            }
-        }
-
-
-        /* =========================
-           RWD：手機
-           ========================= */
-
-        @media (max-width: 480px) {
-
-            body {
-                padding: 15px;
-            }
-
-            .register-container {
-                padding: 35px 25px;
-                border-radius: 8px;
-            }
-
-            .logo {
-                margin-bottom: 28px;
-            }
-
-            .logo h1 {
-                font-size: 28px;
-                letter-spacing: 3px;
-            }
-
-            .logo p {
-                font-size: 13px;
-            }
-
-            .register-title {
-                margin-bottom: 20px;
-            }
-
-            .register-title h2 {
-                font-size: 20px;
-            }
-
-            .form-group {
-                margin-bottom: 18px;
-            }
-
-            .form-group input {
-                padding: 12px;
-            }
-
-            .register-button {
-                padding: 12px;
-            }
-        }
-
-
-        /* =========================
-           RWD：超小型手機
-           ========================= */
-
-        @media (max-width: 360px) {
-
-            body {
-                padding: 10px;
-            }
-
-            .register-container {
-                padding: 30px 20px;
-            }
-
-            .logo h1 {
-                font-size: 25px;
-                letter-spacing: 2px;
-            }
-
-            .logo p {
-                font-size: 12px;
-            }
-        }
-
-    </style>
-</head>
-
-
-<body>
+<div class="account-register-page">
 
     <div class="register-container">
 
-        <!-- 網站標題 -->
-        <div class="logo">
-
-            <h1>探劇實錄</h1>
-
-            <p>劇本殺資訊與交流平台</p>
-
-        </div>
-
-
-        <!-- 註冊標題 -->
         <div class="register-title">
 
             <h2>會員註冊</h2>
 
+            <p>建立帳號後請至 Email 完成驗證</p>
+
         </div>
+
+
         {% if error %}
-    <p style="color: #FF2A2A; margin-bottom: 20px;">
-        {{ error }}
-    </p>
-{% endif %}
 
-{% if success %}
-    <p style="color: #4CAF50; margin-bottom: 20px;">
-        {{ success }}
-    </p>
-{% endif %}
+        <div class="register-message register-error">
+            {{ error }}
+        </div>
+
+        {% endif %}
 
 
-        <!-- 註冊表單 -->
+        {% if success %}
+
+        <div class="register-message register-success">
+            {{ success }}
+        </div>
+
+        {% endif %}
+
+
         <form method="POST">
+
             {% csrf_token %}
 
+
             <!-- 帳號 -->
-            <div class="form-group">
+
+            <div class="register-form-group">
 
                 <label for="username">
                     帳號
@@ -364,13 +75,14 @@
 
 
             <!-- Email -->
-            <div class="form-group">
+
+            <div class="register-form-group">
 
                 <label for="email">
                     Email
                 </label>
 
-               <input
+                <input
                     type="email"
                     id="email"
                     name="email"
@@ -383,7 +95,8 @@
 
 
             <!-- 密碼 -->
-            <div class="form-group">
+
+            <div class="register-form-group">
 
                 <label for="password">
                     密碼
@@ -406,25 +119,25 @@
 
 
             <!-- 確認密碼 -->
-            <div class="form-group">
+
+            <div class="register-form-group">
 
                 <label for="confirm-password">
                     確認密碼
                 </label>
 
-               <input
-    type="password"
-    id="confirm-password"
-    name="confirm_password"
-    placeholder="請再次輸入密碼"
-    minlength="8"
-    required
->
+                <input
+                    type="password"
+                    id="confirm-password"
+                    name="confirm_password"
+                    placeholder="請再次輸入密碼"
+                    minlength="8"
+                    required
+                >
 
             </div>
 
 
-            <!-- 註冊 -->
             <button
                 type="submit"
                 class="register-button"
@@ -435,7 +148,6 @@
         </form>
 
 
-        <!-- 返回登入 -->
         <div class="bottom-links">
 
             已經有帳號？
@@ -448,5 +160,6 @@
 
     </div>
 
-</body>
-</html>
+</div>
+
+{% endblock %}

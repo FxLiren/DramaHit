@@ -1,155 +1,13 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}會員中心｜探劇實錄{% endblock %}
 
+
 {% block extra_css %}
-
-<style>
-    .member-center-page {
-        width: 100%;
-        min-height: 520px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .member-card {
-        width: 100%;
-        max-width: 620px;
-
-        padding: 40px;
-
-        background-color: #120f38;
-
-        border: 1px solid #2d3154;
-        border-radius: 10px;
-
-        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
-    }
-
-    .member-title {
-        margin-bottom: 28px;
-
-        text-align: center;
-    }
-
-    .member-title h2 {
-        color: #ff2a2a;
-
-        font-size: 26px;
-        font-weight: 700;
-    }
-
-    .member-title p {
-        margin-top: 8px;
-
-        color: #b1b5c8;
-
-        font-size: 14px;
-    }
-
-    .member-info {
-        margin-top: 20px;
-    }
-
-    .member-info-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        padding: 16px 0;
-
-        border-bottom: 1px solid #2d3154;
-    }
-
-    .member-info-row:last-child {
-        border-bottom: none;
-    }
-
-    .member-label {
-        color: #b1b5c8;
-
-        font-size: 14px;
-    }
-
-    .member-value {
-        color: #ffffff;
-
-        font-size: 15px;
-        font-weight: 600;
-
-        text-align: right;
-
-        word-break: break-word;
-    }
-
-    .member-status {
-        color: #8bd58e;
-    }
-
-    .member-actions {
-        margin-top: 30px;
-
-        display: flex;
-        gap: 12px;
-    }
-
-    .member-logout-button {
-        display: block;
-
-        width: 100%;
-
-        padding: 13px;
-
-        border-radius: 6px;
-
-        background-color: #ff2a2a;
-
-        color: #ffffff;
-
-        text-align: center;
-        text-decoration: none;
-
-        font-size: 16px;
-        font-weight: 600;
-
-        transition: 0.2s;
-    }
-
-    .member-logout-button:hover {
-        background-color: #e50000;
-
-        color: #ffffff;
-
-        box-shadow: 0 0 10px rgba(255, 42, 42, 0.35);
-    }
-
-    @media (max-width: 480px) {
-        .member-center-page {
-            min-height: auto;
-
-            padding: 10px 0;
-        }
-
-        .member-card {
-            padding: 30px 22px;
-        }
-
-        .member-info-row {
-            flex-direction: column;
-            align-items: flex-start;
-
-            gap: 6px;
-        }
-
-        .member-value {
-            text-align: left;
-        }
-    }
-</style>
-
+<link rel="stylesheet" href="{% static 'account/account.css' %}">
 {% endblock %}
+
 
 {% block content %}
 
@@ -162,43 +20,69 @@
             <p>查看您的會員基本資料</p>
         </div>
 
+
         <div class="member-info">
 
             <div class="member-info-row">
-                <span class="member-label">帳號</span>
+
+                <span class="member-label">
+                    帳號
+                </span>
+
                 <span class="member-value">
                     {{ request.user.username }}
                 </span>
+
             </div>
 
+
             <div class="member-info-row">
-                <span class="member-label">Email</span>
+
+                <span class="member-label">
+                    Email
+                </span>
+
                 <span class="member-value">
                     {{ request.user.email }}
                 </span>
+
             </div>
 
+
             <div class="member-info-row">
-                <span class="member-label">帳號狀態</span>
+
+                <span class="member-label">
+                    帳號狀態
+                </span>
+
                 <span class="member-value member-status">
                     已驗證
                 </span>
+
             </div>
 
+
             <div class="member-info-row">
-                <span class="member-label">加入日期</span>
+
+                <span class="member-label">
+                    加入日期
+                </span>
+
                 <span class="member-value">
                     {{ request.user.date_joined|date:"Y/m/d H:i" }}
                 </span>
+
             </div>
 
         </div>
+
 
         <div class="member-actions">
 
             <span class="member-action-button">
                 我的收藏
             </span>
+
 
             <a
                 href="{% url 'logout' %}"
