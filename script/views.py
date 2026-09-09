@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.db.models import Min
-from .models import ScriptMeta
+from .models import ScriptMeta, Favorite
 
 
 def script_list(request):
@@ -48,10 +48,20 @@ def script_list(request):
 
     page_obj = paginator.get_page(page_number)
 
+    favorite_ids = set()
+
+    if request.user.is_authenticated:
+        favorite_ids = set(
+            Favorite.objects.filter(
+                user=request.user
+            ).values_list('script_id', flat=True)
+        )
+
     return render(request, 'scripts/script-list.html', {
         'page_obj': page_obj,
         'keyword': keyword,
         'category': category,
+        'favorite_ids': favorite_ids,
     })
 
 
@@ -70,3 +80,23 @@ def script_detail(request, script_id):
 
 def script_detail_2(request):
     return render(request, 'scripts/script-detail-2.html')
+
+def toggle_favorite(request, script_id):
+
+    if not request.user.is_authenticated:
+        return redirect('account')
+
+    favorite = Favorite.objects.filter(
+        user=request.user,
+        script_id=script_id
+    ).first()
+
+    if favorite:
+        favorite.delete()
+    else:
+        Favorite.objects.create(
+            user=request.user,
+            script_id=script_id
+        )
+
+    return redirect(request.META.get('HTTP_REFERER', 'script-list'))

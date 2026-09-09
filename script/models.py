@@ -1,6 +1,6 @@
 from django.db import models
+from django.conf import settings
 
-# Create your models here.
 
 class ScriptMeta(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -15,3 +15,22 @@ class ScriptMeta(models.Model):
     class Meta:
         managed = False
         db_table = 'combined_data'
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+    script_id = models.IntegerField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'script_id'],
+                name='unique_user_script'
+            )
+        ]

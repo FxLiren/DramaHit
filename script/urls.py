@@ -13,4 +13,10 @@ urlpatterns = [
 
     path('script-detail-2/', views.script_detail_2, name='script-detail-2'),
 
+    path(
+        'favorite/<int:script_id>/',
+        views.toggle_favorite,
+        name='toggle-favorite'
+    ),
+
 ]
