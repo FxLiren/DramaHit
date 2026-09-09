@@ -128,6 +128,16 @@
     transition: all 0.3s ease;
 }
 
+.script-card > a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.script-card form {
+    margin: 10px 20px 0;
+}
+
 .script-card:hover {
     border-color: #8b0000;
     box-shadow:
@@ -135,6 +145,7 @@
         0 0 20px rgba(139, 0, 0, 0.2);
     transform: translateY(-3px);
 }
+
 
 .script-card h2 {
     color: #d1d1d1;
@@ -327,6 +338,16 @@
     font-size: 16px;
 
     transition: all 0.3s ease;
+}
+
+.detail-info .favorite-btn.active {
+    background-color: #8b0000;
+    color: #ffffff;
+    border-color: #8b0000;
+
+    box-shadow:
+        0 0 8px rgba(139, 0, 0, 0.6),
+        0 0 15px rgba(139, 0, 0, 0.3);
 }
 
 .detail-info .favorite-btn:hover {

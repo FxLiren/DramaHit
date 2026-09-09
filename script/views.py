@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.db.models import Min
 from .models import ScriptMeta, Favorite
+import random
 
 
 def script_list(request):
@@ -48,6 +49,10 @@ def script_list(request):
 
     page_obj = paginator.get_page(page_number)
 
+    for script in page_obj:
+        random.seed(script.id)
+        script.fake_rating = round(random.uniform(4.0, 5.0), 1)
+
     favorite_ids = set()
 
     if request.user.is_authenticated:
@@ -73,10 +78,21 @@ def script_detail(request, script_id):
         .get(id=script_id)
     )
 
-    return render(request, 'scripts/script-detail.html', {
-        'script': script
-    })
+    random.seed(script.id)
+    script.fake_rating = round(random.uniform(4.0, 5.0), 1)
+    
+    is_favorite = False
 
+    if request.user.is_authenticated:
+        is_favorite = Favorite.objects.filter(
+            user=request.user,
+            script_id=script_id
+        ).exists()
+
+    return render(request, 'scripts/script-detail.html', {
+        'script': script,
+        'is_favorite': is_favorite
+    })
 
 def script_detail_2(request):
     return render(request, 'scripts/script-detail-2.html')
@@ -99,4 +115,4 @@ def toggle_favorite(request, script_id):
             script_id=script_id
         )
 
-    return redirect(request.META.get('HTTP_REFERER', 'script-list'))
+    return redirect(request.META.get('HTTP_REFERER', 'script-list') + '#script-' + str(script_id))

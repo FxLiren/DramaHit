@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load script_filters %}
 
 {% block title %}
 探劇實錄｜劇本詳細
@@ -17,7 +18,7 @@
 
 <section class="script-detail">
 
-```
+
 <!-- 劇本圖片 -->
 <div class="detail-image">
     <img src="{{ script.image_url }}" alt="{{ script.script_name }}">
@@ -29,11 +30,11 @@
     <h2>{{ script.script_name }}</h2>
 
     <p class="rating">
-        ⭐ {{ script.rating }}
+        ⭐ {{ script.fake_rating }}
     </p>
 
     <p>
-        🕵️ 分類：{{ script.script_type }}
+        🕵️ 分類：{{ script.script_type|remove_votes }}
     </p>
 
     <p>
@@ -44,12 +45,33 @@
         ⏱ 遊玩時間：{{ script.play_time }}
     </p>
 
-    <button class="favorite-btn">
-        ♡ 收藏
+    {% if user.is_authenticated %}
+
+<form method="POST" action="{% url 'toggle-favorite' script.id %}">
+    {% csrf_token %}
+
+    <button
+        type="submit"
+        class="favorite-btn {% if is_favorite %}active{% endif %}"
+    >
+        {% if is_favorite %}
+            ♥ 已收藏
+        {% else %}
+            ♡ 收藏
+        {% endif %}
     </button>
+</form>
+
+{% else %}
+
+<a href="{% url 'account' %}" class="favorite-btn">
+    ♡ 收藏
+</a>
+
+{% endif %}
 
 </div>
-```
+
 
 </section>
 
@@ -57,13 +79,13 @@
 
 <section class="script-description">
 
-```
+
 <h2>劇本介紹</h2>
 
 <p>
     {{ script.description }}
 </p>
-```
+
 
 </section>
 
@@ -73,24 +95,40 @@
     ← 回到劇本列表
 </a>
 
-<script>
-const favoriteButtons = document.querySelectorAll(".favorite-btn");
 
-favoriteButtons.forEach(function(button) {
+<script>
+document.querySelectorAll(".favorite-btn").forEach(function(button) {
+
     button.addEventListener("click", function(event) {
 
-        event.preventDefault();
-        event.stopPropagation();
+        const form = button.closest("form");
 
-        if (button.classList.contains("active")) {
-            button.classList.remove("active");
-            button.textContent = "♡ 收藏";
-        } else {
-            button.classList.add("active");
-            button.textContent = "♥ 已收藏";
+        if (!form) {
+            return;
         }
 
+        event.preventDefault();
+
+        fetch(form.action, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value
+            }
+        })
+        .then(function(response) {
+            if (response.ok) {
+                if (button.classList.contains("active")) {
+                    button.classList.remove("active");
+                    button.textContent = "♡ 收藏";
+                } else {
+                    button.classList.add("active");
+                    button.textContent = "♥ 已收藏";
+                }
+            }
+        });
+
     });
+
 });
 </script>
 
