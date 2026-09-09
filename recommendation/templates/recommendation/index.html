@@ -1,692 +1,614 @@
+{% extends 'home/base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="zh-Hant">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>探劇實錄｜劇本殺推薦</title>
-
-    <link rel="stylesheet" href="{% static 'recommendation/style.css' %}">
-</head>
+{% block title %}
+探劇實錄｜首頁
+{% endblock %}
 
 
-<body>
+{% block extra_css %}
+
+<!-- recommendation 專屬 CSS -->
+<link rel="stylesheet" href="{% static 'recommendation/style.css' %}">
+
+{% endblock %}
+
+
+{% block content %}
 
 <div class="recommendation-page">
 
-    <!-- =========================
-         側邊欄
-    ========================== -->
+    <!-- ==================================================
+         今日推薦
+    =================================================== -->
 
-    <aside class="sidebar">
+    <section class="recommendation-section">
 
-        <div class="sidebar-logo">
-            <h2>🔎 探劇實錄</h2>
-            <p>劇本殺推薦系統</p>
+        <div class="section-title">
+
+            <div>
+
+                <span class="section-label">
+                    TODAY'S RECOMMENDATION
+                </span>
+
+                <h2>
+                    今日推薦
+                </h2>
+
+            </div>
+
+            <p>
+                根據玩家評論數量推薦
+            </p>
+
         </div>
 
 
-        <nav class="sidebar-menu">
+        <div class="recommendation-grid">
 
-            <a href="/">
-                🏠 首頁
-            </a>
+            {% for script in recommendations %}
 
-            <a href="#">
-                📚 劇本列表
-            </a>
+            <article class="recommendation-card">
 
-            <a href="/recommendation/" class="active">
-                🔎 劇本推薦
-            </a>
 
-            <a href="#">
-                👤 登入 / 收藏
-            </a>
+                <!-- ==========================================
+                     劇本圖片
+                =========================================== -->
 
-        </nav>
+                <div class="script-image">
 
-
-        <!-- 劇本類型 -->
-
-        <div class="sidebar-types">
-
-            <h3>劇本類型</h3>
-
-            <a href="/recommendation/?type=推理">
-                推理
-            </a>
-
-            <a href="/recommendation/?type=情感">
-                情感
-            </a>
-
-            <a href="/recommendation/?type=恐怖">
-                恐怖
-            </a>
-
-            <a href="/recommendation/?type=歡樂">
-                歡樂
-            </a>
-
-        </div>
-
-    </aside>
-
-
-
-    <!-- =========================
-         主要內容
-    ========================== -->
-
-    <main class="main-content">
-
-
-        <!-- 標題 -->
-
-        <header class="page-header">
-
-            <p class="page-eyebrow">
-                SCRIPT INVESTIGATION
-            </p>
-
-            <h1>
-                🔎 探劇實錄
-            </h1>
-
-            <p class="page-description">
-                找到適合你的下一場劇本殺
-            </p>
-
-        </header>
-
-
-
-        <!-- ==================================================
-             今日推薦
-        =================================================== -->
-
-        <section class="recommendation-section">
-
-            <div class="section-title">
-
-                <div>
-                    <span class="section-label">
-                        TODAY'S RECOMMENDATION
-                    </span>
-
-                    <h2>
-                        今日推薦
-                    </h2>
-                </div>
-
-                <p>
-                    根據玩家評論數量推薦
-                </p>
-
-            </div>
-
-
-            <div class="recommendation-grid">
-
-                {% for script in recommendations %}
-
-                <article class="recommendation-card">
-
-
-                    <!-- 劇本圖片 -->
-
-                    <div class="script-image">
-
-                        {% if script.image_url %}
-
-                            <img
-                                src="{{ script.image_url }}"
-                                alt="{{ script.script_name }}"
-                            >
-
-                        {% else %}
-
-                            <div class="no-image">
-                                🎭
-                            </div>
-
-                        {% endif %}
-
-                    </div>
-
-
-
-                    <!-- 劇本資訊 -->
-
-                    <div class="script-info">
-
-                        <span class="script-type">
-                            {{ script.script_type }}
-                        </span>
-
-
-                        <h3>
-                            {{ script.script_name }}
-                        </h3>
-
-
-                        {% if script.description %}
-
-                        <p class="script-description">
-                            {{ script.description }}
-                        </p>
-
-                        {% endif %}
-
-
-
-                        <!-- 基本資訊 -->
-
-                        <div class="script-meta">
-
-                            {% if script.players_count %}
-
-                            <span>
-                                👥 {{ script.players_count }}
-                            </span>
-
-                            {% endif %}
-
-
-                            {% if script.play_time %}
-
-                            <span>
-                                ⏱ {{ script.play_time }}
-                            </span>
-
-                            {% endif %}
-
-                        </div>
-
-
-
-                        <!-- 評論數 -->
-
-                        <div class="review-count">
-
-                            💬
-
-                            {{ script.review_count }}
-
-                            則評論
-
-                        </div>
-
-
-
-                        <!-- 詳細頁 -->
-
-                        <a
-                            href="{% url 'script-detail' script.id %}"
-                            class="script-link"
-                        >
-                            查看劇本 →
-                        </a>
-
-                    </div>
-
-                </article>
-
-                {% empty %}
-
-                <div class="empty-message">
-
-                    <p>
-                        目前沒有可以推薦的劇本。
-                    </p>
-
-                </div>
-
-                {% endfor %}
-
-            </div>
-
-        </section>
-
-
-
-        <!-- ==========================================
-            隨機推薦
-        =========================================== -->
-
-        <section class="random-section">
-
-            <div class="section-title">
-
-                <div>
-
-                    <span class="section-label">
-                        RANDOM CASE
-                    </span>
-
-                    <h2>
-                        🎲 隨機推薦
-                    </h2>
-
-                </div>
-
-                <p>
-                    選擇類型，尋找你的下一場劇本
-                </p>
-
-            </div>
-
-
-            <!-- ======================================
-                類型選擇
-            ======================================= -->
-
-            <div class="random-form">
-
-                <select id="random-type">
-
-                    <option value="">
-                        🎲 全部類型
-                    </option>
-
-                    <option value="推理">
-                        🔎 推理
-                    </option>
-
-                    <option value="情感">
-                        🎭 情感
-                    </option>
-
-                    <option value="恐怖">
-                        👻 恐怖
-                    </option>
-
-                    <option value="歡樂">
-                        😂 歡樂
-                    </option>
-
-                    <option value="陣營">
-                        ⚔️ 陣營
-                    </option>
-
-                    <option value="機制">
-                        ⚙️ 機制
-                    </option>
-
-                </select>
-
-
-                <button
-                    type="button"
-                    id="random-button"
-                >
-                    🎲 開始隨機推薦
-                </button>
-
-            </div>
-
-
-            <!-- ======================================
-                隨機結果
-            ======================================= -->
-
-            <div
-                id="random-results"
-                class="random-results-grid"
-            >
-
-                <div class="empty-message">
-
-                    <p>
-                        選擇類型後開始尋找劇本吧。
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- ==================================================
-             熱門榜單
-        =================================================== -->
-
-        <section class="ranking-section">
-
-            <div class="section-title">
-
-                <div>
-
-                    <span class="section-label">
-                        POPULAR SCRIPTS
-                    </span>
-
-                    <h2>
-                        熱門榜單
-                    </h2>
-
-                </div>
-
-                <p>
-                    依照玩家評論數量排序
-                </p>
-
-            </div>
-
-
-
-            <div class="ranking-list">
-
-                {% for script in rankings %}
-
-                <article class="ranking-item">
-
-
-                    <!-- 排名 -->
-
-                    <div class="ranking-number">
-
-                        {{ forloop.counter|stringformat:"02d" }}
-
-                    </div>
-
-
-
-                    <!-- 圖片 -->
-
-                    <div class="ranking-image">
-
-                        {% if script.image_url %}
+                    {% if script.image_url %}
 
                         <img
                             src="{{ script.image_url }}"
                             alt="{{ script.script_name }}"
                         >
 
-                        {% else %}
+                    {% else %}
 
                         <div class="no-image">
                             🎭
                         </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- ==========================================
+                     劇本資訊
+                =========================================== -->
+
+                <div class="script-info">
+
+                    <span class="script-type">
+                        {{ script.script_type }}
+                    </span>
+
+
+                    <h3>
+                        {{ script.script_name }}
+                    </h3>
+
+
+                    {% if script.description %}
+
+                    <p class="script-description">
+                        {{ script.description }}
+                    </p>
+
+                    {% endif %}
+
+
+                    <!-- ======================================
+                         基本資訊
+                    ======================================= -->
+
+                    <div class="script-meta">
+
+                        {% if script.players_count %}
+
+                        <span>
+                            👥 {{ script.players_count }}
+                        </span>
+
+                        {% endif %}
+
+
+                        {% if script.play_time %}
+
+                        <span>
+                            ⏱ {{ script.play_time }}
+                        </span>
 
                         {% endif %}
 
                     </div>
 
 
+                    <!-- ======================================
+                         評論數
+                    ======================================= -->
 
-                    <!-- 資訊 -->
+                    <div class="review-count">
 
-                    <div class="ranking-info">
-
-                        <span class="script-type">
-                            {{ script.script_type }}
-                        </span>
-
-                        <h3>
-                            {{ script.script_name }}
-                        </h3>
-
-                        <p>
-                            💬 {{ script.review_count }} 則評論
-                        </p>
+                        💬
+                        {{ script.review_count }}
+                        則評論
 
                     </div>
 
 
-
-                    <!-- 連結 -->
+                    <!-- ======================================
+                         詳細頁
+                    ======================================= -->
 
                     <a
                         href="{% url 'script-detail' script.id %}"
-                        class="ranking-link"
+                        class="script-link"
                     >
-                        查看 →
+                        查看劇本 →
                     </a>
-
-                </article>
-
-
-                {% empty %}
-
-                <div class="empty-message">
-
-                    <p>
-                        目前還沒有熱門劇本。
-                    </p>
 
                 </div>
 
-                {% endfor %}
+            </article>
+
+
+            {% empty %}
+
+            <div class="empty-message">
+
+                <p>
+                    目前沒有可以推薦的劇本。
+                </p>
 
             </div>
 
-        </section>
-
-
-
-        <!-- ==================================================
-     玩家評論
-=================================================== -->
-
-<section class="reviews-section">
-
-    <div class="section-title">
-
-        <div>
-
-            <span class="section-label">
-                PLAYER REVIEWS
-            </span>
-
-            <h2>
-                玩家評論
-            </h2>
+            {% endfor %}
 
         </div>
 
-        <p>
-            分享你的劇本殺遊玩心得
-        </p>
-
-    </div>
+    </section>
 
 
-    <!-- ==========================================
-         發表評論
-    =========================================== -->
 
-    <div class="review-form-box">
+    <!-- ==================================================
+         隨機推薦
+    =================================================== -->
 
-        <h3>
-            ✍️ 發表你的評論
-        </h3>
+    <section class="random-section">
 
+        <div class="section-title">
 
-        <form
-            method="post"
-            action="/recommendation/"
-        >
+            <div>
 
-            {% csrf_token %}
+                <span class="section-label">
+                    RANDOM CASE
+                </span>
 
-
-            <!-- 選擇劇本 -->
-
-            <div class="form-group">
-
-                <label for="script_id">
-                    選擇劇本
-                </label>
-
-                <select
-                    name="script_id"
-                    id="script_id"
-                    required
-                >
-
-                    <option value="">
-                        請選擇一部劇本
-                    </option>
-
-                    {% for script in scripts %}
-
-                    <option value="{{ script.id }}">
-                        {{ script.script_name }}
-                    </option>
-
-                    {% endfor %}
-
-                </select>
+                <h2>
+                    🎲 隨機推薦
+                </h2>
 
             </div>
 
+            <p>
+                選擇類型，尋找你的下一場劇本
+            </p>
 
-            <!-- 暱稱 -->
-
-            <div class="form-group">
-
-                <label for="nickname">
-                    暱稱
-                </label>
-
-                <input
-                    type="text"
-                    name="nickname"
-                    id="nickname"
-                    maxlength="50"
-                    placeholder="請輸入你的暱稱"
-                    required
-                >
-
-            </div>
+        </div>
 
 
-            <!-- 評論 -->
+        <!-- ==============================================
+             類型選擇
+        =============================================== -->
 
-            <div class="form-group">
+        <div class="random-form">
 
-                <label for="content">
-                    評論內容
-                </label>
+            <select id="random-type">
 
-                <textarea
-                    name="content"
-                    id="content"
-                    rows="5"
-                    placeholder="分享一下你的遊玩心得……"
-                    required
-                ></textarea>
+                <option value="">
+                    🎲 全部類型
+                </option>
 
-            </div>
+                <option value="推理">
+                    🔎 推理
+                </option>
 
+                <option value="情感">
+                    🎭 情感
+                </option>
 
-            <!-- 送出 -->
+                <option value="恐怖">
+                    👻 恐怖
+                </option>
+
+                <option value="歡樂">
+                    😂 歡樂
+                </option>
+
+                <option value="陣營">
+                    ⚔️ 陣營
+                </option>
+
+                <option value="機制">
+                    ⚙️ 機制
+                </option>
+
+            </select>
+
 
             <button
-                type="submit"
-                class="review-submit-button"
+                type="button"
+                id="random-button"
             >
-                發表評論
+                🎲 開始隨機推薦
             </button>
 
-        </form>
-
-    </div>
+        </div>
 
 
+        <!-- ==============================================
+             隨機結果
+        =============================================== -->
 
-            <!-- ==========================================
-                評論列表
-            =========================================== -->
+        <div
+            id="random-results"
+            class="random-results-grid"
+        >
 
-            <div class="review-list">
+            <div class="empty-message">
 
-                <h3>
-                    玩家心得
-                </h3>
+                <p>
+                    選擇類型後開始尋找劇本吧。
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
 
 
-                {% for review in reviews %}
 
-                <article class="review-card">
+    <!-- ==================================================
+         熱門榜單
+    =================================================== -->
 
-                    <div class="review-header">
+    <section class="ranking-section">
 
-                        <strong>
-                            {{ review.nickname }}
-                        </strong>
+        <div class="section-title">
 
-                        <span>
-                            {{ review.created_at|date:"Y/m/d H:i" }}
-                        </span>
+            <div>
 
+                <span class="section-label">
+                    POPULAR SCRIPTS
+                </span>
+
+                <h2>
+                    熱門榜單
+                </h2>
+
+            </div>
+
+            <p>
+                依照玩家評論數量排序
+            </p>
+
+        </div>
+
+
+        <div class="ranking-list">
+
+            {% for script in rankings %}
+
+            <article class="ranking-item">
+
+
+                <!-- ==========================================
+                     排名
+                =========================================== -->
+
+                <div class="ranking-number">
+
+                    {{ forloop.counter|stringformat:"02d" }}
+
+                </div>
+
+
+                <!-- ==========================================
+                     圖片
+                =========================================== -->
+
+                <div class="ranking-image">
+
+                    {% if script.image_url %}
+
+                    <img
+                        src="{{ script.image_url }}"
+                        alt="{{ script.script_name }}"
+                    >
+
+                    {% else %}
+
+                    <div class="no-image">
+                        🎭
                     </div>
 
+                    {% endif %}
 
-                    <p class="review-content">
-                        {{ review.content }}
-                    </p>
-
-                </article>
+                </div>
 
 
-                {% empty %}
+                <!-- ==========================================
+                     資訊
+                =========================================== -->
 
-                <div class="empty-message">
+                <div class="ranking-info">
+
+                    <span class="script-type">
+                        {{ script.script_type }}
+                    </span>
+
+                    <h3>
+                        {{ script.script_name }}
+                    </h3>
 
                     <p>
-                        目前還沒有評論。
-                    </p>
-
-                    <p>
-                        成為第一個分享心得的玩家吧！
+                        💬 {{ script.review_count }} 則評論
                     </p>
 
                 </div>
 
-                {% endfor %}
+
+                <!-- ==========================================
+                     連結
+                =========================================== -->
+
+                <a
+                    href="{% url 'script-detail' script.id %}"
+                    class="ranking-link"
+                >
+                    查看 →
+                </a>
+
+            </article>
+
+
+            {% empty %}
+
+            <div class="empty-message">
+
+                <p>
+                    目前還沒有熱門劇本。
+                </p>
 
             </div>
 
-        </section>
+            {% endfor %}
+
+        </div>
+
+    </section>
 
 
 
-        <!-- ==================================================
-             Footer
-        =================================================== -->
+    <!-- ==================================================
+         玩家評論
+    =================================================== -->
 
-        <footer class="page-footer">
+    <section class="reviews-section">
+
+        <div class="section-title">
+
+            <div>
+
+                <span class="section-label">
+                    PLAYER REVIEWS
+                </span>
+
+                <h2>
+                    玩家評論
+                </h2>
+
+            </div>
 
             <p>
-                🔎 探劇實錄
+                分享你的劇本殺遊玩心得
             </p>
 
-            <span>
-                找到你的下一場劇本殺
-            </span>
-
-        </footer>
+        </div>
 
 
-    </main>
+        <!-- ==============================================
+             發表評論
+        =============================================== -->
+
+        <div class="review-form-box">
+
+            <h3>
+                ✍️ 發表你的評論
+            </h3>
+
+
+            <form
+                method="post"
+                action="{% url 'recommendation' %}"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- ======================================
+                     選擇劇本
+                ======================================= -->
+
+                <div class="form-group">
+
+                    <label for="script_id">
+                        選擇劇本
+                    </label>
+
+                    <select
+                        name="script_id"
+                        id="script_id"
+                        required
+                    >
+
+                        <option value="">
+                            請選擇一部劇本
+                        </option>
+
+
+                        {% for script in scripts %}
+
+                        <option value="{{ script.id }}">
+                            {{ script.script_name }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- ======================================
+                     暱稱
+                ======================================= -->
+
+                <div class="form-group">
+
+                    <label for="nickname">
+                        暱稱
+                    </label>
+
+                    <input
+                        type="text"
+                        name="nickname"
+                        id="nickname"
+                        maxlength="50"
+                        placeholder="請輸入你的暱稱"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- ======================================
+                     評論
+                ======================================= -->
+
+                <div class="form-group">
+
+                    <label for="content">
+                        評論內容
+                    </label>
+
+                    <textarea
+                        name="content"
+                        id="content"
+                        rows="5"
+                        placeholder="分享一下你的遊玩心得……"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- ======================================
+                     送出
+                ======================================= -->
+
+                <button
+                    type="submit"
+                    class="review-submit-button"
+                >
+                    發表評論
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- ==============================================
+             評論列表
+        =============================================== -->
+
+        <div class="review-list">
+
+            <h3>
+                玩家心得
+            </h3>
+
+
+            {% for review in reviews %}
+
+            <article class="review-card">
+
+                <div class="review-header">
+
+                    <strong>
+                        {{ review.nickname }}
+                    </strong>
+
+                    <span>
+                        {{ review.created_at|date:"Y/m/d H:i" }}
+                    </span>
+
+                </div>
+
+
+                <p class="review-content">
+                    {{ review.content }}
+                </p>
+
+            </article>
+
+
+            {% empty %}
+
+            <div class="empty-message">
+
+                <p>
+                    目前還沒有評論。
+                </p>
+
+                <p>
+                    成為第一個分享心得的玩家吧！
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
 
 </div>
 
-<script>
+{% endblock %}
 
+
+
+{% block extra_js %}
+
+<script>
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
+
+        /* ==========================================
+           取得 HTML 元素
+        =========================================== */
 
         const button =
             document.getElementById(
@@ -706,12 +628,31 @@ document.addEventListener(
             );
 
 
+        /* ==========================================
+           確認元素存在
+        =========================================== */
+
+        if (
+            !button ||
+            !typeSelect ||
+            !results
+        ) {
+            return;
+        }
+
+
+        /* ==========================================
+           隨機推薦按鈕
+        =========================================== */
+
         button.addEventListener(
             "click",
             function () {
 
 
-                // 按鈕暫時不能再次點擊
+                /* ----------------------------------
+                   按鈕暫時不能再次點擊
+                ---------------------------------- */
 
                 button.disabled = true;
 
@@ -719,23 +660,47 @@ document.addEventListener(
                     "🔎 尋找劇本中...";
 
 
-                // 取得選擇的類型
+                /* ----------------------------------
+                   取得選擇的類型
+                ---------------------------------- */
 
                 const selectedType =
                     typeSelect.value;
 
 
-                // CSRF Token
+                /* ----------------------------------
+                   CSRF Token
+                ---------------------------------- */
 
-                const csrfToken =
+                const csrfElement =
                     document.querySelector(
                         "[name=csrfmiddlewaretoken]"
-                    ).value;
+                    );
 
 
-                // =================================
-                // AJAX POST
-                // =================================
+                if (!csrfElement) {
+
+                    console.error(
+                        "找不到 CSRF Token"
+                    );
+
+                    button.disabled = false;
+
+                    button.textContent =
+                        "🎲 開始隨機推薦";
+
+                    return;
+
+                }
+
+
+                const csrfToken =
+                    csrfElement.value;
+
+
+                /* =================================
+                   AJAX POST
+                ================================= */
 
                 fetch(
                     "{% url 'random-recommendation' %}",
@@ -763,21 +728,39 @@ document.addEventListener(
                 )
 
 
-                // =================================
-                // 取得 JSON
-                // =================================
+                /* =================================
+                   檢查 HTTP Response
+                ================================= */
 
                 .then(
-                    response =>
-                        response.json()
+                    response => {
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "HTTP Error: " +
+                                response.status
+                            );
+
+                        }
+
+                        return response.json();
+
+                    }
                 )
 
+
+                /* =================================
+                   取得 JSON
+                ================================= */
 
                 .then(
                     data => {
 
 
-                        // 恢復按鈕
+                        /* -------------------------
+                           恢復按鈕
+                        ------------------------- */
 
                         button.disabled =
                             false;
@@ -786,7 +769,9 @@ document.addEventListener(
                             "🎲 再推薦一次";
 
 
-                        // 如果失敗
+                        /* -------------------------
+                           如果失敗
+                        ------------------------- */
 
                         if (!data.success) {
 
@@ -803,16 +788,47 @@ document.addEventListener(
                             `;
 
                             return;
+
                         }
 
 
-                        // =================================
-                        // 建立三張卡片
-                        // =================================
+                        /* =================================
+                           建立推薦結果
+                        ================================= */
 
                         results.innerHTML =
                             "";
 
+
+                        /* ---------------------------------
+                           沒有結果
+                        --------------------------------- */
+
+                        if (
+                            !data.results ||
+                            data.results.length === 0
+                        ) {
+
+                            results.innerHTML = `
+
+                                <div class="empty-message">
+
+                                    <p>
+                                        目前沒有符合條件的劇本。
+                                    </p>
+
+                                </div>
+
+                            `;
+
+                            return;
+
+                        }
+
+
+                        /* =================================
+                           建立推薦卡片
+                        ================================= */
 
                         data.results.forEach(
                             script => {
@@ -828,14 +844,38 @@ document.addEventListener(
                                     "random-script-card";
 
 
+                                /* ---------------------------------
+                                   劇本圖片
+                                --------------------------------- */
+
+                                const image =
+                                    script.image
+                                        ? script.image
+                                        : "";
+
+
+                                /* ---------------------------------
+                                   建立卡片 HTML
+                                --------------------------------- */
+
                                 card.innerHTML = `
 
                                     <div class="script-image">
 
-                                        <img
-                                            src="${script.image}"
-                                            alt="${script.name}"
-                                        >
+                                        ${
+                                            image
+                                                ? `
+                                                    <img
+                                                        src="${image}"
+                                                        alt="${script.name}"
+                                                    >
+                                                  `
+                                                : `
+                                                    <div class="no-image">
+                                                        🎭
+                                                    </div>
+                                                  `
+                                        }
 
                                     </div>
 
@@ -846,13 +886,18 @@ document.addEventListener(
                                             ${script.type}
                                         </p>
 
+
                                         <h3>
                                             ${script.name}
                                         </h3>
 
+
                                         <p>
-                                            💬 ${script.review_count} 則評論
+                                            💬
+                                            ${script.review_count}
+                                            則評論
                                         </p>
+
 
                                         <a
                                             href="/script/${script.id}/"
@@ -866,6 +911,10 @@ document.addEventListener(
                                 `;
 
 
+                                /* ---------------------------------
+                                   加入結果區域
+                                --------------------------------- */
+
                                 results.appendChild(
                                     card
                                 );
@@ -877,20 +926,22 @@ document.addEventListener(
                 )
 
 
-                // =================================
-                // 錯誤處理
-                // =================================
+                /* =================================
+                   錯誤處理
+                ================================= */
 
                 .catch(
                     error => {
 
                         console.error(
+                            "隨機推薦錯誤：",
                             error
                         );
 
 
                         button.disabled =
                             false;
+
 
                         button.textContent =
                             "🎲 再推薦一次";
@@ -921,6 +972,4 @@ document.addEventListener(
 
 </script>
 
-</body>
-
-</html>
+{% endblock %}
