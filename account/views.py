@@ -8,10 +8,15 @@ from django.conf import settings
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.decorators import login_required
 import re
 
 
 def account(request):
+
+    if request.user.is_authenticated:
+        return redirect('member-center')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -174,3 +179,7 @@ def verify_email(request, user_id, token):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+@login_required
+def member_center(request):
+    return render(request, 'account/member_center.html')
