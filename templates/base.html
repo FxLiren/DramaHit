@@ -172,5 +172,7 @@
             }, { passive: true }); // 使用 passive: true 優化捲動效能，若要用 preventDefault 則需改為 false
 			});
     </script>
+    {% block extra_js %}
+    {% endblock %}
 </body>
 </html>

@@ -1,4 +1,4 @@
-{% extends 'home/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 
@@ -175,19 +175,19 @@
 
 
 
-    <!-- ==================================================
-         隨機推薦
-    =================================================== -->
+    <!-- ==========================================
+        隨機推薦
+    ========================================== -->
 
-    <section class="random-section">
+    <section class="section random-section">
 
         <div class="section-title">
 
             <div>
 
-                <span class="section-label">
+                <p class="section-label">
                     RANDOM CASE
-                </span>
+                </p>
 
                 <h2>
                     🎲 隨機推薦
@@ -195,20 +195,24 @@
 
             </div>
 
-            <p>
+            <span>
                 選擇類型，尋找你的下一場劇本
-            </p>
+            </span>
 
         </div>
 
 
-        <!-- ==============================================
-             類型選擇
-        =============================================== -->
+        <!-- 隨機推薦表單 -->
 
         <div class="random-form">
 
-            <select id="random-type">
+            {% csrf_token %}
+
+
+            <select
+                id="random-type"
+                name="type"
+            >
 
                 <option value="">
                     🎲 全部類型
@@ -251,9 +255,9 @@
         </div>
 
 
-        <!-- ==============================================
-             隨機結果
-        =============================================== -->
+        <!-- ==========================================
+            隨機推薦結果
+        =========================================== -->
 
         <div
             id="random-results"
@@ -263,7 +267,7 @@
             <div class="empty-message">
 
                 <p>
-                    選擇類型後開始尋找劇本吧。
+                    選擇類型後，按下「開始隨機推薦」
                 </p>
 
             </div>
@@ -601,374 +605,395 @@
 
 <script>
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const button =
+        document.getElementById("random-button");
+
+    const typeSelect =
+        document.getElementById("random-type");
+
+    const results =
+        document.getElementById("random-results");
+
+    const csrfElement =
+        document.querySelector("[name=csrfmiddlewaretoken]");
 
 
-        /* ==========================================
-           取得 HTML 元素
-        =========================================== */
+    // ==========================================
+    // 確認 HTML
+    // ==========================================
 
-        const button =
-            document.getElementById(
-                "random-button"
+    if (!button || !typeSelect || !results) {
+
+        console.error("找不到隨機推薦 HTML 元素");
+
+        return;
+    }
+
+
+    // ==========================================
+    // 隨機推薦
+    // ==========================================
+
+    button.addEventListener("click", function () {
+
+        console.log("隨機推薦按鈕被按下");
+
+
+        // 防止連續點擊
+        button.disabled = true;
+
+        button.textContent = "🔎 尋找劇本中...";
+
+
+        // ======================================
+        // 取得類型
+        // ======================================
+
+        const selectedType =
+            typeSelect.value;
+
+
+        console.log(
+            "目前選擇類型：",
+            selectedType
+        );
+
+
+        // ======================================
+        // CSRF
+        // ======================================
+
+        if (!csrfElement) {
+
+            console.error(
+                "找不到 CSRF Token"
             );
 
+            button.disabled = false;
 
-        const typeSelect =
-            document.getElementById(
-                "random-type"
-            );
+            button.textContent =
+                "🎲 開始隨機推薦";
 
-
-        const results =
-            document.getElementById(
-                "random-results"
-            );
-
-
-        /* ==========================================
-           確認元素存在
-        =========================================== */
-
-        if (
-            !button ||
-            !typeSelect ||
-            !results
-        ) {
             return;
         }
 
 
-        /* ==========================================
-           隨機推薦按鈕
-        =========================================== */
-
-        button.addEventListener(
-            "click",
-            function () {
+        const csrfToken =
+            csrfElement.value;
 
 
-                /* ----------------------------------
-                   按鈕暫時不能再次點擊
-                ---------------------------------- */
+        // ======================================
+        // 建立 POST 資料
+        // ======================================
 
-                button.disabled = true;
+        const formData =
+            new URLSearchParams();
 
-                button.textContent =
-                    "🔎 尋找劇本中...";
-
-
-                /* ----------------------------------
-                   取得選擇的類型
-                ---------------------------------- */
-
-                const selectedType =
-                    typeSelect.value;
+        formData.append(
+            "type",
+            selectedType
+        );
 
 
-                /* ----------------------------------
-                   CSRF Token
-                ---------------------------------- */
+        // ======================================
+        // AJAX
+        // ======================================
 
-                const csrfElement =
-                    document.querySelector(
-                        "[name=csrfmiddlewaretoken]"
-                    );
+        fetch(
+            "{% url 'random-recommendation' %}",
+            {
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/x-www-form-urlencoded",
+
+                    "X-CSRFToken":
+                        csrfToken
+
+                },
+
+                body:
+                    formData.toString()
+            }
+        )
 
 
-                if (!csrfElement) {
+        // ======================================
+        // HTTP
+        // ======================================
 
-                    console.error(
-                        "找不到 CSRF Token"
-                    );
+        .then(function (response) {
 
-                    button.disabled = false;
+            console.log(
+                "伺服器回應：",
+                response.status
+            );
 
-                    button.textContent =
-                        "🎲 開始隨機推薦";
 
-                    return;
+            if (!response.ok) {
+
+                throw new Error(
+                    "HTTP Error " +
+                    response.status
+                );
+
+            }
+
+
+            return response.json();
+
+        })
+
+
+        // ======================================
+        // JSON
+        // ======================================
+
+        .then(function (data) {
+
+            console.log(
+                "收到資料：",
+                data
+            );
+
+
+            // 恢復按鈕
+            button.disabled = false;
+
+            button.textContent =
+                "🎲 再推薦一次";
+
+
+            // ==================================
+            // 後端失敗
+            // ==================================
+
+            if (!data.success) {
+
+                results.innerHTML = `
+
+                    <div class="empty-message">
+
+                        <p>
+                            ${data.message}
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            // ==================================
+            // 清除舊結果
+            // ==================================
+
+            results.innerHTML = "";
+
+
+            // ==================================
+            // 沒有結果
+            // ==================================
+
+            if (
+                !data.results ||
+                data.results.length === 0
+            ) {
+
+                results.innerHTML = `
+
+                    <div class="empty-message">
+
+                        <p>
+                            目前沒有符合條件的劇本。
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            // ==================================
+            // 建立三張推薦卡片
+            // ==================================
+
+            data.results.forEach(function (script) {
+
+
+                const card =
+                    document.createElement("div");
+
+
+                card.className =
+                    "random-script-card";
+
+
+                // ==================================
+                // 圖片
+                // ==================================
+
+                let imageHTML = "";
+
+
+                if (script.image) {
+
+                    imageHTML = `
+
+                        <img
+                            src="${script.image}"
+                            alt="${script.name}"
+                        >
+
+                    `;
+
+                } else {
+
+                    imageHTML = `
+
+                        <div class="no-image">
+                            🎭
+                        </div>
+
+                    `;
 
                 }
 
 
-                const csrfToken =
-                    csrfElement.value;
+                // ==================================
+                // 詳細頁
+                // ==================================
 
+                let linkHTML = "";
 
-                /* =================================
-                   AJAX POST
-                ================================= */
 
-                fetch(
-                    "{% url 'random-recommendation' %}",
-                    {
+                if (
+                    script.detail_url &&
+                    script.detail_url !== "#"
+                ) {
 
-                        method: "POST",
+                    linkHTML = `
 
-                        headers: {
+                        <a
+                            href="${script.detail_url}"
+                            class="script-link"
+                        >
+                            查看劇本 →
+                        </a>
 
-                            "Content-Type":
-                                "application/x-www-form-urlencoded",
+                    `;
 
-                            "X-CSRFToken":
-                                csrfToken
+                } else {
 
-                        },
+                    linkHTML = `
 
-                        body:
-                            "type=" +
-                            encodeURIComponent(
-                                selectedType
-                            )
+                        <span class="script-link disabled-link">
+                            詳細頁尚未設定
+                        </span>
 
-                    }
-                )
+                    `;
 
+                }
 
-                /* =================================
-                   檢查 HTTP Response
-                ================================= */
 
-                .then(
-                    response => {
+                // ==================================
+                // 卡片內容
+                // ==================================
 
-                        if (!response.ok) {
+                card.innerHTML = `
 
-                            throw new Error(
-                                "HTTP Error: " +
-                                response.status
-                            );
+                    <div class="script-image">
 
-                        }
+                        ${imageHTML}
 
-                        return response.json();
+                    </div>
 
-                    }
-                )
 
+                    <div class="random-script-info">
 
-                /* =================================
-                   取得 JSON
-                ================================= */
+                        <p class="script-type">
+                            ${script.type || ""}
+                        </p>
 
-                .then(
-                    data => {
 
+                        <h3>
+                            ${script.name || ""}
+                        </h3>
 
-                        /* -------------------------
-                           恢復按鈕
-                        ------------------------- */
 
-                        button.disabled =
-                            false;
+                        <p>
+                            💬
+                            ${script.review_count || 0}
+                            則評論
+                        </p>
 
-                        button.textContent =
-                            "🎲 再推薦一次";
 
+                        ${linkHTML}
 
-                        /* -------------------------
-                           如果失敗
-                        ------------------------- */
+                    </div>
 
-                        if (!data.success) {
+                `;
 
-                            results.innerHTML = `
 
-                                <div class="empty-message">
+                // ==================================
+                // 加入頁面
+                // ==================================
 
-                                    <p>
-                                        ${data.message}
-                                    </p>
+                results.appendChild(card);
 
-                                </div>
+            });
 
-                            `;
+        })
 
-                            return;
 
-                        }
+        // ======================================
+        // 錯誤
+        // ======================================
 
+        .catch(function (error) {
 
-                        /* =================================
-                           建立推薦結果
-                        ================================= */
+            console.error(
+                "隨機推薦錯誤：",
+                error
+            );
 
-                        results.innerHTML =
-                            "";
 
+            button.disabled = false;
 
-                        /* ---------------------------------
-                           沒有結果
-                        --------------------------------- */
+            button.textContent =
+                "🎲 再推薦一次";
 
-                        if (
-                            !data.results ||
-                            data.results.length === 0
-                        ) {
 
-                            results.innerHTML = `
+            results.innerHTML = `
 
-                                <div class="empty-message">
+                <div class="empty-message">
 
-                                    <p>
-                                        目前沒有符合條件的劇本。
-                                    </p>
+                    <p>
+                        隨機推薦發生錯誤。
+                    </p>
 
-                                </div>
+                    <p>
+                        請按 F12 查看 Console。
+                    </p>
 
-                            `;
+                </div>
 
-                            return;
+            `;
 
-                        }
+        });
 
+    });
 
-                        /* =================================
-                           建立推薦卡片
-                        ================================= */
-
-                        data.results.forEach(
-                            script => {
-
-
-                                const card =
-                                    document.createElement(
-                                        "div"
-                                    );
-
-
-                                card.className =
-                                    "random-script-card";
-
-
-                                /* ---------------------------------
-                                   劇本圖片
-                                --------------------------------- */
-
-                                const image =
-                                    script.image
-                                        ? script.image
-                                        : "";
-
-
-                                /* ---------------------------------
-                                   建立卡片 HTML
-                                --------------------------------- */
-
-                                card.innerHTML = `
-
-                                    <div class="script-image">
-
-                                        ${
-                                            image
-                                                ? `
-                                                    <img
-                                                        src="${image}"
-                                                        alt="${script.name}"
-                                                    >
-                                                  `
-                                                : `
-                                                    <div class="no-image">
-                                                        🎭
-                                                    </div>
-                                                  `
-                                        }
-
-                                    </div>
-
-
-                                    <div class="random-script-info">
-
-                                        <p>
-                                            ${script.type}
-                                        </p>
-
-
-                                        <h3>
-                                            ${script.name}
-                                        </h3>
-
-
-                                        <p>
-                                            💬
-                                            ${script.review_count}
-                                            則評論
-                                        </p>
-
-
-                                        <a
-                                            href="/script/${script.id}/"
-                                            class="script-link"
-                                        >
-                                            查看劇本 →
-                                        </a>
-
-                                    </div>
-
-                                `;
-
-
-                                /* ---------------------------------
-                                   加入結果區域
-                                --------------------------------- */
-
-                                results.appendChild(
-                                    card
-                                );
-
-                            }
-                        );
-
-                    }
-                )
-
-
-                /* =================================
-                   錯誤處理
-                ================================= */
-
-                .catch(
-                    error => {
-
-                        console.error(
-                            "隨機推薦錯誤：",
-                            error
-                        );
-
-
-                        button.disabled =
-                            false;
-
-
-                        button.textContent =
-                            "🎲 再推薦一次";
-
-
-                        results.innerHTML = `
-
-                            <div class="empty-message">
-
-                                <p>
-                                    隨機推薦發生錯誤，
-                                    請稍後再試。
-                                </p>
-
-                            </div>
-
-                        `;
-
-                    }
-                );
-
-            }
-        );
-
-    }
-
-);
+});
 
 </script>
 
