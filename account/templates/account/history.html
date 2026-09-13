@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}歷史紀錄｜探劇實錄{% endblock %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'account/account.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="history-page">
+
+    <div class="history-container">
+
+        <div class="history-title">
+            <h2>歷史紀錄</h2>
+            <p>查看您最近瀏覽過的劇本</p>
+        </div>
+
+
+        {% if history_list %}
+
+        <div class="history-list">
+
+            {% for item in history_list %}
+
+            <a
+                href="{% url 'script-detail' item.script.id %}"
+                class="history-item"
+            >
+
+                <div class="history-item-main">
+
+                    <span class="history-script-name">
+                        {{ item.script.script_name }}
+                    </span>
+
+                </div>
+
+
+                <div class="history-time">
+                    {{ item.viewed_at|date:"Y/m/d H:i" }}
+                </div>
+
+            </a>
+
+            {% endfor %}
+
+        </div>
+
+
+        {% else %}
+
+        <div class="history-empty">
+            目前還沒有瀏覽紀錄。
+        </div>
+
+        {% endif %}
+
+
+        <div class="history-bottom-links">
+
+            <a href="{% url 'member-center' %}">
+                返回會員中心
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
