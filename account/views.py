@@ -226,3 +226,13 @@ def history_view(request):
     return render(request, 'account/history.html', {
         'history_list': history_list
     })
+
+
+@login_required
+def clear_history(request):
+    if request.method == 'POST':
+        ViewHistory.objects.filter(
+            user=request.user
+        ).delete()
+
+    return redirect('history')

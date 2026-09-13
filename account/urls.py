@@ -74,4 +74,10 @@ urlpatterns = [
         views.history_view,
         name='history'
     ),
+
+    path(
+        'history/clear/',
+        views.clear_history,
+        name='clear-history'
+    ),
 ]

@@ -69,6 +69,26 @@
 
         </div>
 
+        {% if history_list %}
+
+        <form
+            action="{% url 'clear-history' %}"
+            method="post"
+            class="history-clear-form"
+            onsubmit="return confirm('確定要清除全部歷史紀錄嗎？此操作無法復原。');"
+        >
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="history-clear-button"
+            >
+                清除全部歷史紀錄
+            </button>
+        </form>
+
+        {% endif %}
+
     </div>
 
 </div>
