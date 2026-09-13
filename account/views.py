@@ -9,6 +9,8 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.decorators import login_required
+from .models import ViewHistory
+from script.models import ScriptMeta
 import re
 
 
@@ -180,6 +182,57 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
+
 @login_required
 def member_center(request):
     return render(request, 'account/member_center.html')
+
+
+@login_required
+def history_view(request):
+
+    histories = ViewHistory.objects.filter(
+        user=request.user
+    )
+
+    script_ids = [
+        history.script_id
+        for history in histories
+    ]
+
+    scripts = (
+        ScriptMeta.objects
+        .using('script_db')
+        .filter(id__in=script_ids)
+    )
+
+    script_map = {
+        script.id: script
+        for script in scripts
+    }
+
+    history_list = []
+
+    for history in histories:
+
+        script = script_map.get(history.script_id)
+
+        if script:
+            history_list.append({
+                'script': script,
+                'viewed_at': history.viewed_at,
+            })
+
+    return render(request, 'account/history.html', {
+        'history_list': history_list
+    })
+
+
+@login_required
+def clear_history(request):
+    if request.method == 'POST':
+        ViewHistory.objects.filter(
+            user=request.user
+        ).delete()
+
+    return redirect('history')
