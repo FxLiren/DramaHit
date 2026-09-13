@@ -1247,6 +1247,9 @@
     box-shadow: 0 0 10px rgba(139, 0, 0, 0.6);
 }
 
+.member-logout-form {
+    width: 100%;
+}
 
 /* =========================
    會員中心手機版
@@ -1278,4 +1281,229 @@
     .member-actions {
         flex-direction: column;
     }
+}
+/* =========================
+   歷史紀錄頁面
+   ========================= */
+
+.history-page {
+    width: 100%;
+    min-height: 520px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =========================
+   歷史紀錄容器
+   ========================= */
+
+.history-container {
+    width: 100%;
+    max-width: 760px;
+
+    padding: 40px;
+
+    background-color: #0d0d0d;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================
+   標題
+   ========================= */
+
+.history-title {
+    margin-bottom: 28px;
+
+    text-align: center;
+}
+
+.history-title h2 {
+    color: #8b0000;
+
+    font-size: 26px;
+    font-weight: 700;
+
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.5);
+}
+
+.history-title p {
+    margin-top: 8px;
+
+    color: #888888;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   歷史紀錄列表
+   ========================= */
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 16px 18px;
+
+    background-color: #151515;
+
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+
+    color: #d1d1d1;
+
+    text-decoration: none;
+
+    transition: 0.2s;
+}
+
+.history-item:hover {
+    border-color: #8b0000;
+
+    background-color: #1a0d0d;
+
+    box-shadow: 0 0 8px rgba(139, 0, 0, 0.35);
+}
+
+.history-item-main {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.history-script-name {
+    color: #d1d1d1;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.history-time {
+    color: #777777;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   無歷史紀錄
+   ========================= */
+
+.history-empty {
+    padding: 30px 20px;
+
+    border: 1px dashed #2a2a2a;
+    border-radius: 6px;
+
+    color: #777777;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   返回會員中心
+   ========================= */
+
+.history-bottom-links {
+    margin-top: 25px;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+.history-bottom-links a {
+    color: #8b0000;
+
+    text-decoration: none;
+}
+
+.history-bottom-links a:hover {
+    color: #b00000;
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   歷史紀錄頁手機版
+   ========================= */
+
+@media (max-width: 480px) {
+
+    .history-page {
+        min-height: auto;
+
+        padding: 10px 0;
+    }
+
+    .history-container {
+        padding: 30px 22px;
+    }
+
+    .history-item {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 8px;
+    }
+
+    .history-time {
+        white-space: normal;
+    }
+}
+
+.history-clear-form {
+    margin-top: 25px;
+}
+
+.history-clear-button {
+    width: 100%;
+
+    padding: 12px;
+
+    background-color: transparent;
+
+    border: 1px solid #8b0000;
+    border-radius: 6px;
+
+    color: #b00000;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.history-clear-button:hover {
+    background-color: #8b0000;
+
+    color: #ffffff;
+
+    box-shadow: 0 0 8px rgba(139, 0, 0, 0.45);
 }

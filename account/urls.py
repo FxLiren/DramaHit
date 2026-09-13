@@ -68,4 +68,16 @@ urlpatterns = [
         views.member_center,
         name='member-center'
     ),
+
+    path(
+        'history/',
+        views.history_view,
+        name='history'
+    ),
+
+    path(
+        'history/clear/',
+        views.clear_history,
+        name='clear-history'
+    ),
 ]

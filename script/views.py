@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.db.models import Min
 from .models import ScriptMeta, Favorite
+from account.models import ViewHistory
 import random
 
 
@@ -80,14 +81,20 @@ def script_detail(request, script_id):
 
     random.seed(script.id)
     script.fake_rating = round(random.uniform(4.0, 5.0), 1)
-    
+
     is_favorite = False
 
     if request.user.is_authenticated:
+
         is_favorite = Favorite.objects.filter(
             user=request.user,
             script_id=script_id
         ).exists()
+
+        ViewHistory.objects.update_or_create(
+            user=request.user,
+            script_id=script_id
+        )
 
     return render(request, 'scripts/script-detail.html', {
         'script': script,
