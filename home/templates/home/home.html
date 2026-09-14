@@ -2,17 +2,17 @@
 {% load static %}
 
 {% block extra_css %}
-<!-- 💡 加入版本號 ?v=2 強制避開瀏覽器快取 -->
+<!--  加入版本號 ?v=2 強制避開瀏覽器快取 -->
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block title %}首頁 - 探劇實錄{% endblock %}
 
 {% block content %}
-<!-- 💡 必須用 home-container 包裹所有元件，寬度才能統一置中控制 -->
+<!--  必須用 home-container 包裹所有元件，寬度才能統一置中控制 -->
 <div class="home-container">
 
-    <!-- 🎬 精緻小輪播框 -->
+    <!--  精緻小輪播框 -->
     <div class="mini-banner-container">
         <div class="banner-slider" id="bannerSlider">
             {% for script in banners %}
@@ -29,12 +29,18 @@
             </a>
             {% endfor %}
         </div>
+
+        <!--  圈圈要放在 slider 的外面、container 的裡面 -->
+        <div class="banner-dots" id="bannerDots">
+            {% for script in banners %}
+                <span class="dot {% if forloop.first %}active{% endif %}" onclick="goToSlide({{ forloop.counter0 }})"></span>
+            {% endfor %}
+        </div>
     </div>
 
-    <!-- 🔍 核心搜尋區 -->
+    <!--  核心搜尋區 -->
     <form class="search-box" method="GET" action="{% url 'home' %}">
         <div class="search-input-group">
-            <!-- 💡 將 value 修正為 query 以正確帶出搜尋關鍵字 -->
             <input type="text" name="q" value="{{ query|default:'' }}" placeholder="🔍 輸入劇本名稱、角色或關鍵字..." autocomplete="off">
         </div>
         <div class="btn-group">
@@ -45,17 +51,37 @@
 
 </div>
 
-<!-- 🎬 自動輪播控制 JS -->
+<!--  自動輪播與圈圈連動 JS -->
 <script>
+let currentIndex = 0;
+let items = [];
+let dots = [];
+let slider = null;
+
+function updateSlide(index) {
+    if (!slider || items.length === 0) return;
+    currentIndex = index;
+    // 1. 移動圖片
+    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+    // 2. 更新圈圈 active 狀態
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIndex);
+    });
+}
+
+function goToSlide(index) {
+    updateSlide(index);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
-    const slider = document.getElementById('bannerSlider');
-    const items = slider ? slider.querySelectorAll('.banner-item') : [];
-    let currentIndex = 0;
+    slider = document.getElementById('bannerSlider');
+    items = slider ? slider.querySelectorAll('.banner-item') : [];
+    dots = document.querySelectorAll('#bannerDots .dot');
 
     if (items.length > 1) {
         setInterval(() => {
-            currentIndex = (currentIndex + 1) % items.length;
-            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+            let nextIndex = (currentIndex + 1) % items.length;
+            updateSlide(nextIndex);
         }, 3000);
     }
 });
