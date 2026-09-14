@@ -1,7 +1,10 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.db.models import Count
-from django.urls import reverse
+from django.urls import reverse  # 【修改】新增 reverse
 
 import random
 import math
@@ -10,10 +13,6 @@ from script.models import ScriptMeta
 from .models import Review
 
 
-# ==================================================
-# 取得劇本 + 評論數
-# ==================================================
-
 def get_scripts_with_review_count():
 
     # 從 script_db 取得劇本
@@ -21,7 +20,7 @@ def get_scripts_with_review_count():
         ScriptMeta.objects.using("script_db").all()
     )
 
-    # 從 default db 取得評論數
+    # 取得每個劇本的評論數量
     review_counts = {
         item["script_id"]: item["count"]
         for item in Review.objects
@@ -29,29 +28,159 @@ def get_scripts_with_review_count():
         .annotate(count=Count("id"))
     }
 
-    # 把評論數加入劇本
+    # 把評論數量放進每個劇本
     for script in scripts:
         script.review_count = review_counts.get(script.id, 0)
 
     return scripts
 
 
-# ==================================================
-# 評論數加權隨機
-# ==================================================
+def recommendation(request):
+
+    # ==================================================
+    # 【修改】處理評論送出
+    # ==================================================
+    if request.method == "POST":
+
+        # 【修改】
+        # 未登入使用者不能發表評論
+        if not request.user.is_authenticated:
+            return redirect("account")
+
+        script_id = request.POST.get("script_id")
+        content = request.POST.get("content")
+
+        # 【修改】
+        # 使用登入帳號名稱，不再讓使用者輸入 nickname
+        nickname = request.user.get_username()
+
+        # 【修改】
+        # 取得目前資料庫中的劇本
+        scripts = get_scripts_with_review_count()
+
+        # 【修改】
+        # 建立合法的劇本 ID 清單
+        valid_script_ids = {
+            script.id
+            for script in scripts
+        }
+
+        # 【修改】
+        # 檢查資料是否完整
+        if (
+            script_id
+            and content
+            and content.strip()
+            and int(script_id) in valid_script_ids
+        ):
+
+            Review.objects.create(
+                script_id=int(script_id),
+                nickname=nickname,
+                content=content.strip()
+            )
+
+        return redirect("/recommendation/")
+
+    # ==================================================
+    # 原本的劇本資料
+    # ==================================================
+
+    scripts = get_scripts_with_review_count()
+
+    # ==================================================
+    # 今日推薦
+    # ==================================================
+
+    if len(scripts) <= 3:
+        recommendations = scripts
+    else:
+        recommendations = weighted_random_scripts(
+            scripts,
+            3
+        )
+
+    # ==================================================
+    # 熱門榜單
+    # ==================================================
+
+    rankings = sorted(
+        scripts,
+        key=lambda script: script.review_count,
+        reverse=True
+    )[:10]
+
+    # ==================================================
+    # 【修改】
+    # 取得所有評論
+    # ==================================================
+
+    reviews = Review.objects.all().order_by("-created_at")
+
+    # ==================================================
+    # 【修改】
+    # 建立 script_id → 劇本名稱對照表
+    #
+    # 因為 ScriptMeta 與 Review 在不同資料庫，
+    # 所以不能直接使用 ForeignKey。
+    # ==================================================
+
+    script_name_map = {
+        script.id: script.script_name
+        for script in scripts
+    }
+
+    # ==================================================
+    # 【修改】
+    # 將劇本名稱附加到每一筆 Review
+    # ==================================================
+
+    for review in reviews:
+        review.script_name = script_name_map.get(
+            review.script_id,
+            "未知劇本"
+        )
+
+    # ==================================================
+    # Context
+    # ==================================================
+
+    context = {
+        "recommendations": recommendations,
+        "rankings": rankings,
+        "reviews": reviews,
+        "scripts": scripts,
+    }
+
+    return render(
+        request,
+        "recommendation/index.html",
+        context
+    )
+
+
+# ======================================================
+# 今日推薦的加權隨機
+# ======================================================
 
 def weighted_random_scripts(scripts, amount):
 
     if not scripts:
         return []
 
-    amount = min(amount, len(scripts))
+    amount = min(
+        amount,
+        len(scripts)
+    )
 
     selected = []
+
     candidates = scripts.copy()
 
     for _ in range(amount):
 
+        # 評論越多，機率越高
+        # 但不會差距太誇張
         weights = [
             math.sqrt(script.review_count) + 1
             for script in candidates
@@ -65,102 +194,17 @@ def weighted_random_scripts(scripts, amount):
 
         selected.append(chosen)
 
-        # 避免同一部劇本重複
         candidates.remove(chosen)
 
     return selected
 
 
-# ==================================================
-# 推薦首頁
-# ==================================================
-
-def recommendation(request):
-
-    # ==================================================
-    # 新增評論
-    # ==================================================
-
-    if request.method == "POST":
-
-        script_id = request.POST.get("script_id")
-        nickname = request.POST.get("nickname")
-        content = request.POST.get("content")
-
-        if script_id and nickname and content:
-
-            Review.objects.create(
-                script_id=int(script_id),
-                nickname=nickname,
-                content=content
-            )
-
-        return redirect("/recommendation/")
-
-
-    # ==================================================
-    # 取得劇本
-    # ==================================================
-
-    scripts = get_scripts_with_review_count()
-
-
-    # ==================================================
-    # 今日推薦
-    # ==================================================
-
-    if len(scripts) <= 3:
-
-        recommendations = scripts
-
-    else:
-
-        recommendations = weighted_random_scripts(
-            scripts,
-            3
-        )
-
-
-    # ==================================================
-    # 熱門榜單
-    # ==================================================
-
-    rankings = sorted(
-        scripts,
-        key=lambda script: script.review_count,
-        reverse=True
-    )[:10]
-
-
-    # ==================================================
-    # 評論
-    # ==================================================
-
-    reviews = Review.objects.all().order_by("-created_at")
-
-
-    context = {
-        "recommendations": recommendations,
-        "rankings": rankings,
-        "reviews": reviews,
-        "scripts": scripts,
-    }
-
-
-    return render(
-        request,
-        "recommendation/index.html",
-        context
-    )
-
-
-# ==================================================
-# AJAX 隨機推薦
-# ==================================================
+# ======================================================
+# 隨機推薦 AJAX
+# ======================================================
 
 def random_recommendation(request):
 
-    # 只接受 POST
     if request.method != "POST":
 
         return JsonResponse(
@@ -171,23 +215,12 @@ def random_recommendation(request):
             status=405
         )
 
-
-    # ==================================================
-    # 取得使用者選擇的類型
-    # ==================================================
-
     selected_type = request.POST.get(
         "type",
         ""
-    ).strip()
-
-
-    # ==================================================
-    # 取得全部劇本
-    # ==================================================
+    )
 
     scripts = get_scripts_with_review_count()
-
 
     # ==================================================
     # 類型篩選
@@ -195,27 +228,16 @@ def random_recommendation(request):
 
     if selected_type:
 
-        filtered_scripts = []
-
-        for script in scripts:
-
-            script_type = (
+        scripts = [
+            script
+            for script in scripts
+            if selected_type in (
                 script.script_type or ""
-            ).strip()
-
-            # 例如：
-            # 「推理 / 日式 / 還原 / 3票」
-            # 選擇「推理」也可以找到
-
-            if selected_type in script_type:
-
-                filtered_scripts.append(script)
-
-        scripts = filtered_scripts
-
+            )
+        ]
 
     # ==================================================
-    # 沒有符合條件
+    # 沒有符合的劇本
     # ==================================================
 
     if not scripts:
@@ -223,15 +245,12 @@ def random_recommendation(request):
         return JsonResponse(
             {
                 "success": False,
-                "message": "目前沒有符合「{}」的劇本。".format(
-                    selected_type
-                )
+                "message": "目前沒有符合條件的劇本"
             }
         )
 
-
     # ==================================================
-    # 隨機選最多 3 部
+    # 隨機選擇
     # ==================================================
 
     selected_scripts = weighted_random_scripts(
@@ -239,32 +258,34 @@ def random_recommendation(request):
         3
     )
 
-
     # ==================================================
-    # 整理 JSON
+    # 回傳 JSON
     # ==================================================
 
     results = []
 
-
     for script in selected_scripts:
 
-        # ==============================================
-        # 取得劇本詳細頁網址
-        # ==============================================
+        # ==================================================
+        # 【修改】
+        # 取得詳細頁 URL
+        #
+        # 如果 teammate 的 script-detail 存在，
+        # 就會使用：
+        #
+        # /script/<id>/
+        #
+        # 如果不存在則使用 #
+        # ==================================================
 
         try:
-
             detail_url = reverse(
                 "script-detail",
                 args=[script.id]
             )
 
         except Exception:
-
-            # 如果組員的 script-detail 暫時不存在
             detail_url = "#"
-
 
         results.append(
             {
@@ -284,14 +305,11 @@ def random_recommendation(request):
 
                 "review_count": script.review_count,
 
+                # 【修改】
+                # 提供前端詳細頁連結
                 "detail_url": detail_url,
             }
         )
-
-
-    # ==================================================
-    # 回傳 JSON
-    # ==================================================
 
     return JsonResponse(
         {
@@ -299,3 +317,6 @@ def random_recommendation(request):
             "results": results
         }
     )
+
+
+

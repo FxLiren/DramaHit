@@ -73,6 +73,10 @@ def script_list(request):
 
 def script_detail(request, script_id):
 
+    from_favorite = request.GET.get('from') == 'favorite'
+
+    from_list = request.GET.get('from') == 'list'
+
     script = (
         ScriptMeta.objects
         .using('script_db')
@@ -98,7 +102,12 @@ def script_detail(request, script_id):
 
     return render(request, 'scripts/script-detail.html', {
         'script': script,
-        'is_favorite': is_favorite
+        'is_favorite': is_favorite,
+        'from_favorite': from_favorite,
+        'from_list': from_list,
+        'page': request.GET.get('page', '1'),
+        'keyword': request.GET.get('keyword', ''),
+        'category': request.GET.get('category', '')
     })
 
 def script_detail_2(request):
@@ -123,3 +132,16 @@ def toggle_favorite(request, script_id):
         )
 
     return redirect(request.META.get('HTTP_REFERER', 'script-list') + '#script-' + str(script_id))
+
+def my_favorite(request):
+
+    if not request.user.is_authenticated:
+        return redirect('account')
+
+    favorites = Favorite.objects.filter(
+        user=request.user
+    )
+
+    return render(request, 'scripts/my-favorite.html', {
+        'favorites': favorites
+    })

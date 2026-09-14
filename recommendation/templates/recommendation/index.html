@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load script_filters %}
 
 
 {% block title %}
@@ -12,12 +13,198 @@
 <!-- recommendation 專屬 CSS -->
 <link rel="stylesheet" href="{% static 'recommendation/style.css' %}">
 
+
+<!-- ==================================================
+     【修改】評論輪播專用 CSS
+     ================================================== -->
+
+<style>
+
+    /* ================================
+       評論選擇劇本
+       ================================ */
+
+    .review-script-select {
+        margin-bottom: 25px;
+    }
+
+
+    /* ================================
+       登入提示
+       ================================ */
+
+    .review-login-message {
+        padding: 25px;
+        text-align: center;
+        border: 1px solid #3c3a59;
+        border-radius: 12px;
+        background: #24233b;
+    }
+
+
+    .review-login-message p {
+        margin-bottom: 15px;
+    }
+
+
+    .review-login-button {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        background: #b86b72;
+        color: white;
+        transition: 0.2s;
+    }
+
+
+    .review-login-button:hover {
+        opacity: 0.85;
+    }
+
+
+    /* ================================
+       評論輪播
+       ================================ */
+
+    .review-carousel {
+        margin-top: 20px;
+    }
+
+
+    .review-carousel-container {
+        position: relative;
+        min-height: 180px;
+    }
+
+
+    .review-card {
+        display: none;
+    }
+
+
+    .review-card.review-active {
+        display: block;
+        animation: reviewFadeIn 0.3s ease;
+    }
+
+
+    @keyframes reviewFadeIn {
+
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    }
+
+
+    /* ================================
+       評論劇本名稱
+       ================================ */
+
+    .review-script-name {
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+
+
+    /* ================================
+       輪播控制
+       ================================ */
+
+    .review-carousel-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+
+    .review-carousel-button {
+        border: 1px solid #3c3a59;
+        background: #24233b;
+        color: inherit;
+        border-radius: 8px;
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+
+    .review-carousel-button:hover {
+        background: #b86b72;
+        color: white;
+    }
+
+
+    .review-carousel-dots {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .review-carousel-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        border: none;
+        background: #666;
+        cursor: pointer;
+        padding: 0;
+    }
+
+
+    .review-carousel-dot.active {
+        background: #b86b72;
+    }
+
+
+    /* ================================
+       沒有評論
+       ================================ */
+
+    .review-empty-message {
+        padding: 30px;
+        text-align: center;
+        opacity: 0.8;
+    }
+
+
+    /* ================================
+       RWD
+       ================================ */
+
+    @media (max-width: 768px) {
+
+        .review-carousel-controls {
+            gap: 8px;
+        }
+
+        .review-carousel-button {
+            padding: 7px 10px;
+        }
+
+    }
+
+</style>
+
 {% endblock %}
 
 
 {% block content %}
 
 <div class="recommendation-page">
+
 
     <!-- ==================================================
          今日推薦
@@ -53,9 +240,7 @@
             <article class="recommendation-card">
 
 
-                <!-- ==========================================
-                     劇本圖片
-                =========================================== -->
+                <!-- 劇本圖片 -->
 
                 <div class="script-image">
 
@@ -77,14 +262,12 @@
                 </div>
 
 
-                <!-- ==========================================
-                     劇本資訊
-                =========================================== -->
+                <!-- 劇本資訊 -->
 
                 <div class="script-info">
 
                     <span class="script-type">
-                        {{ script.script_type }}
+                        {{ script.script_type|remove_votes }}
                     </span>
 
 
@@ -102,9 +285,7 @@
                     {% endif %}
 
 
-                    <!-- ======================================
-                         基本資訊
-                    ======================================= -->
+                    <!-- 基本資訊 -->
 
                     <div class="script-meta">
 
@@ -128,9 +309,7 @@
                     </div>
 
 
-                    <!-- ======================================
-                         評論數
-                    ======================================= -->
+                    <!-- 評論數 -->
 
                     <div class="review-count">
 
@@ -141,9 +320,7 @@
                     </div>
 
 
-                    <!-- ======================================
-                         詳細頁
-                    ======================================= -->
+                    <!-- 詳細頁 -->
 
                     <a
                         href="{% url 'script-detail' script.id %}"
@@ -175,9 +352,9 @@
 
 
 
-    <!-- ==========================================
-        隨機推薦
-    ========================================== -->
+    <!-- ==================================================
+         隨機推薦
+    ================================================== -->
 
     <section class="section random-section">
 
@@ -255,9 +432,7 @@
         </div>
 
 
-        <!-- ==========================================
-            隨機推薦結果
-        =========================================== -->
+        <!-- 隨機推薦結果 -->
 
         <div
             id="random-results"
@@ -312,9 +487,7 @@
             <article class="ranking-item">
 
 
-                <!-- ==========================================
-                     排名
-                =========================================== -->
+                <!-- 排名 -->
 
                 <div class="ranking-number">
 
@@ -323,9 +496,7 @@
                 </div>
 
 
-                <!-- ==========================================
-                     圖片
-                =========================================== -->
+                <!-- 圖片 -->
 
                 <div class="ranking-image">
 
@@ -347,14 +518,12 @@
                 </div>
 
 
-                <!-- ==========================================
-                     資訊
-                =========================================== -->
+                <!-- 資訊 -->
 
                 <div class="ranking-info">
 
                     <span class="script-type">
-                        {{ script.script_type }}
+                        {{ script.script_type|remove_votes }}
                     </span>
 
                     <h3>
@@ -368,9 +537,7 @@
                 </div>
 
 
-                <!-- ==========================================
-                     連結
-                =========================================== -->
+                <!-- 連結 -->
 
                 <a
                     href="{% url 'script-detail' script.id %}"
@@ -406,6 +573,7 @@
 
     <section class="reviews-section">
 
+
         <div class="section-title">
 
             <div>
@@ -427,9 +595,11 @@
         </div>
 
 
-        <!-- ==============================================
-             發表評論
-        =============================================== -->
+
+        <!-- ==================================================
+             【修改】
+             登入後才能評論
+        ================================================== -->
 
         <div class="review-form-box">
 
@@ -437,6 +607,14 @@
                 ✍️ 發表你的評論
             </h3>
 
+
+            {% if user.is_authenticated %}
+
+            <!-- ==========================================
+                 【修改】
+                 登入使用者評論表單
+                 不再需要暱稱
+            =========================================== -->
 
             <form
                 method="post"
@@ -446,15 +624,14 @@
                 {% csrf_token %}
 
 
-                <!-- ======================================
-                     選擇劇本
-                ======================================= -->
+                <!-- 選擇劇本 -->
 
                 <div class="form-group">
 
                     <label for="script_id">
                         選擇劇本
                     </label>
+
 
                     <select
                         name="script_id"
@@ -480,37 +657,36 @@
                 </div>
 
 
+
                 <!-- ======================================
-                     暱稱
+                     【修改】
+                     移除「暱稱」輸入框
+                     
+                     使用目前登入的 Django 帳號
                 ======================================= -->
 
                 <div class="form-group">
 
-                    <label for="nickname">
-                        暱稱
+                    <label>
+                        發表者
                     </label>
 
-                    <input
-                        type="text"
-                        name="nickname"
-                        id="nickname"
-                        maxlength="50"
-                        placeholder="請輸入你的暱稱"
-                        required
-                    >
+                    <p>
+                        {{ user.get_username }}
+                    </p>
 
                 </div>
 
 
-                <!-- ======================================
-                     評論
-                ======================================= -->
+
+                <!-- 評論 -->
 
                 <div class="form-group">
 
                     <label for="content">
                         評論內容
                     </label>
+
 
                     <textarea
                         name="content"
@@ -523,9 +699,8 @@
                 </div>
 
 
-                <!-- ======================================
-                     送出
-                ======================================= -->
+
+                <!-- 送出 -->
 
                 <button
                     type="submit"
@@ -536,13 +711,39 @@
 
             </form>
 
+
+            {% else %}
+
+            <!-- ==========================================
+                 【修改】
+                 未登入使用者不能評論
+            =========================================== -->
+
+            <div class="review-login-message">
+
+                <p>
+                    🔒 請先登入才能發表評論。
+                </p>
+
+                <a
+                    href="{% url 'account' %}"
+                    class="review-login-button"
+                >
+                    登入後發表評論
+                </a>
+
+            </div>
+
+            {% endif %}
+
         </div>
 
 
 
-        <!-- ==============================================
-             評論列表
-        =============================================== -->
+        <!-- ==================================================
+             【修改】
+             評論列表 / 評論輪播
+        =================================================== -->
 
         <div class="review-list">
 
@@ -551,45 +752,165 @@
             </h3>
 
 
-            {% for review in reviews %}
 
-            <article class="review-card">
+            <!-- ==========================================
+                 【修改】
+                 選擇劇本
+                 
+                 選擇後 JS 立即切換評論
+            =========================================== -->
 
-                <div class="review-header">
+            <div class="form-group review-script-select">
 
-                    <strong>
-                        {{ review.nickname }}
-                    </strong>
+                <label for="review-script-filter">
+                    選擇劇本查看評論
+                </label>
 
-                    <span>
-                        {{ review.created_at|date:"Y/m/d H:i" }}
-                    </span>
+
+                <select
+                    id="review-script-filter"
+                >
+
+                    <option value="">
+                        請選擇一部劇本
+                    </option>
+
+
+                    {% for script in scripts %}
+
+                    <option value="{{ script.id }}">
+                        {{ script.script_name }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+
+            <!-- ==========================================
+                 【修改】
+                 評論輪播區
+            =========================================== -->
+
+            <div
+                class="review-carousel"
+                id="review-carousel"
+            >
+
+
+                <!-- ======================================
+                     評論內容
+                ======================================= -->
+
+                <div
+                    class="review-carousel-container"
+                    id="review-carousel-container"
+                >
+
+                    {% for review in reviews %}
+
+                    <article
+                        class="review-card"
+                        data-script-id="{{ review.script_id }}"
+                    >
+
+
+                        <!-- 劇本名稱 -->
+
+                        <div class="review-script-name">
+
+                            🎭
+                            {{ review.script_name }}
+
+                        </div>
+
+
+                        <!-- 使用者資訊 -->
+
+                        <div class="review-header">
+
+                            <strong>
+                                {{ review.nickname }}
+                            </strong>
+
+
+                            <span>
+                                {{ review.created_at|date:"Y/m/d H:i" }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- 評論 -->
+
+                        <p class="review-content">
+                            {{ review.content }}
+                        </p>
+
+
+                    </article>
+
+                    {% endfor %}
+
+
+                    <!-- 沒有評論 -->
+
+                    <div
+                        class="review-empty-message"
+                        id="review-empty-message"
+                    >
+
+                        <p>
+                            請選擇一部劇本查看評論。
+                        </p>
+
+                    </div>
 
                 </div>
 
 
-                <p class="review-content">
-                    {{ review.content }}
-                </p>
 
-            </article>
+                <!-- ======================================
+                     【修改】
+                     上一則 / 下一則 / 點點
+                ======================================= -->
+
+                <div
+                    class="review-carousel-controls"
+                    id="review-carousel-controls"
+                    style="display: none;"
+                >
+
+                    <button
+                        type="button"
+                        class="review-carousel-button"
+                        id="review-prev"
+                    >
+                        ← 上一則
+                    </button>
 
 
-            {% empty %}
+                    <div
+                        class="review-carousel-dots"
+                        id="review-carousel-dots"
+                    >
+                    </div>
 
-            <div class="empty-message">
 
-                <p>
-                    目前還沒有評論。
-                </p>
+                    <button
+                        type="button"
+                        class="review-carousel-button"
+                        id="review-next"
+                    >
+                        下一則 →
+                    </button>
 
-                <p>
-                    成為第一個分享心得的玩家吧！
-                </p>
+                </div>
 
             </div>
-
-            {% endfor %}
 
         </div>
 
@@ -605,395 +926,867 @@
 
 <script>
 
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const button =
-        document.getElementById("random-button");
-
-    const typeSelect =
-        document.getElementById("random-type");
-
-    const results =
-        document.getElementById("random-results");
-
-    const csrfElement =
-        document.querySelector("[name=csrfmiddlewaretoken]");
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
 
-    // ==========================================
-    // 確認 HTML
-    // ==========================================
-
-    if (!button || !typeSelect || !results) {
-
-        console.error("找不到隨機推薦 HTML 元素");
-
-        return;
-    }
+        /* ==================================================
+           原本的隨機推薦
+           
+           【注意】
+           這整段保留原本功能
+           不要刪除
+        ================================================== */
 
 
-    // ==========================================
-    // 隨機推薦
-    // ==========================================
-
-    button.addEventListener("click", function () {
-
-        console.log("隨機推薦按鈕被按下");
-
-
-        // 防止連續點擊
-        button.disabled = true;
-
-        button.textContent = "🔎 尋找劇本中...";
-
-
-        // ======================================
-        // 取得類型
-        // ======================================
-
-        const selectedType =
-            typeSelect.value;
-
-
-        console.log(
-            "目前選擇類型：",
-            selectedType
-        );
-
-
-        // ======================================
-        // CSRF
-        // ======================================
-
-        if (!csrfElement) {
-
-            console.error(
-                "找不到 CSRF Token"
+        const button =
+            document.getElementById(
+                "random-button"
             );
 
-            button.disabled = false;
 
-            button.textContent =
-                "🎲 開始隨機推薦";
+        const typeSelect =
+            document.getElementById(
+                "random-type"
+            );
 
-            return;
+
+        const results =
+            document.getElementById(
+                "random-results"
+            );
+
+
+        const csrfElement =
+            document.querySelector(
+                "[name=csrfmiddlewaretoken]"
+            );
+
+
+        if (!button || !typeSelect || !results) {
+
+            console.error(
+                "找不到隨機推薦 HTML 元素"
+            );
+
+        } else {
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+
+                    console.log(
+                        "隨機推薦按鈕被按下"
+                    );
+
+
+                    button.disabled = true;
+
+                    button.textContent =
+                        "🔎 尋找劇本中...";
+
+
+                    const selectedType =
+                        typeSelect.value;
+
+
+                    console.log(
+                        "目前選擇類型：",
+                        selectedType
+                    );
+
+
+                    if (!csrfElement) {
+
+                        console.error(
+                            "找不到 CSRF Token"
+                        );
+
+
+                        button.disabled = false;
+
+                        button.textContent =
+                            "🎲 開始隨機推薦";
+
+                        return;
+                    }
+
+
+                    const csrfToken =
+                        csrfElement.value;
+
+
+                    const formData =
+                        new URLSearchParams();
+
+
+                    formData.append(
+                        "type",
+                        selectedType
+                    );
+
+
+                    fetch(
+                        "{% url 'random-recommendation' %}",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/x-www-form-urlencoded",
+
+                                "X-CSRFToken":
+                                    csrfToken
+                            },
+
+                            body:
+                                formData.toString()
+                        }
+                    )
+
+
+                    .then(
+                        function (response) {
+
+                            console.log(
+                                "伺服器回應：",
+                                response.status
+                            );
+
+
+                            if (!response.ok) {
+
+                                throw new Error(
+                                    "HTTP Error " +
+                                    response.status
+                                );
+
+                            }
+
+
+                            return response.json();
+
+                        }
+                    )
+
+
+                    .then(
+                        function (data) {
+
+
+                            console.log(
+                                "收到資料：",
+                                data
+                            );
+
+
+                            button.disabled = false;
+
+                            button.textContent =
+                                "🎲 再推薦一次";
+
+
+                            if (!data.success) {
+
+                                results.innerHTML = `
+
+                                    <div class="empty-message">
+
+                                        <p>
+                                            ${data.message}
+                                        </p>
+
+                                    </div>
+
+                                `;
+
+                                return;
+                            }
+
+
+                            results.innerHTML = "";
+
+
+                            if (
+                                !data.results ||
+                                data.results.length === 0
+                            ) {
+
+                                results.innerHTML = `
+
+                                    <div class="empty-message">
+
+                                        <p>
+                                            目前沒有符合條件的劇本。
+                                        </p>
+
+                                    </div>
+
+                                `;
+
+                                return;
+                            }
+
+
+                            data.results.forEach(
+                                function (script) {
+
+
+                                    const card =
+                                        document.createElement(
+                                            "div"
+                                        );
+
+
+                                    card.className =
+                                        "random-script-card";
+
+
+                                    let imageHTML =
+                                        "";
+
+
+                                    if (script.image) {
+
+                                        imageHTML = `
+
+                                            <img
+                                                src="${script.image}"
+                                                alt="${script.name}"
+                                            >
+
+                                        `;
+
+                                    } else {
+
+                                        imageHTML = `
+
+                                            <div class="no-image">
+                                                🎭
+                                            </div>
+
+                                        `;
+
+                                    }
+
+
+                                    let linkHTML =
+                                        "";
+
+
+                                    if (
+                                        script.detail_url &&
+                                        script.detail_url !== "#"
+                                    ) {
+
+                                        linkHTML = `
+
+                                            <a
+                                                href="${script.detail_url}"
+                                                class="script-link"
+                                            >
+                                                查看劇本 →
+                                            </a>
+
+                                        `;
+
+                                    } else {
+
+                                        linkHTML = `
+
+                                            <span
+                                                class="script-link disabled-link"
+                                            >
+                                                詳細頁尚未設定
+                                            </span>
+
+                                        `;
+
+                                    }
+
+
+                                    card.innerHTML = `
+
+                                        <div class="script-image">
+
+                                            ${imageHTML}
+
+                                        </div>
+
+
+                                        <div class="random-script-info">
+
+                                            <p class="script-type">
+                                                ${script.type ? script.type.replace(/\s*\/\s*\d+\s*票\s*$/g, "") : ""}
+                                            </p>
+
+
+                                            <h3>
+                                                ${script.name || ""}
+                                            </h3>
+
+
+                                            <p>
+                                                💬
+                                                ${script.review_count || 0}
+                                                則評論
+                                            </p>
+
+
+                                            ${linkHTML}
+
+                                        </div>
+
+                                    `;
+
+
+                                    results.appendChild(
+                                        card
+                                    );
+
+                                }
+                            );
+
+                        }
+                    )
+
+
+                    .catch(
+                        function (error) {
+
+
+                            console.error(
+                                "隨機推薦錯誤：",
+                                error
+                            );
+
+
+                            button.disabled = false;
+
+                            button.textContent =
+                                "🎲 再推薦一次";
+
+
+                            results.innerHTML = `
+
+                                <div class="empty-message">
+
+                                    <p>
+                                        隨機推薦發生錯誤。
+                                    </p>
+
+                                    <p>
+                                        請按 F12 查看 Console。
+                                    </p>
+
+                                </div>
+
+                            `;
+
+                        }
+                    );
+
+                }
+            );
+
         }
 
 
-        const csrfToken =
-            csrfElement.value;
+
+        /* ==================================================
+           【修改】
+           評論輪播
+        ================================================== */
 
 
-        // ======================================
-        // 建立 POST 資料
-        // ======================================
-
-        const formData =
-            new URLSearchParams();
-
-        formData.append(
-            "type",
-            selectedType
-        );
-
-
-        // ======================================
-        // AJAX
-        // ======================================
-
-        fetch(
-            "{% url 'random-recommendation' %}",
-            {
-                method: "POST",
-
-                headers: {
-
-                    "Content-Type":
-                        "application/x-www-form-urlencoded",
-
-                    "X-CSRFToken":
-                        csrfToken
-
-                },
-
-                body:
-                    formData.toString()
-            }
-        )
-
-
-        // ======================================
-        // HTTP
-        // ======================================
-
-        .then(function (response) {
-
-            console.log(
-                "伺服器回應：",
-                response.status
+        const reviewSelect =
+            document.getElementById(
+                "review-script-filter"
             );
 
 
-            if (!response.ok) {
-
-                throw new Error(
-                    "HTTP Error " +
-                    response.status
-                );
-
-            }
-
-
-            return response.json();
-
-        })
-
-
-        // ======================================
-        // JSON
-        // ======================================
-
-        .then(function (data) {
-
-            console.log(
-                "收到資料：",
-                data
+        const reviewCards =
+            Array.from(
+                document.querySelectorAll(
+                    ".review-card"
+                )
             );
 
 
-            // 恢復按鈕
-            button.disabled = false;
-
-            button.textContent =
-                "🎲 再推薦一次";
-
-
-            // ==================================
-            // 後端失敗
-            // ==================================
-
-            if (!data.success) {
-
-                results.innerHTML = `
-
-                    <div class="empty-message">
-
-                        <p>
-                            ${data.message}
-                        </p>
-
-                    </div>
-
-                `;
-
-                return;
-            }
+        const reviewEmptyMessage =
+            document.getElementById(
+                "review-empty-message"
+            );
 
 
-            // ==================================
-            // 清除舊結果
-            // ==================================
+        const reviewControls =
+            document.getElementById(
+                "review-carousel-controls"
+            );
 
-            results.innerHTML = "";
+
+        const reviewPrev =
+            document.getElementById(
+                "review-prev"
+            );
 
 
-            // ==================================
-            // 沒有結果
-            // ==================================
+        const reviewNext =
+            document.getElementById(
+                "review-next"
+            );
+
+
+        const reviewDots =
+            document.getElementById(
+                "review-carousel-dots"
+            );
+
+
+        /* ==================================================
+           評論輪播變數
+        ================================================== */
+
+        let filteredReviews = [];
+
+        let currentReviewIndex = 0;
+
+        let reviewTimer = null;
+
+
+
+        /* ==================================================
+           顯示目前評論
+        ================================================== */
+
+        function showReview(index) {
+
 
             if (
-                !data.results ||
-                data.results.length === 0
+                filteredReviews.length === 0
             ) {
 
-                results.innerHTML = `
+                return;
 
-                    <div class="empty-message">
+            }
 
-                        <p>
-                            目前沒有符合條件的劇本。
-                        </p>
 
-                    </div>
+            /* 防止超出範圍 */
+
+            if (
+                index < 0
+            ) {
+
+                index =
+                    filteredReviews.length - 1;
+
+            }
+
+
+            if (
+                index >=
+                filteredReviews.length
+            ) {
+
+                index = 0;
+
+            }
+
+
+            currentReviewIndex =
+                index;
+
+
+            /* 隱藏全部評論 */
+
+            reviewCards.forEach(
+                function (card) {
+
+                    card.classList.remove(
+                        "review-active"
+                    );
+
+                }
+            );
+
+
+            /* 顯示目前評論 */
+
+            filteredReviews[
+                currentReviewIndex
+            ].classList.add(
+                "review-active"
+            );
+
+
+            /* 更新 dots */
+
+            const dots =
+                reviewDots.querySelectorAll(
+                    ".review-carousel-dot"
+                );
+
+
+            dots.forEach(
+                function (dot, dotIndex) {
+
+                    dot.classList.toggle(
+                        "active",
+                        dotIndex ===
+                        currentReviewIndex
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* ==================================================
+           建立輪播 dots
+        ================================================== */
+
+        function createReviewDots() {
+
+
+            reviewDots.innerHTML = "";
+
+
+            filteredReviews.forEach(
+                function (card, index) {
+
+
+                    const dot =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    dot.type =
+                        "button";
+
+
+                    dot.className =
+                        "review-carousel-dot";
+
+
+                    dot.setAttribute(
+                        "aria-label",
+                        "查看第 " +
+                        (index + 1) +
+                        " 則評論"
+                    );
+
+
+                    dot.addEventListener(
+                        "click",
+                        function () {
+
+                            showReview(index);
+
+                            restartReviewTimer();
+
+                        }
+                    );
+
+
+                    reviewDots.appendChild(
+                        dot
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* ==================================================
+           自動播放
+        ================================================== */
+
+        function startReviewTimer() {
+
+
+            stopReviewTimer();
+
+
+            if (
+                filteredReviews.length <= 1
+            ) {
+
+                return;
+
+            }
+
+
+            reviewTimer =
+                setInterval(
+                    function () {
+
+                        showReview(
+                            currentReviewIndex + 1
+                        );
+
+                    },
+                    5000
+                );
+
+        }
+
+
+
+        function stopReviewTimer() {
+
+            if (reviewTimer) {
+
+                clearInterval(
+                    reviewTimer
+                );
+
+                reviewTimer = null;
+
+            }
+
+        }
+
+
+
+        function restartReviewTimer() {
+
+            startReviewTimer();
+
+        }
+
+
+
+        /* ==================================================
+           【修改】
+           選擇劇本後立即篩選評論
+        ================================================== */
+
+        function filterReviews() {
+
+
+            const selectedScriptId =
+                reviewSelect.value;
+
+
+            stopReviewTimer();
+
+
+            /* 先隱藏所有評論 */
+
+            reviewCards.forEach(
+                function (card) {
+
+                    card.classList.remove(
+                        "review-active"
+                    );
+
+                }
+            );
+
+
+            /* 沒有選擇劇本 */
+
+            if (!selectedScriptId) {
+
+                filteredReviews = [];
+
+                reviewControls.style.display =
+                    "none";
+
+                reviewEmptyMessage.style.display =
+                    "block";
+
+
+                reviewEmptyMessage.innerHTML = `
+
+                    <p>
+                        請選擇一部劇本查看評論。
+                    </p>
 
                 `;
 
                 return;
+
             }
 
 
-            // ==================================
-            // 建立三張推薦卡片
-            // ==================================
+            /* 篩選該劇本 */
 
-            data.results.forEach(function (script) {
+            filteredReviews =
+                reviewCards.filter(
+                    function (card) {
 
+                        return (
+                            card.dataset.scriptId ===
+                            selectedScriptId
+                        );
 
-                const card =
-                    document.createElement("div");
-
-
-                card.className =
-                    "random-script-card";
-
-
-                // ==================================
-                // 圖片
-                // ==================================
-
-                let imageHTML = "";
+                    }
+                );
 
 
-                if (script.image) {
+            /* 該劇本沒有評論 */
 
-                    imageHTML = `
+            if (
+                filteredReviews.length === 0
+            ) {
 
-                        <img
-                            src="${script.image}"
-                            alt="${script.name}"
-                        >
+                reviewControls.style.display =
+                    "none";
 
-                    `;
-
-                } else {
-
-                    imageHTML = `
-
-                        <div class="no-image">
-                            🎭
-                        </div>
-
-                    `;
-
-                }
+                reviewEmptyMessage.style.display =
+                    "block";
 
 
-                // ==================================
-                // 詳細頁
-                // ==================================
+                reviewEmptyMessage.innerHTML = `
 
-                let linkHTML = "";
+                    <p>
+                        這部劇本目前還沒有評論。
+                    </p>
 
-
-                if (
-                    script.detail_url &&
-                    script.detail_url !== "#"
-                ) {
-
-                    linkHTML = `
-
-                        <a
-                            href="${script.detail_url}"
-                            class="script-link"
-                        >
-                            查看劇本 →
-                        </a>
-
-                    `;
-
-                } else {
-
-                    linkHTML = `
-
-                        <span class="script-link disabled-link">
-                            詳細頁尚未設定
-                        </span>
-
-                    `;
-
-                }
-
-
-                // ==================================
-                // 卡片內容
-                // ==================================
-
-                card.innerHTML = `
-
-                    <div class="script-image">
-
-                        ${imageHTML}
-
-                    </div>
-
-
-                    <div class="random-script-info">
-
-                        <p class="script-type">
-                            ${script.type || ""}
-                        </p>
-
-
-                        <h3>
-                            ${script.name || ""}
-                        </h3>
-
-
-                        <p>
-                            💬
-                            ${script.review_count || 0}
-                            則評論
-                        </p>
-
-
-                        ${linkHTML}
-
-                    </div>
+                    <p>
+                        成為第一個分享心得的玩家吧！
+                    </p>
 
                 `;
 
+                return;
 
-                // ==================================
-                // 加入頁面
-                // ==================================
-
-                results.appendChild(card);
-
-            });
-
-        })
+            }
 
 
-        // ======================================
-        // 錯誤
-        // ======================================
+            /* 有評論 */
 
-        .catch(function (error) {
+            reviewEmptyMessage.style.display =
+                "none";
 
-            console.error(
-                "隨機推薦錯誤：",
-                error
+
+            reviewControls.style.display =
+                "flex";
+
+
+            currentReviewIndex = 0;
+
+
+            createReviewDots();
+
+
+            showReview(
+                currentReviewIndex
             );
 
 
-            button.disabled = false;
+            startReviewTimer();
 
-            button.textContent =
-                "🎲 再推薦一次";
+        }
 
 
-            results.innerHTML = `
 
-                <div class="empty-message">
+        /* ==================================================
+           上一則
+        ================================================== */
 
-                    <p>
-                        隨機推薦發生錯誤。
-                    </p>
+        if (reviewPrev) {
 
-                    <p>
-                        請按 F12 查看 Console。
-                    </p>
+            reviewPrev.addEventListener(
+                "click",
+                function () {
 
-                </div>
+                    if (
+                        filteredReviews.length === 0
+                    ) {
 
-            `;
+                        return;
 
-        });
+                    }
 
-    });
 
-});
+                    showReview(
+                        currentReviewIndex - 1
+                    );
+
+
+                    restartReviewTimer();
+
+                }
+            );
+
+        }
+
+
+
+        /* ==================================================
+           下一則
+        ================================================== */
+
+        if (reviewNext) {
+
+            reviewNext.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        filteredReviews.length === 0
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    showReview(
+                        currentReviewIndex + 1
+                    );
+
+
+                    restartReviewTimer();
+
+                }
+            );
+
+        }
+
+
+
+        /* ==================================================
+           選擇劇本
+        ================================================== */
+
+        if (reviewSelect) {
+
+            reviewSelect.addEventListener(
+                "change",
+                filterReviews
+            );
+
+        }
+
+
+
+        /* ==================================================
+           頁面離開時停止輪播
+        ================================================== */
+
+        window.addEventListener(
+            "beforeunload",
+            function () {
+
+                stopReviewTimer();
+
+            }
+        );
+
+    }
+
+);
 
 </script>
 

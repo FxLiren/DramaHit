@@ -87,6 +87,33 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+/* 圈圈容器 */
+.banner-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10; /* 確保圈圈疊在圖片上方 */
+}
+/* 圈圈基本形狀 */
+.banner-dots .dot {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* 亮起與懸停狀態 */
+.banner-dots .dot.active,
+.banner-dots .dot:hover {
+    background-color: #FF2A2A; /* 配合你主題的紅色 */
+    transform: scale(1.3);
+    box-shadow: 0 0 6px rgba(255, 42, 42, 0.8);
+}
 
 /* 4. 搜尋區塊：100% 貼合 home-container */
 .search-box {
