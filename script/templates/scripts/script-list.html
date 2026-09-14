@@ -88,7 +88,7 @@
 
 <div class="script-card" id="script-{{ script.id }}">
 
-    <a href="{% url 'script-detail' script.id %}">
+    <a href="{% url 'script-detail' script.id %}?from=list&page={{ page_obj.number }}&keyword={{ keyword }}&category={{ category }}">
         <div class="script-image">
             <img
                 src="{{ script.image_url }}"
@@ -166,7 +166,11 @@
 
 </div>
 
+
 <script>
+
+{% if user.is_authenticated %}
+
 document.querySelectorAll(".favorite-btn").forEach(function(button) {
 
     button.addEventListener("click", function(event) {
@@ -182,20 +186,31 @@ document.querySelectorAll(".favorite-btn").forEach(function(button) {
             }
         })
         .then(function(response) {
+
             if (response.ok) {
+
                 if (button.classList.contains("active")) {
+
                     button.classList.remove("active");
                     button.textContent = "♡ 收藏";
+
                 } else {
+
                     button.classList.add("active");
                     button.textContent = "♥ 已收藏";
+
                 }
+
             }
+
         });
 
     });
 
 });
+
+{% endif %}
+
 </script>
 
 

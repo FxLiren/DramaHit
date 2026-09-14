@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load script_filters %}
 
 
 {% block title %}
@@ -266,7 +267,7 @@
                 <div class="script-info">
 
                     <span class="script-type">
-                        {{ script.script_type }}
+                        {{ script.script_type|remove_votes }}
                     </span>
 
 
@@ -522,7 +523,7 @@
                 <div class="ranking-info">
 
                     <span class="script-type">
-                        {{ script.script_type }}
+                        {{ script.script_type|remove_votes }}
                     </span>
 
                     <h3>
@@ -1219,7 +1220,7 @@ document.addEventListener(
                                         <div class="random-script-info">
 
                                             <p class="script-type">
-                                                ${script.type || ""}
+                                                ${script.type ? script.type.replace(/\s*\/\s*\d+\s*票\s*$/g, "") : ""}
                                             </p>
 
 

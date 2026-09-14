@@ -91,9 +91,19 @@
 
 <!-- 回到劇本列表 -->
 
-<a href="{% url 'script-list' %}" class="back-button">
+{% if from_favorite %}
+
+<a href="{% url 'my-favorite' %}" class="back-button">
+    ← 回到我的收藏
+</a>
+
+{% else %}
+
+<a href="{% url 'script-list' %}?page={{ page }}&keyword={{ keyword }}&category={{ category }}#script-{{ script.id }}" class="back-button">
     ← 回到劇本列表
 </a>
+
+{% endif %}
 
 
 <script>

@@ -76,6 +76,12 @@ urlpatterns = [
     ),
 
     path(
+        'my-favorite/',
+        views.my_favorite_view,
+        name='my-favorite'
+    ),
+
+    path(
         'history/clear/',
         views.clear_history,
         name='clear-history'

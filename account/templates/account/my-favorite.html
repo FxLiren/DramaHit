@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load script_filters %}
+
+{% block title %}
+
+探劇實錄｜我的收藏
+
+{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'scripts/style.css' %}?v=2">
+
+{% endblock %}
+
+{% block content %}
+
+<h1>我的收藏</h1>
+
+<section class="search-area">
+
+    <form method="GET">
+
+        <input
+            type="text"
+            name="keyword"
+            value="{{ keyword }}"
+            placeholder="🔍 搜尋我的收藏"
+        >
+
+        <button type="submit">搜尋</button>
+
+    </form>
+
+</section>
+
+<section class="script-list">
+
+    {% if favorite_list %}
+
+        {% for item in favorite_list %}
+
+        <div class="script-card" id="favorite-{{ item.script.id }}">
+
+            <a href="{% url 'script-detail' item.script.id %}?from=favorite">
+
+                <div class="script-image">
+
+                    <img
+                        src="{{ item.script.image_url }}"
+                        alt="{{ item.script.script_name }}"
+                    >
+
+                </div>
+
+                <h2>{{ item.script.script_name }}</h2>
+
+                <p class="rating">
+                    ⭐ {{ item.script.rating }}
+                </p>
+
+                <p>
+                    🕵️ 分類：{{ item.script.script_type|remove_votes }}
+                </p>
+
+                <p>
+                    👥 人數：{{ item.script.players_count }}
+                </p>
+
+                <p>
+                    ⏱ 遊玩時間：{{ item.script.play_time }}
+                </p>
+
+            </a>
+
+            <form
+                method="POST"
+                action="{% url 'toggle-favorite' item.script.id %}"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="favorite-btn active"
+                >
+                    ♥ 已收藏
+                </button>
+
+            </form>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>目前沒有收藏任何劇本。</p>
+
+    {% endif %}
+
+</section>
+
+
+<script>
+
+document.querySelectorAll(".favorite-btn").forEach(function(button) {
+
+    button.addEventListener("click", function(event) {
+
+        event.preventDefault();
+
+        const form = button.closest("form");
+        const card = button.closest(".script-card");
+
+        fetch(form.action, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value
+            }
+        })
+        .then(function(response) {
+
+            if (response.ok) {
+                card.remove();
+            }
+
+        });
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

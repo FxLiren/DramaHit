@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.decorators import login_required
 from .models import ViewHistory
-from script.models import ScriptMeta
+from script.models import ScriptMeta, Favorite
 import re
 
 
@@ -226,6 +226,53 @@ def history_view(request):
     return render(request, 'account/history.html', {
         'history_list': history_list
     })
+
+
+@login_required
+def my_favorite_view(request):
+
+    favorites = Favorite.objects.filter(
+        user=request.user
+    )
+
+    keyword = request.GET.get('keyword', '').strip()
+
+    script_ids = [
+        favorite.script_id
+        for favorite in favorites
+    ]
+
+    scripts = (
+        ScriptMeta.objects
+        .using('script_db')
+        .filter(id__in=script_ids)
+    )
+
+    if keyword:
+        scripts = scripts.filter(
+            script_name__icontains=keyword
+        )
+
+    script_map = {
+        script.id: script
+        for script in scripts
+    }
+
+    favorite_list = []
+
+    for favorite in favorites:
+        script = script_map.get(favorite.script_id)
+
+        if script:
+            favorite_list.append({
+                'script': script,
+            })
+
+    return render(request, 'account/my-favorite.html', {
+        'favorite_list': favorite_list,
+        'keyword': keyword
+    })
+
 
 
 @login_required
