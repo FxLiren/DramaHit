@@ -193,7 +193,7 @@ def history_view(request):
 
     histories = ViewHistory.objects.filter(
         user=request.user
-    )
+    )[:15]
 
     script_ids = [
         history.script_id
