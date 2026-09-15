@@ -84,7 +84,9 @@ def register(request):
             })
 
         # 帳號是否已存在
-        if User.objects.filter(username=username).exists():
+        existing_user = User.objects.filter(username=username).first()
+
+        if existing_user and existing_user.is_active:
             return render(request, 'account/register.html', {
                 'error': '此帳號已經被註冊。',
                 'username': username,
@@ -92,12 +94,19 @@ def register(request):
             })
 
         # Email 是否已存在
-        if User.objects.filter(email=email).exists():
+        email_user = User.objects.filter(email=email).first()
+
+        if email_user and email_user != existing_user:
             return render(request, 'account/register.html', {
                 'error': '此 Email 已經被註冊。',
                 'username': username,
                 'email': email,
             })
+
+        # 如果帳號尚未完成 Email 驗證，
+        # 刪除舊資料，允許使用相同帳號重新註冊
+        if existing_user and not existing_user.is_active:
+            existing_user.delete()
 
         # 建立會員，但先禁止登入
         user = User.objects.create_user(
